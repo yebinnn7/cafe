@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -69,7 +70,15 @@ public class GameManager : MonoBehaviour
     public Text click_btn_text;
     public Button click_btn;
     public int[] click_goldlist;
-    
+
+    // 젤리 스폰시간
+    public float minSpawnTime = 5f;
+    public float maxSpawnTime = 8f;
+    public float jellyLifetime;
+
+    // 젤리 스폰위치
+
+
 
 
     void Awake()
@@ -98,7 +107,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         // 데이터를 불러오기 위한 호출, 씬이 로드된 직후 호출되므로 약간의 지연 후 실행
-        Invoke("LoadData", 0.1f);
+        // Invoke("LoadData", 0.1f);
+        StartCoroutine(SpawnJellyRandomly());
     }
 
     void Update()
@@ -383,5 +393,28 @@ public class GameManager : MonoBehaviour
 
         SoundManager.instance.PlaySound("Unlock");
         // SoundManager.instance.PlaySound("Buy");
+    }
+
+    IEnumerator SpawnJellyRandomly()
+    {
+        while (true) // 무한 반복
+        {
+            float waitTime = Random.Range(minSpawnTime, maxSpawnTime); // 랜덤 시간 설정
+            yield return new WaitForSeconds(waitTime); // 랜덤 시간만큼 대기
+            spawnJelly(); // 젤리 스폰
+        }
+    }
+
+    void spawnJelly()
+    {
+        page = Random.Range(0, 12);
+
+        GameObject obj = Instantiate(prefab, new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0), Quaternion.identity); // 젤리 프리팹 생성
+        Jelly jelly = obj.GetComponent<Jelly>(); // 생성된 젤리 오브젝트의 Jelly 스크립트를 가져옴
+        obj.name = "Jelly " + page; // 젤리 오브젝트의 이름을 현재 페이지 번호로 설정
+        jelly.id = page; // 젤리의 ID를 현재 페이지로 설정
+        jelly.sprite_renderer.sprite = jelly_spritelist[page]; // 젤리의 스프라이트 이미지를 현재 페이지에 해당하는 이미지로 설정
+
+        jelly_list.Add(jelly); // 젤리를 젤리 리스트에 추가
     }
 }

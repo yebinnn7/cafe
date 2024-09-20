@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,8 +33,8 @@ public class Jelly : MonoBehaviour
     float speed_x; // x축 이동 속도
     float speed_y; // y축 이동 속도
 
-    bool isWandering; // 무작위로 움직이고 있는지 여부
-    bool isWalking; // 걷고 있는지 여부
+    // bool isWandering; // 무작위로 움직이고 있는지 여부
+    // bool isWalking; // 걷고 있는지 여부
 
     // 그림자 오브젝트 관련 변수들
     GameObject shadow; // 그림자 오브젝트
@@ -42,6 +43,15 @@ public class Jelly : MonoBehaviour
     // 젤라틴을 획득하는 처리와 관련 변수
     int jelatin_delay; // 젤라틴 획득 지연 시간
     bool isGetting; // 젤라틴을 획득 중인지 여부
+
+    // 젤리 이동
+    public float moveSpeed = 1f; // 오브젝트가 이동하는 속도
+    private bool movingDown = true; // 현재 이동 방향이 아래쪽인지 여부
+
+    // 젤리 대기
+    private bool isWaiting = false; // 대기 상태를 체크하는 변수
+    public float minWaitTime = 4f;
+    public float maxWaitTime = 7f;
 
     // 게임 시작 시 필요한 변수와 오브젝트를 설정하는 초기화 함수
     void Awake()
@@ -58,8 +68,8 @@ public class Jelly : MonoBehaviour
         anim = GetComponent<Animator>();
 
         // 초기 값 설정
-        isWandering = false; // 처음에는 젤리가 움직이지 않음
-        isWalking = false;
+        // isWandering = false; // 처음에는 젤리가 움직이지 않음
+        // isWalking = false;
         isGetting = false; // 처음에는 젤라틴을 획득하지 않음
 
         // 그림자 오브젝트를 찾고 그림자 위치를 설정
@@ -76,6 +86,8 @@ public class Jelly : MonoBehaviour
 
         // 그림자 위치 설정
         shadow.transform.localPosition = new Vector3(0, shadow_pos_y, 0);
+
+        
     }
 
     // 매 프레임마다 호출되는 함수로, 주로 상태 업데이트를 담당
@@ -96,12 +108,19 @@ public class Jelly : MonoBehaviour
         if (!isGetting)
             StartCoroutine(GetJelatin());
 
+
+        if (!isWaiting) // 대기 중이 아니면 이동
+        {
+            MoveObject(); // 오브젝트 이동을 별도 함수로 처리
+        }
+
     }
 
 
     // 물리 업데이트 처리로, 고정된 시간 간격으로 호출됨 
     void FixedUpdate()
     {
+        /*
         // 젤리가 현재 무작위로 움직이고 있지 않다면, 무작위로 이동하는 코루틴 실행
         if (!isWandering)
             StartCoroutine(Wander());
@@ -120,6 +139,7 @@ public class Jelly : MonoBehaviour
         // 위쪽/아래쪽 경계를 넘으면 y축 방향을 반전
         if (pos_y > left_top.transform.position.y || pos_y < right_bottom.transform.position.y)
             speed_y = -speed_y;
+        */
     }
 
     // 마우스 클릭 시 젤리를 터치하는 이벤트 처리
@@ -129,7 +149,7 @@ public class Jelly : MonoBehaviour
         if (!game_manager.isLive) return;
 
         // 걷는 동작을 멈추고 터치 애니메이션 실행
-        isWalking = false;
+        // isWalking = false;
         anim.SetBool("isWalk", false);
         anim.SetTrigger("doTouch");
 
@@ -154,7 +174,7 @@ public class Jelly : MonoBehaviour
         if (pick_time < 0.1f) return;
 
         // 젤리가 걷는 동작을 멈추고 터치 애니메이션 실행
-        isWalking = false;
+        // isWalking = false;
         anim.SetBool("isWalk", false);
         anim.SetTrigger("doTouch");
 
@@ -190,6 +210,7 @@ public class Jelly : MonoBehaviour
             transform.position = new Vector3(0, -1, 0); // 초기 위치로 되돌림
     }
 
+    /*
     // 젤리의 이동 처리 함수
     void Move()
     {
@@ -232,6 +253,7 @@ public class Jelly : MonoBehaviour
         // 무작위 이동이 끝났음을 표시
         isWandering = false;
     }
+    */
 
     // 젤라틴을 주기적으로 획득하는 코루틴 함수
     IEnumerator GetJelatin()
@@ -249,5 +271,43 @@ public class Jelly : MonoBehaviour
 
         // 젤라틴 획득이 끝나면 플래그를 false로 설정
         isGetting = false;
+    }
+
+    // 오브젝트의 이동을 처리하는 함수
+    void MoveObject()
+    {
+        if (movingDown)
+        {
+            // 아래쪽으로 이동
+            transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
+
+            // y좌표가 -1.5에 도달하면 5초 대기
+            if (transform.position.y <= -1.5f)
+            {
+                movingDown = false; // 이동 방향을 위로 바꿈
+                StartCoroutine(WaitAtPosition()); // 5초 대기 시작
+            }
+        }
+        else
+        {
+            // 위쪽으로 이동
+            transform.Translate(Vector3.up * moveSpeed * Time.deltaTime);
+
+            // y좌표가 1.5에 도달하면 오브젝트 삭제
+            if (transform.position.y >= 1.5f)
+            {
+                Destroy(gameObject); // 오브젝트 파괴
+            }
+        }
+    }
+
+    // 5초간 대기하는 코루틴
+    IEnumerator WaitAtPosition()
+    {
+        float waitTime = Random.Range(minWaitTime, maxWaitTime);
+
+        isWaiting = true; // 대기 상태로 변경
+        yield return new WaitForSeconds(waitTime); // 4~7초 대기
+        isWaiting = false; // 대기 종료 후 다시 이동
     }
 }
