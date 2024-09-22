@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public string[] jelly_namelist; // 젤리 이름 리스트
     public int[] jelly_jelatinlist; // 젤리 잠금 해제에 필요한 젤라틴 리스트
     public int[] jelly_goldlist; // 젤리 구매에 필요한 골드 리스트
+    public int map_goldlist;
 
     public Text page_text; // 페이지를 표시하는 텍스트 UI
     public Image unlock_group_jelly_img; // 잠금 해제된 젤리의 이미지를 표시할 UI
@@ -31,8 +32,11 @@ public class GameManager : MonoBehaviour
     public Text unlock_group_name_text; // 잠금 해제된 젤리의 이름을 표시할 텍스트 UI
 
     public GameObject lock_group; // 잠금된 젤리 그룹을 관리하는 오브젝트
+    public GameObject maplock_group; // 잠금된 젤리 그룹을 관리하는 오브젝트
     public Image lock_group_jelly_img; // 잠금된 젤리의 이미지를 표시할 UI
     public Text lock_group_jelatin_text; // 잠금 해제에 필요한 젤라틴 수량을 표시할 텍스트 UI
+
+    public Text lock_group_map_text; // 맵 잠금 해제에 필요한 골드를 표시할 텍스트 UI
 
     // Animator 변경 관리를 위한 Animator 배열
     public RuntimeAnimatorController[] level_ac; // 젤리 레벨에 따른 애니메이터 컨트롤러 리스트
@@ -40,9 +44,11 @@ public class GameManager : MonoBehaviour
     public Text jelatin_text; // 젤라틴 자원 수량을 표시할 텍스트 UI
     public Text gold_text; // 골드 자원 수량을 표시할 텍스트 UI
 
+
     public Image jelly_panel; // 젤리 메뉴 패널
     public Image plant_panel; // 플랜트 메뉴 패널
     public Image option_panel; // 옵션 메뉴 패널
+    public Image map_panel; // 맵 메뉴 패널
 
     public GameObject prefab; // 젤리 프리팹
 
@@ -51,10 +57,12 @@ public class GameManager : MonoBehaviour
 
     Animator jelly_anim; // 젤리 패널 애니메이션 관리
     Animator plant_anim; // 플랜트 패널 애니메이션 관리
+    Animator map_anim; // 맵 패널 애니메이션 관리
 
     bool isJellyClick; // 젤리 버튼이 클릭된 상태인지 여부
     bool isPlantClick; // 플랜트 버튼이 클릭된 상태인지 여부
     bool isOption; // 옵션 패널이 활성화된 상태인지 여부
+    bool isMapClick; // 맵 버튼이 클릭된 상태인지 여부
 
     int page; // 현재 선택된 페이지
 
@@ -79,8 +87,6 @@ public class GameManager : MonoBehaviour
     // 젤리 스폰위치
 
 
-
-
     void Awake()
     {
         instance = this; // 싱글톤 패턴 적용
@@ -88,6 +94,7 @@ public class GameManager : MonoBehaviour
         // 패널 애니메이터 초기화
         jelly_anim = jelly_panel.GetComponent<Animator>();
         plant_anim = plant_panel.GetComponent<Animator>();
+        map_anim = map_panel.GetComponent<Animator>();
 
         isLive = true; // 게임 활성화 상태로 설정
 
@@ -96,7 +103,8 @@ public class GameManager : MonoBehaviour
         gold_text.text = gold.ToString();
         unlock_group_gold_text.text = jelly_goldlist[0].ToString();
         lock_group_jelatin_text.text = jelly_jelatinlist[0].ToString();
-        
+        lock_group_map_text.text = map_goldlist.ToString();
+
         // DataManager 초기화
         data_manager = data_manager_obj.GetComponent<DataManager>();
 
@@ -118,6 +126,7 @@ public class GameManager : MonoBehaviour
         {
             if (isJellyClick) ClickJellyBtn(); // 젤리 메뉴가 열려 있으면 닫음
             else if (isPlantClick) ClickPlantBtn(); // 플랜트 메뉴가 열려 있으면 닫음
+            else if (isMapClick) ClickMapBtn(); // 플랜트 메뉴가 열려 있으면 닫음
             else Option(); // 옵션 메뉴를 열거나 닫음
         }
     }
@@ -175,6 +184,13 @@ public class GameManager : MonoBehaviour
             isLive = true;
         }
 
+        if (isMapClick) // 맵 메뉴가 열려 있으면 닫음
+        {
+            map_anim.SetTrigger("doHide");
+            isMapClick = false;
+            isLive = true;
+        }
+
         if (isJellyClick) // 젤리 메뉴가 열려 있으면 닫음
             jelly_anim.SetTrigger("doHide");
         else // 젤리 메뉴가 닫혀 있으면 열음
@@ -196,12 +212,46 @@ public class GameManager : MonoBehaviour
             isLive = true;
         }
 
+        if (isMapClick) // 맵 메뉴가 열려 있으면 닫음
+        {
+            map_anim.SetTrigger("doHide");
+            isMapClick = false;
+            isLive = true;
+        }
+
         if (isPlantClick) // 플랜트 메뉴가 열려 있으면 닫음
             plant_anim.SetTrigger("doHide");
         else // 플랜트 메뉴가 닫혀 있으면 열음
             plant_anim.SetTrigger("doShow");
 
         isPlantClick = !isPlantClick; // 플랜트 클릭 상태를 토글
+        isLive = !isLive; // 게임 활성화 상태를 토글
+    }
+
+    public void ClickMapBtn()
+    {
+        SoundManager.instance.PlaySound("Button");
+
+        if (isJellyClick) // 젤리 메뉴가 열려 있으면 닫음
+        {
+            jelly_anim.SetTrigger("doHide");
+            isJellyClick = false;
+            isLive = true;
+        }
+
+        if (isPlantClick) // 플랜트 메뉴가 열려 있으면 닫음
+        {
+            plant_anim.SetTrigger("doHide");
+            isPlantClick = false;
+            isLive = true;
+        }
+
+        if (isMapClick) // 맵 메뉴가 열려 있으면 닫음
+            map_anim.SetTrigger("doHide");
+        else // 맵 메뉴가 닫혀 있으면 열음
+            map_anim.SetTrigger("doShow");
+
+        isMapClick = !isMapClick; // 맵 클릭 상태를 토글
         isLive = !isLive; // 게임 활성화 상태를 토글
     }
 
@@ -285,6 +335,28 @@ public class GameManager : MonoBehaviour
         ChangePage(); // 페이지 UI 업데이트
 
         jelatin -= jelly_jelatinlist[page]; // 젤라틴 수량 감소
+
+        SoundManager.instance.PlaySound("Unlock");
+    }
+
+    public void MapChange()
+    {
+        maplock_group.gameObject.SetActive(false); //맵 잠금 해제
+    }
+
+    //맵 잠금 해제 함수
+    public void MapUnlock()
+    {
+        // 현재 골드가 잠금 해제에 필요한 골드보다 적으면 함수 종료
+        if (gold < map_goldlist)
+        {
+            SoundManager.instance.PlaySound("Fail");
+            return;
+        }
+
+        MapChange(); // 페이지 UI 업데이트
+
+        gold -= map_goldlist; //골드 감소
 
         SoundManager.instance.PlaySound("Unlock");
     }
