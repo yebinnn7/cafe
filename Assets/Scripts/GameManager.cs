@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;// // 싱글톤 패턴으로 GameManager 인스턴스를 전역에서 접근할 수 있게 설정
 
     public int jelatin; // 젤라틴 자원
-    public int gold; // 골드 자워
+    public int gold; // 골드 자원
     public List<Jelly> jelly_list = new List<Jelly>(); // 생성된 젤리들을 저장할 리스트
     public List<Data> jelly_data_list = new List<Data>(); // 저장된 젤리의 데이터를 저장할 리스트
     public bool[] jelly_unlock_list; // 젤리 잠금 해제 상태를 저장할 배열
@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     public Image plant_panel; // 플랜트 메뉴 패널
     public Image option_panel; // 옵션 메뉴 패널
     public Image map_panel; // 맵 메뉴 패널
+    public Image random_panel; // 랜덤 메뉴 패널
 
     public GameObject prefab; // 젤리 프리팹
 
@@ -58,11 +59,13 @@ public class GameManager : MonoBehaviour
     Animator jelly_anim; // 젤리 패널 애니메이션 관리
     Animator plant_anim; // 플랜트 패널 애니메이션 관리
     Animator map_anim; // 맵 패널 애니메이션 관리
+    Animator random_anim; // 랜덤 패널 애니메이션 관리
 
     bool isJellyClick; // 젤리 버튼이 클릭된 상태인지 여부
     bool isPlantClick; // 플랜트 버튼이 클릭된 상태인지 여부
     bool isOption; // 옵션 패널이 활성화된 상태인지 여부
     bool isMapClick; // 맵 버튼이 클릭된 상태인지 여부
+    bool isRandomClick; // 랜덤 버튼이 클릭된 상태인지 여부
 
     int page; // 현재 선택된 페이지
 
@@ -84,8 +87,9 @@ public class GameManager : MonoBehaviour
     public float maxSpawnTime = 8f;
     public float jellyLifetime;
 
-    // 젤리 스폰위치
-
+    // 단골손님 리스트
+    public Sprite[] special_customer_spritelist; // 젤리의 스프라이트 리스트
+    public string[] special_customer_namelist; // 젤리 이름 리스트
 
     void Awake()
     {
@@ -95,6 +99,7 @@ public class GameManager : MonoBehaviour
         jelly_anim = jelly_panel.GetComponent<Animator>();
         plant_anim = plant_panel.GetComponent<Animator>();
         map_anim = map_panel.GetComponent<Animator>();
+        random_anim = random_panel.GetComponent<Animator>();
 
         isLive = true; // 게임 활성화 상태로 설정
 
@@ -127,6 +132,7 @@ public class GameManager : MonoBehaviour
             if (isJellyClick) ClickJellyBtn(); // 젤리 메뉴가 열려 있으면 닫음
             else if (isPlantClick) ClickPlantBtn(); // 플랜트 메뉴가 열려 있으면 닫음
             else if (isMapClick) ClickMapBtn(); // 플랜트 메뉴가 열려 있으면 닫음
+            else if (isRandomClick) ClickRandomBtn(); // 랜덤 메뉴가 열려 있으면 닫음
             else Option(); // 옵션 메뉴를 열거나 닫음
         }
     }
@@ -191,6 +197,14 @@ public class GameManager : MonoBehaviour
             isLive = true;
         }
 
+        if (isRandomClick) // 랜덤 메뉴가 열려 있으면 닫음
+        {
+            random_anim.SetTrigger("doHide");
+            isRandomClick = false;
+            isLive = true;
+        }
+
+
         if (isJellyClick) // 젤리 메뉴가 열려 있으면 닫음
             jelly_anim.SetTrigger("doHide");
         else // 젤리 메뉴가 닫혀 있으면 열음
@@ -216,6 +230,13 @@ public class GameManager : MonoBehaviour
         {
             map_anim.SetTrigger("doHide");
             isMapClick = false;
+            isLive = true;
+        }
+
+        if (isRandomClick) // 랜덤 메뉴가 열려 있으면 닫음
+        {
+            random_anim.SetTrigger("doHide");
+            isRandomClick = false;
             isLive = true;
         }
 
@@ -246,12 +267,53 @@ public class GameManager : MonoBehaviour
             isLive = true;
         }
 
+        if (isRandomClick) // 랜덤 메뉴가 열려 있으면 닫음
+        {
+            random_anim.SetTrigger("doHide");
+            isRandomClick = false;
+            isLive = true;
+        }
+
         if (isMapClick) // 맵 메뉴가 열려 있으면 닫음
             map_anim.SetTrigger("doHide");
         else // 맵 메뉴가 닫혀 있으면 열음
             map_anim.SetTrigger("doShow");
 
         isMapClick = !isMapClick; // 맵 클릭 상태를 토글
+        isLive = !isLive; // 게임 활성화 상태를 토글
+    }
+
+    public void ClickRandomBtn()
+    {
+        SoundManager.instance.PlaySound("Button");
+
+        if (isJellyClick) // 젤리 메뉴가 열려 있으면 닫음
+        {
+            jelly_anim.SetTrigger("doHide");
+            isJellyClick = false;
+            isLive = true;
+        }
+
+        if (isPlantClick) // 플랜트 메뉴가 열려 있으면 닫음
+        {
+            plant_anim.SetTrigger("doHide");
+            isPlantClick = false;
+            isLive = true;
+        }
+
+        if (isMapClick) // 맵 메뉴가 열려 있으면 닫음
+        {
+            map_anim.SetTrigger("doHide");
+            isMapClick = false;
+            isLive = true;
+        }
+
+        if (isRandomClick) // 랜덤 메뉴가 열려 있으면 닫음
+            random_anim.SetTrigger("doHide");
+        else // 랜덤 메뉴가 닫혀 있으면 열음
+            random_anim.SetTrigger("doShow");
+
+        isRandomClick = !isRandomClick; // 맵 클릭 상태를 토글
         isLive = !isLive; // 게임 활성화 상태를 토글
     }
 
@@ -479,7 +541,7 @@ public class GameManager : MonoBehaviour
 
     void spawnJelly()
     {
-        page = Random.Range(0, 12);
+        page = Random.Range(0, 6);
 
         GameObject obj = Instantiate(prefab, new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0), Quaternion.identity); // 젤리 프리팹 생성
         Jelly jelly = obj.GetComponent<Jelly>(); // 생성된 젤리 오브젝트의 Jelly 스크립트를 가져옴
@@ -489,4 +551,15 @@ public class GameManager : MonoBehaviour
 
         jelly_list.Add(jelly); // 젤리를 젤리 리스트에 추가
     }
+
+    /* 뽑기 함수
+    랜덤 패널에서 버튼을 클릭하면 단골손님리스트 0~6의 인덱스 중 하나 랜덤으로 뽑음
+    해당 인덱스의 젤리는 collected 처리
+    */
+
+    /* 단골손님 생성 함수
+    spawnJelly처럼 랜덤으로 뽑되, collected_list[page] = false이면 다른 수 찾음
+    true이면 spawnJelly처럼 생성
+    이펙트 추가?
+    */
 }
