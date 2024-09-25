@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random; // 모호한 참조 오류뜸
 
 public class GameManager : MonoBehaviour
 {
@@ -85,11 +88,20 @@ public class GameManager : MonoBehaviour
     // 젤리 스폰시간
     public float minSpawnTime = 5f;
     public float maxSpawnTime = 8f;
-    public float jellyLifetime;
+ 
+
+    // 단골손님 뽑기 가격
+    public int special_customer_gold;
 
     // 단골손님 리스트
     public Sprite[] special_customer_spritelist; // 젤리의 스프라이트 리스트
     public string[] special_customer_namelist; // 젤리 이름 리스트
+    public bool[] collected_list;
+
+    // 단골손님 스폰시간
+    public float minSpecialSpawnTime = 5f;
+    public float maxSpecialSpawnTime = 8f;
+
 
     void Awake()
     {
@@ -122,6 +134,7 @@ public class GameManager : MonoBehaviour
         // 데이터를 불러오기 위한 호출, 씬이 로드된 직후 호출되므로 약간의 지연 후 실행
         // Invoke("LoadData", 0.1f);
         StartCoroutine(SpawnJellyRandomly());
+        StartCoroutine(SpawnSpecialRandomly());
     }
 
     void Update()
@@ -556,10 +569,77 @@ public class GameManager : MonoBehaviour
     랜덤 패널에서 버튼을 클릭하면 단골손님리스트 0~6의 인덱스 중 하나 랜덤으로 뽑음
     해당 인덱스의 젤리는 collected 처리
     */
+    public void RandomPick()
+    {
+        // 현재 젤라틴이 잠금 해제에 필요한 젤라틴 수보다 적으면 함수 종료
+        if (gold < special_customer_gold)
+        {
+            SoundManager.instance.PlaySound("Fail");
+            return;
+        }
+
+        // 모든 젤리가 해제되었으면 종료
+        if (AllSpecialColleted())
+        {
+            return;
+        }
+
+        int index;
+
+        do
+        {
+            index = Random.Range(0, collected_list.Length); // 0부터 5까지 랜덤 인덱스 선택
+        } while (collected_list[index]); // 이미 해제된 젤리 인덱스는 선택하지 않음
+
+        collected_list[index] = true; // 젤리 잠금 해제 상태로 변경
+        SoundManager.instance.PlaySound("Unlock");
+
+    }
+
+    // 모든 젤리가 해제되었는지 체크하는 메소드
+    private bool AllSpecialColleted()
+    {
+        foreach (bool collected in collected_list)
+        {
+            if (!collected)
+            {
+                return false; // 하나라도 해제되지 않은 젤리가 있으면 false 반환
+            }
+        }
+        return true; // 모두 해제되었으면 true 반환
+    }
+
 
     /* 단골손님 생성 함수
     spawnJelly처럼 랜덤으로 뽑되, collected_list[page] = false이면 다른 수 찾음
     true이면 spawnJelly처럼 생성
     이펙트 추가?
     */
+    void spawnSpecial()
+    {
+        page = Random.Range(0, 6);
+
+        if (collected_list[page] == true)
+        {
+            GameObject obj = Instantiate(prefab, new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0), Quaternion.identity); // 젤리 프리팹 생성
+            Jelly jelly = obj.GetComponent<Jelly>(); // 생성된 젤리 오브젝트의 Jelly 스크립트를 가져옴
+            obj.name = "Jelly " + (page + 6); // 젤리 오브젝트의 이름을 현재 페이지 번호로 설정
+            jelly.id = page; // 젤리의 ID를 현재 페이지로 설정
+            jelly.sprite_renderer.sprite = special_customer_spritelist[page]; // 젤리의 스프라이트 이미지를 현재 페이지에 해당하는 이미지로 설정
+
+            jelly_list.Add(jelly); // 젤리를 젤리 리스트에 추가
+        }
+    }
+
+    IEnumerator SpawnSpecialRandomly()
+    {
+        while (true) // 무한 반복
+        {
+            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // 랜덤 시간 설정
+            yield return new WaitForSeconds(waitTime); // 랜덤 시간만큼 대기
+            spawnSpecial(); // 젤리 스폰
+        }
+    }
+
+
 }
