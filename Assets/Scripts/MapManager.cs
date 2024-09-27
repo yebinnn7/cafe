@@ -12,7 +12,7 @@ public class MapManager : MonoBehaviour
     public bool cafe1_live; // 카페 1호점
     public bool cafe2_live; // 카페 2호점
 
-    public Text cafe_text;
+    public Vector3 targetPosition; // 카페 위치를 나타냄
 
     private void Awake()
     {
@@ -21,23 +21,36 @@ public class MapManager : MonoBehaviour
         cafe2_live = true;
     }
 
-    public void Clickcafe2()
+    public void Clickcafe1()
     {
-        if (cafe2_live)
+        if (!cafe1_live)
         {
+
             cafe1.gameObject.SetActive(true); //cafe1 입장
             cafe2.gameObject.SetActive(false); //cafe2 닫기
-            cafe1_live = true;
             cafe2_live = false;
-            cafe_text.text = "1호점";
+            cafe1_live = true;
+
+            //카메라의 위치를 1호점으로 이동
+            targetPosition = new Vector3(20, 0, -10);
+            Camera.main.transform.position = targetPosition;
         }
-        else
+
+    }
+
+    public void Clickcafe2()
+    {
+        if (!cafe2_live)
         {
+            
             cafe2.gameObject.SetActive(true); //cafe2 입장
             cafe1.gameObject.SetActive(false); //cafe1 닫기
             cafe1_live = false;
             cafe2_live = true;
-            cafe_text.text = "2호점";
+
+            //카메라의 위치를 2호점으로 이동
+            targetPosition = new Vector3(0, 0, -10);
+            Camera.main.transform.position = targetPosition;
         }
         
     }

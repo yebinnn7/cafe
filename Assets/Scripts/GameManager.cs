@@ -11,8 +11,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;// // 싱글톤 패턴으로 GameManager 인스턴스를 전역에서 접근할 수 있게 설정
 
+    [Header ("Money")]
     public int jelatin; // 젤라틴 자원
     public int gold; // 골드 자원
+
+    [Space(10f)]
+    [Header("List")]
     public List<Jelly> jelly_list = new List<Jelly>(); // 생성된 젤리들을 저장할 리스트
     public List<Data> jelly_data_list = new List<Data>(); // 저장된 젤리의 데이터를 저장할 리스트
     public bool[] jelly_unlock_list; // 젤리 잠금 해제 상태를 저장할 배열
@@ -20,20 +24,28 @@ public class GameManager : MonoBehaviour
     public int max_jelatin; // 젤라틴의 최대치
     public int max_gold; // 골드의 최대치
 
+    [Space(10f)]
+    [Header("Game On Off")]
     public bool isSell; // 젤리를 판매할 수 있는 상태인지 여부
     public bool isLive; // 게임이 활성화된 상태인지 여부
 
+    [Space(10f)]
+    [Header("Store Jelly")]
     public Sprite[] jelly_spritelist; // 젤리의 스프라이트 리스트
     public string[] jelly_namelist; // 젤리 이름 리스트
     public int[] jelly_jelatinlist; // 젤리 잠금 해제에 필요한 젤라틴 리스트
     public int[] jelly_goldlist; // 젤리 구매에 필요한 골드 리스트
     public int map_goldlist;
 
+    [Space(10f)]
+    [Header("Store Jelly(Unlock)")]
     public Text page_text; // 페이지를 표시하는 텍스트 UI
     public Image unlock_group_jelly_img; // 잠금 해제된 젤리의 이미지를 표시할 UI
     public Text unlock_group_gold_text; // 잠금 해제된 젤리의 구매 비용을 표시할 텍스트
     public Text unlock_group_name_text; // 잠금 해제된 젤리의 이름을 표시할 텍스트 UI
 
+    [Space(10f)]
+    [Header("Store Jelly(Lock)")]
     public GameObject lock_group; // 잠금된 젤리 그룹을 관리하는 오브젝트
     public GameObject maplock_group; // 잠금된 젤리 그룹을 관리하는 오브젝트
     public Image lock_group_jelly_img; // 잠금된 젤리의 이미지를 표시할 UI
@@ -42,8 +54,12 @@ public class GameManager : MonoBehaviour
     public Text lock_group_map_text; // 맵 잠금 해제에 필요한 골드를 표시할 텍스트 UI
 
     // Animator 변경 관리를 위한 Animator 배열
+    [Space(10f)]
+    [Header("Animation")]
     public RuntimeAnimatorController[] level_ac; // 젤리 레벨에 따른 애니메이터 컨트롤러 리스트
 
+    [Space(10f)]
+    [Header("Canvers")]
     public Text jelatin_text; // 젤라틴 자원 수량을 표시할 텍스트 UI
     public Text gold_text; // 골드 자원 수량을 표시할 텍스트 UI
 
@@ -54,16 +70,24 @@ public class GameManager : MonoBehaviour
     public Image map_panel; // 맵 메뉴 패널
     public Image random_panel; // 랜덤 메뉴 패널
 
+    [Space(10f)]
+    [Header("Prefabs")]
     public GameObject prefab; // 젤리 프리팹
 
+    [Space(10f)]
+    [Header("Data")]
     public GameObject data_manager_obj; // DataManager 오브젝트
     DataManager data_manager; // DataManager 스크립트
 
+    [Space(10f)]
+    [Header("Animation")]
     Animator jelly_anim; // 젤리 패널 애니메이션 관리
     Animator plant_anim; // 플랜트 패널 애니메이션 관리
     Animator map_anim; // 맵 패널 애니메이션 관리
     Animator random_anim; // 랜덤 패널 애니메이션 관리
 
+    [Space(10f)]
+    [Header("Click On Off")]
     bool isJellyClick; // 젤리 버튼이 클릭된 상태인지 여부
     bool isPlantClick; // 플랜트 버튼이 클릭된 상태인지 여부
     bool isOption; // 옵션 패널이 활성화된 상태인지 여부
@@ -72,6 +96,8 @@ public class GameManager : MonoBehaviour
 
     int page; // 현재 선택된 페이지
 
+    [Space(10f)]
+    [Header("Upgrade")]
     // 업그레이드 시스템 변수
     public int num_level;
     public Text num_sub_text;
@@ -79,6 +105,8 @@ public class GameManager : MonoBehaviour
     public Button num_btn;
     public int[] num_goldlist;
 
+    [Space(10f)]
+    [Header("Click List")]
     public int click_level;
     public Text click_sub_text;
     public Text click_btn_text;
@@ -86,10 +114,13 @@ public class GameManager : MonoBehaviour
     public int[] click_goldlist;
 
     // 젤리 스폰시간
+    [Space(10f)]
+    [Header("SpawnTime")]
     public float minSpawnTime = 5f;
     public float maxSpawnTime = 8f;
- 
 
+    [Space(10f)]
+    [Header("Regular customer")]
     // 단골손님 뽑기 가격
     public int special_customer_gold;
 
