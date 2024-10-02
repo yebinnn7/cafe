@@ -534,6 +534,8 @@ MonoBehaviour:
   jelly_list: []
   jelly_data_list: []
   jelly_unlock_list: 
+  special_customer_list: []
+  special_customer_data_list: []
   max_jelatin: 999999999
   max_gold: 999999999
   isSell: 0
@@ -588,6 +590,8 @@ MonoBehaviour:
   map_panel: {fileID: 493314204}
   random_panel: {fileID: 373186551}
   prefab: {fileID: 472935137757570289, guid: 9d769445dc183cb469df489306459714, type: 3}
+  prefab_special_customer: {fileID: 6623725730878178920, guid: dc34db2df10645a46bbe1d4b45dbe3ad, type: 3}
+  favorability_effect_prefab: {fileID: 6088610753425305511, guid: 2e70210be1ef57543bf03a21c5ed4e3b, type: 3}
   data_manager_obj: {fileID: 1961117827}
   num_level: 1
   num_sub_text: {fileID: 34572890}

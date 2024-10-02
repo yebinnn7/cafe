@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     public List<Jelly> jelly_list = new List<Jelly>(); // 생성된 젤리들을 저장할 리스트
     public List<Data> jelly_data_list = new List<Data>(); // 저장된 젤리의 데이터를 저장할 리스트
     public bool[] jelly_unlock_list; // 젤리 잠금 해제 상태를 저장할 배열
+    public List<SpecialCustomer> special_customer_list = new List<SpecialCustomer>();
+    public List<Data> special_customer_data_list = new List<Data>();
 
     public int max_jelatin; // 젤라틴의 최대치
     public int max_gold; // 골드의 최대치
@@ -73,6 +75,8 @@ public class GameManager : MonoBehaviour
     [Space(10f)]
     [Header("Prefabs")]
     public GameObject prefab; // 젤리 프리팹
+    public GameObject prefab_special_customer; // 단골손님 프리팹
+    public GameObject favorability_effect_prefab; // 호감도 이펙트 프리팹
 
     [Space(10f)]
     [Header("Data")]
@@ -95,6 +99,7 @@ public class GameManager : MonoBehaviour
     bool isRandomClick; // 랜덤 버튼이 클릭된 상태인지 여부
 
     int page; // 현재 선택된 페이지
+    int index; // 단골 손님 번호
 
     [Space(10f)]
     [Header("Upgrade")]
@@ -132,6 +137,8 @@ public class GameManager : MonoBehaviour
     // 단골손님 스폰시간
     public float minSpecialSpawnTime = 5f;
     public float maxSpecialSpawnTime = 8f;
+
+    
 
 
     void Awake()
@@ -648,17 +655,23 @@ public class GameManager : MonoBehaviour
     */
     void spawnSpecial()
     {
-        page = Random.Range(0, 6);
+        index = Random.Range(0, 6);
 
-        if (collected_list[page] == true)
+        if (collected_list[index] == true)
         {
-            GameObject obj = Instantiate(prefab, new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0), Quaternion.identity); // 젤리 프리팹 생성
-            Jelly jelly = obj.GetComponent<Jelly>(); // 생성된 젤리 오브젝트의 Jelly 스크립트를 가져옴
-            obj.name = "Jelly " + (page + 6); // 젤리 오브젝트의 이름을 현재 페이지 번호로 설정
-            jelly.id = page; // 젤리의 ID를 현재 페이지로 설정
-            jelly.sprite_renderer.sprite = special_customer_spritelist[page]; // 젤리의 스프라이트 이미지를 현재 페이지에 해당하는 이미지로 설정
+            GameObject obj = Instantiate(prefab_special_customer, new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0), Quaternion.identity); // 젤리 프리팹 생성
+            SpecialCustomer specialCustomer = obj.GetComponent<SpecialCustomer>(); // 생성된 젤리 오브젝트의 Jelly 스크립트를 가져옴
+            obj.name = "Special Customer " + index; // 젤리 오브젝트의 이름을 현재 페이지 번호로 설정
+            specialCustomer.id = index; // 젤리의 ID를 현재 페이지로 설정
+            specialCustomer.sprite_renderer.sprite = special_customer_spritelist[index]; // 젤리의 스프라이트 이미지를 현재 페이지에 해당하는 이미지로 설정
 
-            jelly_list.Add(jelly); // 젤리를 젤리 리스트에 추가
+            GameObject instantFavEffectObj = Instantiate(favorability_effect_prefab);
+            ParticleSystem instantFavEffect = instantFavEffectObj.GetComponent<ParticleSystem>();
+
+            specialCustomer.favorability_effect = instantFavEffect;
+
+
+            special_customer_list.Add(specialCustomer); // 젤리를 젤리 리스트에 추가
         }
     }
 
