@@ -54,6 +54,7 @@ public class SpecialCustomer : MonoBehaviour
 
     public int favorability = 0;
     public ParticleSystem favorability_effect;
+    public GameObject favorabilityEffectInstance; // 파티클 시스템 인스턴스 추적(파괴하기 위해서)
 
     // 게임 시작 시 필요한 변수와 오브젝트를 설정하는 초기화 함수
     void Awake()
@@ -88,6 +89,9 @@ public class SpecialCustomer : MonoBehaviour
 
         // 그림자 위치 설정
         shadow.transform.localPosition = new Vector3(0, shadow_pos_y, 0);
+
+        // GameManager에서 기존 호감도 가져옴
+        favorability = game_manager.GetFavorability(id);
 
 
     }
@@ -162,6 +166,9 @@ public class SpecialCustomer : MonoBehaviour
         // game_manager.GetJelatin(id, level);
 
         favorability += 3;
+
+        game_manager.UpdateFavorability(id, favorability);
+
         // 이펙트 생성
         FavEffectPlay();
 
@@ -306,6 +313,7 @@ public class SpecialCustomer : MonoBehaviour
             if (transform.position.y >= 1.5f)
             {
                 Destroy(gameObject); // 오브젝트 파괴
+                Destroy(favorabilityEffectInstance); // 파티클 시스템 파괴
             }
         }
     }

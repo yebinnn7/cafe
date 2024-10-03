@@ -138,7 +138,10 @@ public class GameManager : MonoBehaviour
     public float minSpecialSpawnTime = 5f;
     public float maxSpecialSpawnTime = 8f;
 
-    
+    // 단골손님 호감도 저장 딕셔너리
+    Dictionary<int, int> specialCustomerFavorability = new Dictionary<int, int>();
+
+
 
 
     void Awake()
@@ -659,16 +662,25 @@ public class GameManager : MonoBehaviour
 
         if (collected_list[index] == true)
         {
+            // 단골손님 오브젝트 생성
             GameObject obj = Instantiate(prefab_special_customer, new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0), Quaternion.identity); // 젤리 프리팹 생성
             SpecialCustomer specialCustomer = obj.GetComponent<SpecialCustomer>(); // 생성된 젤리 오브젝트의 Jelly 스크립트를 가져옴
             obj.name = "Special Customer " + index; // 젤리 오브젝트의 이름을 현재 페이지 번호로 설정
             specialCustomer.id = index; // 젤리의 ID를 현재 페이지로 설정
             specialCustomer.sprite_renderer.sprite = special_customer_spritelist[index]; // 젤리의 스프라이트 이미지를 현재 페이지에 해당하는 이미지로 설정
 
+            // 파티클 시스템 프리팹 생성
             GameObject instantFavEffectObj = Instantiate(favorability_effect_prefab);
             ParticleSystem instantFavEffect = instantFavEffectObj.GetComponent<ParticleSystem>();
 
+            // 파티클 시스템을 단골손님에 할당
             specialCustomer.favorability_effect = instantFavEffect;
+
+            // 파티클 시스템 인스턴스를 추적하도록 설정
+            specialCustomer.favorabilityEffectInstance = instantFavEffectObj;
+
+            // GameManager에서 단골손님의 호감도를 불러옴
+            specialCustomer.favorability = GetFavorability(index);
 
 
             special_customer_list.Add(specialCustomer); // 젤리를 젤리 리스트에 추가
@@ -685,5 +697,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 호감도 업데이트 함수
+    public void UpdateFavorability(int id, int favorability)
+    {
+        if (specialCustomerFavorability.ContainsKey(id))
+        {
+            specialCustomerFavorability[id] = favorability;
+        }
+        else
+        {
+            specialCustomerFavorability.Add(id, favorability);
+        }
+    }
 
+    // 특정 단골손님의 호감도를 불러오는 함수
+    public int GetFavorability(int id)
+    {
+        if (specialCustomerFavorability.ContainsKey(id))
+        {
+            return specialCustomerFavorability[id];
+        }
+        return 0; // 기본값 반환
+    }
 }
