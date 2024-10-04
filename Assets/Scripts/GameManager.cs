@@ -37,7 +37,11 @@ public class GameManager : MonoBehaviour
     public string[] jelly_namelist; // 젤리 이름 리스트
     public int[] jelly_jelatinlist; // 젤리 잠금 해제에 필요한 젤라틴 리스트
     public int[] jelly_goldlist; // 젤리 구매에 필요한 골드 리스트
-    public int map_goldlist;
+
+    [Space(10f)]
+    [Header("Map")]
+    public int[] map_goldlist; // 맵 구매에 필요한 골드를 나타냄
+    public int lock_cafe_list; // 잠긴 카페가 몇호점인지 나타냄
 
     [Space(10f)]
     [Header("Store Jelly(Unlock)")]
@@ -49,11 +53,8 @@ public class GameManager : MonoBehaviour
     [Space(10f)]
     [Header("Store Jelly(Lock)")]
     public GameObject lock_group; // 잠금된 젤리 그룹을 관리하는 오브젝트
-    public GameObject maplock_group; // 잠금된 젤리 그룹을 관리하는 오브젝트
     public Image lock_group_jelly_img; // 잠금된 젤리의 이미지를 표시할 UI
     public Text lock_group_jelatin_text; // 잠금 해제에 필요한 젤라틴 수량을 표시할 텍스트 UI
-
-    public Text lock_group_map_text; // 맵 잠금 해제에 필요한 골드를 표시할 텍스트 UI
 
     // Animator 변경 관리를 위한 Animator 배열
     [Space(10f)]
@@ -161,7 +162,6 @@ public class GameManager : MonoBehaviour
         gold_text.text = gold.ToString();
         unlock_group_gold_text.text = jelly_goldlist[0].ToString();
         lock_group_jelatin_text.text = jelly_jelatinlist[0].ToString();
-        lock_group_map_text.text = map_goldlist.ToString();
 
         // DataManager 초기화
         data_manager = data_manager_obj.GetComponent<DataManager>();
@@ -189,6 +189,7 @@ public class GameManager : MonoBehaviour
             else if (isRandomClick) ClickRandomBtn(); // 랜덤 메뉴가 열려 있으면 닫음
             else Option(); // 옵션 메뉴를 열거나 닫음
         }
+
     }
 
     void LateUpdate()
@@ -457,14 +458,15 @@ public class GameManager : MonoBehaviour
 
     public void MapChange()
     {
-        maplock_group.gameObject.SetActive(false); //맵 잠금 해제
+        MapManager.instance.maplock_group[lock_cafe_list].gameObject.SetActive(false); //맵 잠금 해제
+        MapManager.instance.maplock_button[lock_cafe_list].gameObject.SetActive(false); //맵 잠금 버튼 해제
     }
 
     //맵 잠금 해제 함수
     public void MapUnlock()
     {
         // 현재 골드가 잠금 해제에 필요한 골드보다 적으면 함수 종료
-        if (gold < map_goldlist)
+        if (gold < map_goldlist[lock_cafe_list])
         {
             SoundManager.instance.PlaySound("Fail");
             return;
@@ -472,7 +474,7 @@ public class GameManager : MonoBehaviour
 
         MapChange(); // 페이지 UI 업데이트
 
-        gold -= map_goldlist; //골드 감소
+        gold -= map_goldlist[lock_cafe_list]; //골드 감소
 
         SoundManager.instance.PlaySound("Unlock");
     }
