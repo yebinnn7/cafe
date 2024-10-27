@@ -111,6 +111,8 @@ public class GameManager : MonoBehaviour
     public Button num_btn;
     public int[] num_goldlist;
 
+    public Button mapunlock_Button;
+
     [Space(10f)]
     [Header("Click List")]
     public int click_level;
@@ -477,6 +479,8 @@ public class GameManager : MonoBehaviour
         gold -= map_goldlist[lock_cafe_list]; //°ñµå °¨¼Ò
 
         SoundManager.instance.PlaySound("Unlock");
+
+        mapunlock_Button.gameObject.SetActive(false);
     }
 
     // Á©¸® ±¸¸Å ÇÔ¼ö
