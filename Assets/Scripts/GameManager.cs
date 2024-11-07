@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
     public Image map_panel; // 맵 메뉴 패널
     public Image random_panel; // 랜덤 메뉴 패널
     public Image collected_panel; // 도감 메뉴 패널
+    public Image information_panel; // 정보 메뉴 패널
+
 
     [Space(10f)]
     [Header("Prefabs")]
@@ -92,6 +94,7 @@ public class GameManager : MonoBehaviour
     Animator map_anim; // 맵 패널 애니메이션 관리
     Animator random_anim; // 랜덤 패널 애니메이션 관리
     Animator collected_anim; // 도감 패널 애니메이션 관리
+    Animator information_anim; // 정보 패널 애니메이션 관리
 
     [Space(10f)]
     [Header("Click On Off")]
@@ -101,6 +104,7 @@ public class GameManager : MonoBehaviour
     bool isMapClick; // 맵 버튼이 클릭된 상태인지 여부
     bool isRandomClick; // 랜덤 버튼이 클릭된 상태인지 여부
     bool isCollectedClick; // 도감 버튼이 클릭된 상태인지 여부
+    public bool isInformationClick;
 
     int page; // 현재 선택된 페이지
     int index; // 단골 손님 번호
@@ -161,6 +165,7 @@ public class GameManager : MonoBehaviour
         map_anim = map_panel.GetComponent<Animator>();
         random_anim = random_panel.GetComponent<Animator>();
         collected_anim = collected_panel.GetComponent<Animator>();
+        information_anim = information_panel.GetComponent<Animator>();
 
         isLive = true; // 게임 활성화 상태로 설정
 
@@ -276,6 +281,13 @@ public class GameManager : MonoBehaviour
             isLive = true;
         }
 
+        if (isInformationClick) // 도감 메뉴가 열려 있으면 닫음
+        {
+            information_anim.SetTrigger("doHide");
+            isInformationClick = false;
+            isLive = true;
+        }
+
 
         if (isJellyClick) // 젤리 메뉴가 열려 있으면 닫음
             jelly_anim.SetTrigger("doHide");
@@ -316,6 +328,13 @@ public class GameManager : MonoBehaviour
         {
             collected_anim.SetTrigger("doHide");
             isCollectedClick = false;
+            isLive = true;
+        }
+
+        if (isInformationClick) // 도감 메뉴가 열려 있으면 닫음
+        {
+            information_anim.SetTrigger("doHide");
+            isInformationClick = false;
             isLive = true;
         }
 
@@ -360,6 +379,13 @@ public class GameManager : MonoBehaviour
             isLive = true;
         }
 
+        if (isInformationClick) // 도감 메뉴가 열려 있으면 닫음
+        {
+            information_anim.SetTrigger("doHide");
+            isInformationClick = false;
+            isLive = true;
+        }
+
         if (isMapClick) // 맵 메뉴가 열려 있으면 닫음
             map_anim.SetTrigger("doHide");
         else // 맵 메뉴가 닫혀 있으면 열음
@@ -401,11 +427,19 @@ public class GameManager : MonoBehaviour
             isLive = true;
         }
 
+        if (isInformationClick) // 도감 메뉴가 열려 있으면 닫음
+        {
+            information_anim.SetTrigger("doHide");
+            isInformationClick = false;
+            isLive = true;
+        }
+
         if (isRandomClick) // 랜덤 메뉴가 열려 있으면 닫음
             random_anim.SetTrigger("doHide");
         else // 랜덤 메뉴가 닫혀 있으면 열음
             random_anim.SetTrigger("doShow");
 
+        
         isRandomClick = !isRandomClick; // 맵 클릭 상태를 토글
         isLive = !isLive; // 게임 활성화 상태를 토글
     }
@@ -442,10 +476,19 @@ public class GameManager : MonoBehaviour
             isLive = true;
         }
 
+        if (isInformationClick) // 도감 메뉴가 열려 있으면 닫음
+        {
+            information_anim.SetTrigger("doHide");
+            isInformationClick = false;
+            isLive = true;
+        }
+
         if (isCollectedClick) // 도감 메뉴가 열려 있으면 닫음
             collected_anim.SetTrigger("doHide");
         else // 랜덤 메뉴가 닫혀 있으면 열음
             collected_anim.SetTrigger("doShow");
+
+
 
         isCollectedClick = !isCollectedClick; // 맵 클릭 상태를 토글
         isLive = !isLive; // 게임 활성화 상태를 토글

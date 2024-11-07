@@ -33,7 +33,17 @@ public class CollectedManager : MonoBehaviour
     public Text SpecialName3;
     public Text SpecialName4;
 
+    public Button SpecialButton0;
+    public Button SpecialButton1;
+    public Button SpecialButton2;
+    public Button SpecialButton3;
+    public Button SpecialButton4;
 
+    public Image InformationImage;
+    public Text InformationText;
+
+    public Image information_panel; 
+    Animator information_anim;
 
     // Start is called before the first frame update
     void Awake()
@@ -48,6 +58,8 @@ public class CollectedManager : MonoBehaviour
 
         // 첫 페이지로 초기화
         page = 0;
+
+        information_anim = information_panel.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -155,5 +167,74 @@ public class CollectedManager : MonoBehaviour
         UpdateLockGroupImages(); // UI 갱신 호출
     }
 
+    public void ClickSpecialBitton0()
+    {
+        information_anim.SetTrigger("doShow");
 
+        int index = page * 5;
+
+        InformationImage.sprite = customer_spritelist[index];
+        InformationText.text = customer_namelist[index];
+
+        game_manager.isInformationClick = true;
+
+
+
+    }
+
+    public void ClickSpecialBitton1()
+    {
+        information_anim.SetTrigger("doShow");
+
+        int index = page * 5 + 1;
+
+        InformationImage.sprite = customer_spritelist[index];
+        InformationText.text = customer_namelist[index];
+
+        game_manager.isInformationClick = true;
+    }
+
+    public void ClickSpecialBitton2()
+    {
+        information_anim.SetTrigger("doShow");
+
+        int index = page * 5 + 2;
+
+        InformationImage.sprite = customer_spritelist[index];
+        InformationText.text = customer_namelist[index];
+
+        game_manager.isInformationClick = true;
+    }
+
+    public void ClickSpecialBitton3()
+    {
+        information_anim.SetTrigger("doShow");
+
+        int index = page * 5 + 3;
+
+        InformationImage.sprite = customer_spritelist[index];
+        InformationText.text = customer_namelist[index];
+
+        game_manager.isInformationClick = true;
+    }
+
+    public void ClickSpecialBitton4()
+    {
+        information_anim.SetTrigger("doShow");
+
+        int index = page * 5 + 4;
+
+        InformationImage.sprite = customer_spritelist[index];
+        InformationText.text = customer_namelist[index];
+
+        game_manager.isInformationClick = true;
+    }
+
+    public void ExitButton()
+    {
+        information_anim.SetTrigger("doHide");
+
+        game_manager.isInformationClick = false;
+    }
 }
+
