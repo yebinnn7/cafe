@@ -1104,6 +1104,7 @@ MonoBehaviour:
   collected_list: 00000000000000000000000000000000000000000000000000
   minSpecialSpawnTime: 5
   maxSpecialSpawnTime: 8
+  specialCustomerFavorability: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!4 &110729618
 Transform:
   m_ObjectHideFlags: 0
@@ -3296,7 +3297,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -82.619995}
+  m_AnchoredPosition: {x: 0, y: -81.850006}
   m_SizeDelta: {x: 60, y: 70}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!95 &406892344
@@ -15181,6 +15182,7 @@ MonoBehaviour:
   collected_list: 
   customer_spritelist: []
   customer_namelist: []
+  customer_favorability: 
   lockGroupImage0: {fileID: 2043055979}
   lockGroupImage1: {fileID: 1675440706}
   lockGroupImage2: {fileID: 1984277246}
@@ -15204,6 +15206,7 @@ MonoBehaviour:
   SpecialButton4: {fileID: 1848975108}
   InformationImage: {fileID: 1576789336}
   InformationText: {fileID: 1803799791}
+  InformationFavorability: {fileID: 1298100787}
   information_panel: {fileID: 406892345}
 --- !u!1 &1803799789
 GameObject:
@@ -16621,7 +16624,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1957333897}
   m_Layer: 5
-  m_Name: Favorite
+  m_Name: Favorability
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

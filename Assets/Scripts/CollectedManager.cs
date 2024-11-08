@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class CollectedManager : MonoBehaviour
     public bool[] collected_list;
     public Sprite[] customer_spritelist;
     public string[] customer_namelist;
+    public int[] customer_favorability;
 
     public Image lockGroupImage0;
     public Image lockGroupImage1;
@@ -41,6 +43,7 @@ public class CollectedManager : MonoBehaviour
 
     public Image InformationImage;
     public Text InformationText;
+    public Text InformationFavorability;
 
     public Image information_panel; 
     Animator information_anim;
@@ -55,6 +58,7 @@ public class CollectedManager : MonoBehaviour
         collected_list = game_manager.collected_list;
         customer_spritelist = game_manager.special_customer_spritelist;
         customer_namelist = game_manager.special_customer_namelist;
+        customer_favorability = game_manager.specialCustomerFavorability;
 
         // 첫 페이지로 초기화
         page = 0;
@@ -175,6 +179,7 @@ public class CollectedManager : MonoBehaviour
 
         InformationImage.sprite = customer_spritelist[index];
         InformationText.text = customer_namelist[index];
+        InformationFavorability.text = "호감도 " + customer_favorability[index];
 
         game_manager.isInformationClick = true;
 
@@ -190,6 +195,7 @@ public class CollectedManager : MonoBehaviour
 
         InformationImage.sprite = customer_spritelist[index];
         InformationText.text = customer_namelist[index];
+        InformationFavorability.text = "호감도 " + customer_favorability[index];
 
         game_manager.isInformationClick = true;
     }
@@ -202,6 +208,7 @@ public class CollectedManager : MonoBehaviour
 
         InformationImage.sprite = customer_spritelist[index];
         InformationText.text = customer_namelist[index];
+        InformationFavorability.text = "호감도 " + customer_favorability[index];
 
         game_manager.isInformationClick = true;
     }
@@ -214,6 +221,7 @@ public class CollectedManager : MonoBehaviour
 
         InformationImage.sprite = customer_spritelist[index];
         InformationText.text = customer_namelist[index];
+        InformationFavorability.text = "호감도 " + customer_favorability[index];
 
         game_manager.isInformationClick = true;
     }
@@ -226,6 +234,7 @@ public class CollectedManager : MonoBehaviour
 
         InformationImage.sprite = customer_spritelist[index];
         InformationText.text = customer_namelist[index];
+        InformationFavorability.text = "호감도 " + customer_favorability[index];
 
         game_manager.isInformationClick = true;
     }
@@ -235,6 +244,7 @@ public class CollectedManager : MonoBehaviour
         information_anim.SetTrigger("doHide");
 
         game_manager.isInformationClick = false;
+        
     }
 }
 

@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
     public float maxSpecialSpawnTime = 8f;
 
     // 단골손님 호감도 저장 딕셔너리
-    Dictionary<int, int> specialCustomerFavorability = new Dictionary<int, int>();
+    public int[] specialCustomerFavorability;
 
     // Collected Manager 참조
     private CollectedManager collectedManager;
@@ -202,6 +202,7 @@ public class GameManager : MonoBehaviour
             else if (isMapClick) ClickMapBtn(); // 플랜트 메뉴가 열려 있으면 닫음
             else if (isRandomClick) ClickRandomBtn(); // 랜덤 메뉴가 열려 있으면 닫음
             else if (isCollectedClick) ClickCollectedBtn(); // 도감 메뉴가 열려 있으면 닫음
+            else if (isInformationClick) collectedManager.ExitButton(); // 도감 메뉴가 열려 있으면 닫음
             else Option(); // 옵션 메뉴를 열거나 닫음
         }
 
@@ -285,7 +286,7 @@ public class GameManager : MonoBehaviour
         {
             information_anim.SetTrigger("doHide");
             isInformationClick = false;
-            isLive = true;
+            // isLive = true;
         }
 
 
@@ -335,7 +336,7 @@ public class GameManager : MonoBehaviour
         {
             information_anim.SetTrigger("doHide");
             isInformationClick = false;
-            isLive = true;
+            // isLive = true;
         }
 
         if (isPlantClick) // 플랜트 메뉴가 열려 있으면 닫음
@@ -383,7 +384,7 @@ public class GameManager : MonoBehaviour
         {
             information_anim.SetTrigger("doHide");
             isInformationClick = false;
-            isLive = true;
+            // isLive = true;
         }
 
         if (isMapClick) // 맵 메뉴가 열려 있으면 닫음
@@ -431,7 +432,7 @@ public class GameManager : MonoBehaviour
         {
             information_anim.SetTrigger("doHide");
             isInformationClick = false;
-            isLive = true;
+            // isLive = true;
         }
 
         if (isRandomClick) // 랜덤 메뉴가 열려 있으면 닫음
@@ -480,7 +481,7 @@ public class GameManager : MonoBehaviour
         {
             information_anim.SetTrigger("doHide");
             isInformationClick = false;
-            isLive = true;
+            // isLive = true;
         }
 
         if (isCollectedClick) // 도감 메뉴가 열려 있으면 닫음
@@ -825,25 +826,18 @@ public class GameManager : MonoBehaviour
     }
 
     // 호감도 업데이트 함수
-    public void UpdateFavorability(int id, int favorability)
+    public void UpdateFavorability(int index, int favorability)
     {
-        if (specialCustomerFavorability.ContainsKey(id))
-        {
-            specialCustomerFavorability[id] = favorability;
-        }
-        else
-        {
-            specialCustomerFavorability.Add(id, favorability);
-        }
+       
+         specialCustomerFavorability[index] = favorability;
+      
     }
 
     // 특정 단골손님의 호감도를 불러오는 함수
-    public int GetFavorability(int id)
+    public int GetFavorability(int index)
     {
-        if (specialCustomerFavorability.ContainsKey(id))
-        {
-            return specialCustomerFavorability[id];
-        }
-        return 0; // 기본값 반환
+        
+         return specialCustomerFavorability[index];
+      
     }
 }
