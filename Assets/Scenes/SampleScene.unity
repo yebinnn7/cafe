@@ -7211,6 +7211,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 805110729}
   m_CullTransparentMesh: 1
+--- !u!1 &819130469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 819130471}
+  - component: {fileID: 819130470}
+  m_Layer: 0
+  m_Name: trah Component
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &819130470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819130469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37f0e2da52290914a82b8d248ee5fa66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToSpawn: {fileID: 3947702924573986686, guid: 016ff779ad82cdb479ee57cd04390c28, type: 3}
+  spawnRangeX: {x: -5, y: 5}
+  spawnRangeY: {x: -5, y: 5}
+  objectLifetime: 5
+  spawnInterval: 5
+--- !u!4 &819130471
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819130469}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.7502413, y: -0.6690411, z: -4.979094}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &824833879
 GameObject:
   m_ObjectHideFlags: 0
@@ -9524,8 +9573,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -1, y: 1}
-  m_SizeDelta: {x: 6.3999996, y: 6.3999996}
+  m_AnchoredPosition: {x: -3.03, y: 3.42}
+  m_SizeDelta: {x: 10.856, y: 9.283}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1114809263
 MonoBehaviour:
@@ -9547,7 +9596,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: feabaf7052f4d8e4daf77e40668bc2b6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 500e0f9248cea03479026752d800e515, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18047,3 +18096,4 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 279576459}
   - {fileID: 2088002704}
+  - {fileID: 819130471}
