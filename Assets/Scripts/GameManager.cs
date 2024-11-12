@@ -396,6 +396,13 @@ public class GameManager : MonoBehaviour
         isLive = !isLive; // 게임 활성화 상태를 토글
     }
 
+    public void ClickMapExitBtn()
+    {
+        map_anim.SetTrigger("doHide");
+
+        isMapClick = false;
+    }
+
     public void ClickRandomBtn()
     {
         SoundManager.instance.PlaySound("Button");
@@ -445,6 +452,15 @@ public class GameManager : MonoBehaviour
         isLive = !isLive; // 게임 활성화 상태를 토글
     }
 
+    public void ClickRandomExitBtn()
+    {
+        random_anim.SetTrigger("doHide");
+
+        isRandomClick = false;
+    }
+
+    
+
     public void ClickCollectedBtn()
     {
         SoundManager.instance.PlaySound("Button");
@@ -493,6 +509,13 @@ public class GameManager : MonoBehaviour
 
         isCollectedClick = !isCollectedClick; // 맵 클릭 상태를 토글
         isLive = !isLive; // 게임 활성화 상태를 토글
+    }
+
+    public void ClickCollectedExitBtn()
+    {
+        collected_anim.SetTrigger("doHide");
+
+        isCollectedClick = false;
     }
 
     // 옵션 패널 열고 닫기
