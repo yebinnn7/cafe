@@ -786,12 +786,39 @@ public class GameManager : MonoBehaviour
     */
     void spawnSpecial()
     {
-        index = Random.Range(0, 6);
+        index = Random.Range(0, 24);
+        Vector3 spawnPos = Vector3.zero; ;
 
         if (collected_list[index] == true)
         {
+            if (index >= 0 && index < 5)
+            {
+                spawnPos = new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0);
+                UnityEngine.Debug.Log("1번맵 생성");
+            }
+            else if (index >= 5 && index < 9)
+            {
+                spawnPos = new Vector3(Random.Range(15.5f, 24.5f), 1.3f, 0);
+                UnityEngine.Debug.Log("2번맵 생성");
+            }
+            else if (index >= 9 && index < 14)
+            {
+                spawnPos = new Vector3(Random.Range(35.5f, 44.5f), 1.3f, 0);
+                UnityEngine.Debug.Log("3번맵 생성");
+            }
+            else if (index >= 14 && index < 19)
+            {
+                spawnPos = new Vector3(Random.Range(55.5f, 64.5f), 1.3f, 0);
+                UnityEngine.Debug.Log("4번맵 생성");
+            }
+            else if (index >= 19 && index < 24)
+            {
+                spawnPos = new Vector3(Random.Range(75.5f, 84.5f), 1.3f, 0);
+                UnityEngine.Debug.Log("5번맵 생성");
+            }
+
             // 단골손님 오브젝트 생성
-            GameObject obj = Instantiate(prefab_special_customer, new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0), Quaternion.identity); // 젤리 프리팹 생성
+            GameObject obj = Instantiate(prefab_special_customer, spawnPos, Quaternion.identity); // 젤리 프리팹 생성
             SpecialCustomer specialCustomer = obj.GetComponent<SpecialCustomer>(); // 생성된 젤리 오브젝트의 Jelly 스크립트를 가져옴
             obj.name = "Special Customer " + index; // 젤리 오브젝트의 이름을 현재 페이지 번호로 설정
             specialCustomer.id = index; // 젤리의 ID를 현재 페이지로 설정
