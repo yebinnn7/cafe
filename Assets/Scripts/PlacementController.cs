@@ -36,6 +36,8 @@ public class PlacementController : MonoBehaviour
             if (Input.GetMouseButtonDown(0)) // 왼쪽 마우스 버튼
             {
                 isFollowingMouse = false; // 마우스 따라다니기 비활성화
+                Destroy(spawnedObject);
+                spawnedObject = Instantiate(objectToSpawn);
             }
         }
     }
