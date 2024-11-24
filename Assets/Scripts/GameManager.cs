@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random; // 모호한 참조 오류뜸
@@ -746,8 +747,20 @@ public class GameManager : MonoBehaviour
     void spawnJelly()
     {
         page = Random.Range(0, 6);
+        Vector3[] spawnPos = new Vector3[]
+        {
+            new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0),            
+            new Vector3(Random.Range(15.5f, 24.5f), 1.3f, 0),
+            new Vector3(Random.Range(35.5f, 44.5f), 1.3f, 0),           
+            new Vector3(Random.Range(55.5f, 64.5f), 1.3f, 0),         
+            new Vector3(Random.Range(75.5f, 84.5f), 1.3f, 0),
 
-        GameObject obj = Instantiate(prefab, new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0), Quaternion.identity); // 젤리 프리팹 생성
+        };
+
+        int RandomSpawnPos = Random.Range(0, 5);
+        
+
+        GameObject obj = Instantiate(prefab, spawnPos[RandomSpawnPos], Quaternion.identity); // 젤리 프리팹 생성
         Jelly jelly = obj.GetComponent<Jelly>(); // 생성된 젤리 오브젝트의 Jelly 스크립트를 가져옴
         obj.name = "Jelly " + page; // 젤리 오브젝트의 이름을 현재 페이지 번호로 설정
         jelly.id = page; // 젤리의 ID를 현재 페이지로 설정
@@ -889,5 +902,11 @@ public class GameManager : MonoBehaviour
         
          return specialCustomerFavorability[index];
       
+    }
+
+    // 클릭 골드 획득 함수
+    public void ClickGetGold(int goldReward)
+    {
+        gold += goldReward;
     }
 }
