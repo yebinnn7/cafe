@@ -127,11 +127,15 @@ MonoBehaviour:
   exp: 0
   required_exp: 50
   max_exp: 100
+  game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  move_delay: 0
-  move_time: 0
   left_top: {fileID: 0}
   right_bottom: {fileID: 0}
+  sprite_renderer: {fileID: 0}
+  anim: {fileID: 0}
+  moveSpeed: 1
+  minWaitTime: 4
+  maxWaitTime: 7
 --- !u!58 &875646358846778595
 CircleCollider2D:
   m_ObjectHideFlags: 0
