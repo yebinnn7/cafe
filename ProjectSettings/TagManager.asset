@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Room
   - Trash
+  - Background
+  - Jelly
+  - Special
   layers:
   - Default
   - TransparentFX

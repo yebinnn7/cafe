@@ -149,7 +149,7 @@ public class SpecialCustomer : MonoBehaviour
     }
 
     // 마우스 클릭 시 젤리를 터치하는 이벤트 처리
-    void OnMouseDown()
+    public void OnMouseDown()
     {
         // 게임이 진행중이지 않다면 아무런 동작도 하지 않음
         if (!game_manager.isLive) return;

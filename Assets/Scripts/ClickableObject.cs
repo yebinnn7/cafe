@@ -13,7 +13,7 @@ public class ClickableObject : MonoBehaviour
         Invoke("DestroySelf", lifetime);
     }
 
-    private void OnMouseDown()
+    public void OnMouseDown()
     {
         // 물체가 클릭되었을 때 처리
         wasClicked = true;

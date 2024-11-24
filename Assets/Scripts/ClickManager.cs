@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ClickManager : MonoBehaviour
 {
@@ -20,13 +21,32 @@ public class ClickManager : MonoBehaviour
             // 오브젝트가 클릭되었으면
             if (objectHit.collider != null)
             {
-                Debug.Log($"{objectHit.collider.gameObject.name} 클릭됨!");
-                // 오브젝트 클릭 처리
+                GameObject clickedObject = objectHit.collider.gameObject;
+
+                if (clickedObject.CompareTag("Trash"))
+                {
+                    // ClickableObject 스크립트를 가져오기
+                    ClickableObject clickable = clickedObject.GetComponent<ClickableObject>();
+                    
+                    clickable.OnMouseDown(); // ClickableObject의 함수 호출
+                    
+                }
+                else if (clickedObject.CompareTag("Jelly"))
+                {
+                    Jelly jelly = clickedObject.GetComponent<Jelly>();
+                    jelly.OnMouseDown();
+                }
+                else if (clickedObject.CompareTag("Special"))
+                {
+                    SpecialCustomer specialCustomer = clickedObject.GetComponent<SpecialCustomer>();    
+                    specialCustomer.OnMouseDown();
+                }
+               
             }
             // 배경이 클릭되었으면 (오브젝트가 없을 때)
             else if (backgroundHit.collider != null)
             {
-                Debug.Log("배경 클릭됨!");
+                
                 // 배경 클릭 처리
             }
         }

@@ -5626,7 +5626,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 570024532}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d61eb2744fe1e64898a96675d7d5383, type: 3}
   m_Name: 
@@ -14837,7 +14837,7 @@ GameObject:
   - component: {fileID: 1676516441}
   m_Layer: 8
   m_Name: Room
-  m_TagString: Room
+  m_TagString: Background
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

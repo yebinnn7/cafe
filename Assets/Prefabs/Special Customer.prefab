@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: -8852665755662201889}
   m_Layer: 0
   m_Name: Special Customer
-  m_TagString: Untagged
+  m_TagString: Special
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -268,3 +268,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccdb8eebb33df624c8b40ccedf0e3ae9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
+  level: 0
+  exp: 0
+  required_exp: 0
+  max_exp: 0
+  game_manager_obj: {fileID: 0}
+  game_manager: {fileID: 0}
+  left_top: {fileID: 0}
+  right_bottom: {fileID: 0}
+  sprite_renderer: {fileID: 0}
+  anim: {fileID: 0}
+  moveSpeed: 1
+  minWaitTime: 4
+  maxWaitTime: 7
+  favorability: 0
+  favorability_effect: {fileID: 0}
+  favorabilityEffectInstance: {fileID: 0}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8844820782459204419}
   m_Layer: 0
   m_Name: coffe_trash
-  m_TagString: Untagged
+  m_TagString: Trash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
