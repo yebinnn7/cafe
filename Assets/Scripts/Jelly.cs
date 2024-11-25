@@ -159,6 +159,7 @@ public class Jelly : MonoBehaviour
         // GameManagerø° ¡©∂Û∆æ »πµÊ ¿Ã∫•∆Æ ¿¸¥ﬁ
         game_manager.GetJelatin(id, level);
 
+        Debug.Log("¡©∏Æ ≈¨∏Øµ ");
         SoundManager.instance.PlaySound("Touch");
     }
 

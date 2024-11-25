@@ -402,6 +402,7 @@ public class GameManager : MonoBehaviour
         map_anim.SetTrigger("doHide");
 
         isMapClick = false;
+        isLive = true;
     }
 
     public void ClickRandomBtn()
@@ -458,6 +459,7 @@ public class GameManager : MonoBehaviour
         random_anim.SetTrigger("doHide");
 
         isRandomClick = false;
+        isLive = true;
     }
 
     
@@ -517,6 +519,7 @@ public class GameManager : MonoBehaviour
         collected_anim.SetTrigger("doHide");
 
         isCollectedClick = false;
+        isLive = true;
     }
 
     // 옵션 패널 열고 닫기

@@ -35,6 +35,8 @@ public class ClickManager : MonoBehaviour
                 {
                     Jelly jelly = clickedObject.GetComponent<Jelly>();
                     jelly.OnMouseDown();
+                    Debug.Log($"Clicked object: {clickedObject.name}, Tag: {clickedObject.tag}, Layer: {clickedObject.layer}");
+
                 }
                 else if (clickedObject.CompareTag("Special"))
                 {

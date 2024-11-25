@@ -80,6 +80,7 @@ public class MapManager : MonoBehaviour
         targetPosition = new Vector3(0, 0, -10);
         Camera.main.transform.position = targetPosition;
         
+
     }
 
     public void Movecafe2()
@@ -87,6 +88,7 @@ public class MapManager : MonoBehaviour
         //카메라의 위치를 2호점으로 이동
         targetPosition = new Vector3(20, 0, -10);
         Camera.main.transform.position = targetPosition;
+        
     }
 
     public void Movecafe3()
