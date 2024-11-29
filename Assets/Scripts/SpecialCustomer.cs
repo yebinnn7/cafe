@@ -56,9 +56,14 @@ public class SpecialCustomer : MonoBehaviour
     public ParticleSystem favorability_effect;
     public GameObject favorabilityEffectInstance; // 파티클 시스템 인스턴스 추적(파괴하기 위해서)
 
+    Camera selectedCamera;
+    private GameObject trash;
+
     // 게임 시작 시 필요한 변수와 오브젝트를 설정하는 초기화 함수
     void Awake()
     {
+        
+
         // 왼쪽 위와 오른쪽 아래의 경계 오브젝트를 찾음
         left_top = GameObject.Find("LeftTop").gameObject;
         right_bottom = GameObject.Find("RightBottom").gameObject;
@@ -94,7 +99,16 @@ public class SpecialCustomer : MonoBehaviour
         favorability = game_manager.GetFavorability(id);
 
 
+        Invoke("CheckTrashInArea", 0.5f);
     }
+
+    public void SetID(int newid)
+    {
+        id = newid;
+    }
+    
+
+ 
 
     // 매 프레임마다 호출되는 함수로, 주로 상태 업데이트를 담당
     void Update()
@@ -122,32 +136,6 @@ public class SpecialCustomer : MonoBehaviour
 
     }
 
-
-    // 물리 업데이트 처리로, 고정된 시간 간격으로 호출됨 
-    void FixedUpdate()
-    {
-        /*
-        // 젤리가 현재 무작위로 움직이고 있지 않다면, 무작위로 이동하는 코루틴 실행
-        if (!isWandering)
-            StartCoroutine(Wander());
-
-        // 걷는 상태일 때 이동 처리
-        if (isWalking)
-            Move();
-
-        // 젤리의 현재 위치를 확인하여 경계를 벗어나지 않도록 방향을 반전시킴
-        float pos_x = transform.position.x;
-        float pos_y = transform.position.y;
-
-        // 왼쪽/오른쪽 경계를 넘으면 x축 방향을 반전
-        if (pos_x < left_top.transform.position.x || pos_x > right_bottom.transform.position.x)
-            speed_x = -speed_x;
-        // 위쪽/아래쪽 경계를 넘으면 y축 방향을 반전
-        if (pos_y > left_top.transform.position.y || pos_y < right_bottom.transform.position.y)
-            speed_y = -speed_y;
-        */
-    }
-
     // 마우스 클릭 시 젤리를 터치하는 이벤트 처리
     public void OnMouseDown()
     {
@@ -158,12 +146,6 @@ public class SpecialCustomer : MonoBehaviour
         // isWalking = false;
         anim.SetBool("isWalk", false);
         anim.SetTrigger("doTouch");
-
-        // 경험치가 최대 경험치보다 적으면 경험치를 증가시킴
-        // if (exp < max_exp) ++exp;
-
-        // GameManager에 젤라틴 획득 이벤트 전달
-        // game_manager.GetJelatin(id, level);
 
         favorability += 3;
 
@@ -199,77 +181,6 @@ public class SpecialCustomer : MonoBehaviour
 
         transform.position = point;
     }
-
-    /*
-    // 마우스를 떼었을 때 호출되는 함수
-    void OnMouseUp()
-    {
-        // 게임이 진행 중이지 않으면 아무런 동작도 하지 않음
-        if (!game_manager.isLive) return;
-
-        pick_time = 0; // 클릭 시간을 초기화
-
-        // 젤리를 판매하는 중이면 골드를 획득하고 젤리를 삭제
-        if (game_manager.isSell)
-        {
-            game_manager.GetGold(id, level, this); // 골드 획득
-
-            Destroy(gameObject); // 젤리 삭제
-        }
-
-        // 젤리의 위치가 경계를 벗어났을 때, 젤리를 초기 위치로 되돌림
-        float pos_x = transform.position.x;
-        float pos_y = transform.position.y;
-
-        if (pos_x < left_top.transform.position.x || pos_x > right_bottom.transform.position.x ||
-            pos_y > left_top.transform.position.y || pos_y < right_bottom.transform.position.y)
-            transform.position = new Vector3(0, -1, 0); // 초기 위치로 되돌림
-    }
-
-    
-    // 젤리의 이동 처리 함수
-    void Move()
-    {
-        // x축 속도가 음수이면 스프라이트를 좌우 반전하여 이동 방향에 맞춤
-        if (speed_x != 0)
-            sprite_renderer.flipX = speed_x < 0;
-
-        // 현재 설정된 속도에 따라 젤리의 위치를 이동
-        transform.Translate(speed_x, speed_y, speed_y);
-    }
-
-    // 젤리의 무작위 이동을 처리하는 코루틴 함수
-    IEnumerator Wander()
-    {
-        // 무작위 이동 대기 시간과 이동 시간을 설정
-        move_delay = Random.Range(3, 6); // 3~6초 동안 대기
-        move_time = Random.Range(3, 6); // 3~6초 동안 이동
-
-        // 젤리의 x축과 y축 속도를 무작위로 설정
-        speed_x = Random.Range(-0.8f, 0.8f) * Time.deltaTime;
-        speed_y = Random.Range(-0.8f, 0.8f) * Time.deltaTime;
-
-        // 젤리가 무작위로 이동 중임을 표시하는 플래그를 true로 설정
-        isWandering = true;
-
-        // 이동 대기 시간 동안 대기
-        yield return new WaitForSeconds(move_delay);
-
-        // 대기 후 걷는 상태로 변경하고 애니메이션 재생
-        isWalking = true;
-        anim.SetBool("isWalk", true); // "isWalk" 애니메이션 트리거
-
-        // 설정된 이동 시간 동안 이동
-        yield return new WaitForSeconds(move_time);
-
-        // 이동이 끝나면 걷는 상태를 false로 설정하고 애니메이션 정지
-        isWalking = false;
-        anim.SetBool("isWalk", false); // "isWalk" 애니메이션 정지
-
-        // 무작위 이동이 끝났음을 표시
-        isWandering = false;
-    }
-    */
 
     // 젤라틴을 주기적으로 획득하는 코루틴 함수
     IEnumerator GetJelatin()
@@ -311,7 +222,7 @@ public class SpecialCustomer : MonoBehaviour
 
             // y좌표가 1.5에 도달하면 오브젝트 삭제
             if (transform.position.y >= 1.5f)
-            {
+            {               
                 RemoveFromSpecialCustomerList();
                 Destroy(gameObject); // 오브젝트 파괴
                 Destroy(favorabilityEffectInstance); // 파티클 시스템 파괴
@@ -359,6 +270,59 @@ public class SpecialCustomer : MonoBehaviour
         else if (xPosition >= 75.5f && xPosition <= 84.5f)
         {
             game_manager.map5specialCustomerList.Remove(this.GetComponent<SpecialCustomer>());
+        }
+    }
+
+    void CheckTrashInArea()
+    {
+        float xPosition = transform.position.x;  // 현재 오브젝트의 X 좌표
+
+        // 트레쉬가 특정 범위에 있을 경우 호감도 감소
+        if (xPosition >= -4.5f && xPosition <= 4.5f)
+        {
+            // 해당 범위에 trash 오브젝트가 있는지 확인
+            CheckTrashInMap(-4.5f, 4.5f);
+            game_manager.map1specialCustomerList.Remove(this);
+        }
+        else if (xPosition >= 15.5f && xPosition <= 24.5f)
+        {
+            CheckTrashInMap(15.5f, 24.5f);
+            game_manager.map2specialCustomerList.Remove(this);
+        }
+        else if (xPosition >= 35.5f && xPosition <= 44.5f)
+        {
+            CheckTrashInMap(35.5f, 44.5f);
+            game_manager.map3specialCustomerList.Remove(this);
+        }
+        else if (xPosition >= 55.5f && xPosition <= 64.5f)
+        {
+            CheckTrashInMap(55.5f, 64.5f);
+            game_manager.map4specialCustomerList.Remove(this);
+        }
+        else if (xPosition >= 75.5f && xPosition <= 84.5f)
+        {
+            CheckTrashInMap(75.5f, 84.5f);
+            game_manager.map5specialCustomerList.Remove(this);
+        }
+
+        // 해당 맵 범위에 trash가 있는지 확인하고, 호감도 감소
+        void CheckTrashInMap(float minX, float maxX)
+        {
+            // trash 태그가 붙은 모든 오브젝트 찾기
+            GameObject[] trashObjects = GameObject.FindGameObjectsWithTag("Trash");
+
+            foreach (GameObject trash in trashObjects)
+            {
+                // trash 오브젝트의 X좌표가 지정된 범위 내에 있는지 확인
+                if (trash.transform.position.x >= minX && trash.transform.position.x <= maxX)
+                {
+                    // 호감도 감소
+                    favorability -= 2;  // 원하는 값으로 호감도 감소
+                    Debug.Log("호감도가 감소했습니다. 현재 호감도: " + favorability);
+                    game_manager.UpdateFavorability(id, favorability);
+
+                }
+            }
         }
     }
 }

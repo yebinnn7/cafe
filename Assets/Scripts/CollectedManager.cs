@@ -140,7 +140,7 @@ public class CollectedManager : MonoBehaviour
         SoundManager.instance.PlaySound("Button");
     }
 
-    void ChangePage()
+    public void ChangePage()
     {
         int startIndex = page * 5; // 각 페이지에 대해 시작 인덱스 계산
         pageText.text = string.Format("#{0:00}", (page + 1)); // 페이지 번호 표시

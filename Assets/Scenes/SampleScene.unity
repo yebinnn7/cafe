@@ -1106,10 +1106,15 @@ MonoBehaviour:
   maxSpecialSpawnTime: 8
   specialCustomerFavorability: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   map1JellyList: []
+  map1specialCustomerList: []
   map2JellyList: []
+  map2specialCustomerList: []
   map3JellyList: []
+  map3specialCustomerList: []
   map4JellyList: []
+  map4specialCustomerList: []
   map5JellyList: []
+  map5specialCustomerList: []
 --- !u!4 &110729618
 Transform:
   m_ObjectHideFlags: 0
@@ -6947,7 +6952,7 @@ Transform:
   m_GameObject: {fileID: 734489509}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 35.5, y: 0.5411285, z: 0}
+  m_LocalPosition: {x: -0.36, y: 0.5411285, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

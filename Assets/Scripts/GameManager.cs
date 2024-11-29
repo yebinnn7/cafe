@@ -175,6 +175,8 @@ public class GameManager : MonoBehaviour
     public List<Jelly> map5JellyList = new List<Jelly>();
     public List<SpecialCustomer> map5specialCustomerList = new List<SpecialCustomer>(); // 5번 맵
 
+    
+
     void Awake()
     {
         instance = this; // 싱글톤 패턴 적용
@@ -509,12 +511,14 @@ public class GameManager : MonoBehaviour
     public void ClickCollectedBtn()
     {
         SoundManager.instance.PlaySound("Button");
+        collectedManager.ChangePage();
 
         if (isJellyClick) // 젤리 메뉴가 열려 있으면 닫음
         {
             jelly_anim.SetTrigger("doHide");
             isJellyClick = false;
             isLive = true;
+            
         }
 
         if (isPlantClick) // 플랜트 메뉴가 열려 있으면 닫음
@@ -954,7 +958,7 @@ public class GameManager : MonoBehaviour
             GameObject obj = Instantiate(prefab_special_customer, spawnPos, Quaternion.identity); // 단골손님 프리팹 생성
             SpecialCustomer specialCustomer = obj.GetComponent<SpecialCustomer>(); // 생성된 단골손님 오브젝트의 SpecialCustomer 스크립트를 가져옴
             obj.name = "Special Customer " + index; // 단골손님 오브젝트의 이름을 현재 페이지 번호로 설정
-            specialCustomer.id = index; // 단골손님의 ID를 현재 페이지로 설정
+            specialCustomer.id = index;
             specialCustomer.sprite_renderer.sprite = special_customer_spritelist[index]; // 단골손님의 스프라이트 이미지를 설정
 
             // 파티클 시스템 프리팹 생성
