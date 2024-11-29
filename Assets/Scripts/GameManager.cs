@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;// // 싱글톤 패턴으로 GameManager 인스턴스를 전역에서 접근할 수 있게 설정
 
-    [Header ("Money")]
+    [Header("Money")]
     public int jelatin; // 젤라틴 자원
     public int gold; // 골드 자원
 
@@ -155,6 +155,25 @@ public class GameManager : MonoBehaviour
     // Collected Manager 참조
     private CollectedManager collectedManager;
 
+    // Map별로 스폰 위치 배열 정의
+    Vector3[] spawnPos;
+
+
+    // Map별 손님 리스트
+    public List<Jelly> map1JellyList = new List<Jelly>();
+    public List<SpecialCustomer> map1specialCustomerList = new List<SpecialCustomer>(); // 1번 맵
+
+    public List<Jelly> map2JellyList = new List<Jelly>();
+    public List<SpecialCustomer> map2specialCustomerList = new List<SpecialCustomer>(); // 2번 맵
+
+    public List<Jelly> map3JellyList = new List<Jelly>();
+    public List<SpecialCustomer> map3specialCustomerList = new List<SpecialCustomer>(); // 3번 맵
+
+    public List<Jelly> map4JellyList = new List<Jelly>();
+    public List<SpecialCustomer> map4specialCustomerList = new List<SpecialCustomer>(); // 4번 맵
+
+    public List<Jelly> map5JellyList = new List<Jelly>();
+    public List<SpecialCustomer> map5specialCustomerList = new List<SpecialCustomer>(); // 5번 맵
 
     void Awake()
     {
@@ -183,14 +202,37 @@ public class GameManager : MonoBehaviour
         jelly_unlock_list = new bool[12]; // 젤리 잠금 해제 배열 초기화 (12개의 젤리)
 
         collectedManager = FindObjectOfType<CollectedManager>();
+
+        spawnPos = new Vector3[]
+        {
+             new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0),
+             new Vector3(Random.Range(15.5f, 24.5f), 1.3f, 0),
+            new Vector3(Random.Range(35.5f, 44.5f), 1.3f, 0),
+            new Vector3(Random.Range(55.5f, 64.5f), 1.3f, 0),
+            new Vector3(Random.Range(75.5f, 84.5f), 1.3f, 0),
+
+         };
     }
 
     void Start()
     {
         // 데이터를 불러오기 위한 호출, 씬이 로드된 직후 호출되므로 약간의 지연 후 실행
         // Invoke("LoadData", 0.1f);
-        StartCoroutine(SpawnJellyRandomly());
-        StartCoroutine(SpawnSpecialRandomly());
+        // StartCoroutine(SpawnJellyRandomly());
+        // StartCoroutine(SpawnSpecialRandomly());
+
+        StartCoroutine(SpawnJellyOnMap1());
+        StartCoroutine(SpawnJellyOnMap2());
+        StartCoroutine(SpawnJellyOnMap3());
+        StartCoroutine(SpawnJellyOnMap4());
+        StartCoroutine(SpawnJellyOnMap5());
+
+        // 각 맵별로 단골손님 스폰 코루틴을 시작
+        StartCoroutine(SpawnSpecialOnMap1()); // 1번 맵
+        StartCoroutine(SpawnSpecialOnMap2()); // 2번 맵
+        StartCoroutine(SpawnSpecialOnMap3()); // 3번 맵
+        StartCoroutine(SpawnSpecialOnMap4()); // 4번 맵
+        StartCoroutine(SpawnSpecialOnMap5()); // 5번 맵
     }
 
     void Update()
@@ -449,7 +491,7 @@ public class GameManager : MonoBehaviour
         else // 랜덤 메뉴가 닫혀 있으면 열음
             random_anim.SetTrigger("doShow");
 
-        
+
         isRandomClick = !isRandomClick; // 맵 클릭 상태를 토글
         isLive = !isLive; // 게임 활성화 상태를 토글
     }
@@ -462,7 +504,7 @@ public class GameManager : MonoBehaviour
         isLive = true;
     }
 
-    
+
 
     public void ClickCollectedBtn()
     {
@@ -581,7 +623,7 @@ public class GameManager : MonoBehaviour
         {
             unlock_group_jelly_img.sprite = jelly_spritelist[page]; // 현재 페이지에 해당하는 젤리 이미지를 잠금 해제 그룹에 설정
             // 젤리의 이름과 가격을 텍스트로 표시
-            unlock_group_name_text.text = jelly_namelist[page]; 
+            unlock_group_name_text.text = jelly_namelist[page];
             unlock_group_gold_text.text = string.Format("{0:n0}", jelly_goldlist[page]);
 
             unlock_group_jelly_img.SetNativeSize(); // 이미지의 크기를 원본 크기로 설정
@@ -666,7 +708,7 @@ public class GameManager : MonoBehaviour
             GameObject obj = Instantiate(prefab, jelly_data_list[i].pos, Quaternion.identity); // 젤리 프리팹 생성, 저장된 위치(pos)에 생성
             Jelly jelly = obj.GetComponent<Jelly>(); // 생성된 젤리 오브젝트의 Jelly 스크립트를 가져옴
             // 젤리의 ID, 레벨, 경험치를 저장된 데이터로 설정
-            jelly.id = jelly_data_list[i].id; 
+            jelly.id = jelly_data_list[i].id;
             jelly.level = jelly_data_list[i].level;
             jelly.exp = jelly_data_list[i].exp;
             jelly.sprite_renderer.sprite = jelly_spritelist[jelly.id]; // 젤리의 스프라이트 이미지를 저장된 ID에 해당하는 이미지로 설정
@@ -737,6 +779,7 @@ public class GameManager : MonoBehaviour
         // SoundManager.instance.PlaySound("Buy");
     }
 
+    /*
     IEnumerator SpawnJellyRandomly()
     {
         while (true) // 무한 반복
@@ -747,6 +790,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    
     void spawnJelly()
     {
         page = Random.Range(0, 6);
@@ -770,6 +814,84 @@ public class GameManager : MonoBehaviour
         jelly.sprite_renderer.sprite = jelly_spritelist[page]; // 젤리의 스프라이트 이미지를 현재 페이지에 해당하는 이미지로 설정
 
         jelly_list.Add(jelly); // 젤리를 젤리 리스트에 추가
+    }
+    */
+
+    // 특정 Map에 젤리 생성
+    void SpawnJellyOnMap(Vector3 spawnCenter, float spawnRangeX, List<Jelly> jellyList)
+    {
+        float randomX = Random.Range(spawnCenter.x - spawnRangeX, spawnCenter.x + spawnRangeX); // x좌표 랜덤화
+        Vector3 spawnPosition = new Vector3(randomX, spawnCenter.y, spawnCenter.z); // y, z는 고정
+
+        GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity);
+        Jelly jelly = obj.GetComponent<Jelly>();
+
+        page = Random.Range(0, 6); // 랜덤 페이지 설정
+        obj.name = "Jelly " + page;
+        jelly.id = page;
+        jelly.sprite_renderer.sprite = jelly_spritelist[page];
+
+        jellyList.Add(jelly); // 해당 Map의 Jelly 리스트에 추가
+    }
+
+    // Map 1에 젤리 생성
+    IEnumerator SpawnJellyOnMap1()
+    {
+        while (true)
+        {
+            float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
+            yield return new WaitForSeconds(waitTime);
+
+            SpawnJellyOnMap(new Vector3(0, 1.3f, 0), 4.5f, map1JellyList); // 맵 1 중심과 범위
+        }
+    }
+
+    // Map 2에 젤리 생성
+    IEnumerator SpawnJellyOnMap2()
+    {
+        while (true)
+        {
+            float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
+            yield return new WaitForSeconds(waitTime);
+
+            SpawnJellyOnMap(new Vector3(20, 1.3f, 0), 4.5f, map2JellyList); // 맵 2 중심과 범위
+        }
+    }
+
+    // Map 3에 젤리 생성
+    IEnumerator SpawnJellyOnMap3()
+    {
+        while (true)
+        {
+            float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
+            yield return new WaitForSeconds(waitTime);
+
+            SpawnJellyOnMap(new Vector3(40, 1.3f, 0), 4.5f, map3JellyList); // 맵 3 중심과 범위
+        }
+    }
+
+    // Map 4에 젤리 생성
+    IEnumerator SpawnJellyOnMap4()
+    {
+        while (true)
+        {
+            float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
+            yield return new WaitForSeconds(waitTime);
+
+            SpawnJellyOnMap(new Vector3(60, 1.3f, 0), 4.5f, map4JellyList); // 맵 4 중심과 범위
+        }
+    }
+
+    // Map 5에 젤리 생성
+    IEnumerator SpawnJellyOnMap5()
+    {
+        while (true)
+        {
+            float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
+            yield return new WaitForSeconds(waitTime);
+
+            SpawnJellyOnMap(new Vector3(80, 1.3f, 0), 4.5f, map5JellyList); // 맵 5 중심과 범위
+        }
     }
 
     /* 뽑기 함수
@@ -823,45 +945,17 @@ public class GameManager : MonoBehaviour
     true이면 spawnJelly처럼 생성
     이펙트 추가?
     */
-    void spawnSpecial()
+    // 특정 Map에 단골손님 생성
+    void SpawnSpecialOnMap(Vector3 spawnPos, int index, List<SpecialCustomer> specialCustomerList)
     {
-        index = Random.Range(0, 24);
-        Vector3 spawnPos = Vector3.zero; ;
-
-        if (collected_list[index] == true)
+        if (collected_list[index]) // index가 collected_list에서 true일 때만 스폰
         {
-            if (index >= 0 && index < 5)
-            {
-                spawnPos = new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0);
-                UnityEngine.Debug.Log("1번맵 생성");
-            }
-            else if (index >= 5 && index < 9)
-            {
-                spawnPos = new Vector3(Random.Range(15.5f, 24.5f), 1.3f, 0);
-                UnityEngine.Debug.Log("2번맵 생성");
-            }
-            else if (index >= 9 && index < 14)
-            {
-                spawnPos = new Vector3(Random.Range(35.5f, 44.5f), 1.3f, 0);
-                UnityEngine.Debug.Log("3번맵 생성");
-            }
-            else if (index >= 14 && index < 19)
-            {
-                spawnPos = new Vector3(Random.Range(55.5f, 64.5f), 1.3f, 0);
-                UnityEngine.Debug.Log("4번맵 생성");
-            }
-            else if (index >= 19 && index < 24)
-            {
-                spawnPos = new Vector3(Random.Range(75.5f, 84.5f), 1.3f, 0);
-                UnityEngine.Debug.Log("5번맵 생성");
-            }
-
             // 단골손님 오브젝트 생성
-            GameObject obj = Instantiate(prefab_special_customer, spawnPos, Quaternion.identity); // 젤리 프리팹 생성
-            SpecialCustomer specialCustomer = obj.GetComponent<SpecialCustomer>(); // 생성된 젤리 오브젝트의 Jelly 스크립트를 가져옴
-            obj.name = "Special Customer " + index; // 젤리 오브젝트의 이름을 현재 페이지 번호로 설정
-            specialCustomer.id = index; // 젤리의 ID를 현재 페이지로 설정
-            specialCustomer.sprite_renderer.sprite = special_customer_spritelist[index]; // 젤리의 스프라이트 이미지를 현재 페이지에 해당하는 이미지로 설정
+            GameObject obj = Instantiate(prefab_special_customer, spawnPos, Quaternion.identity); // 단골손님 프리팹 생성
+            SpecialCustomer specialCustomer = obj.GetComponent<SpecialCustomer>(); // 생성된 단골손님 오브젝트의 SpecialCustomer 스크립트를 가져옴
+            obj.name = "Special Customer " + index; // 단골손님 오브젝트의 이름을 현재 페이지 번호로 설정
+            specialCustomer.id = index; // 단골손님의 ID를 현재 페이지로 설정
+            specialCustomer.sprite_renderer.sprite = special_customer_spritelist[index]; // 단골손님의 스프라이트 이미지를 설정
 
             // 파티클 시스템 프리팹 생성
             GameObject instantFavEffectObj = Instantiate(favorability_effect_prefab);
@@ -876,35 +970,87 @@ public class GameManager : MonoBehaviour
             // GameManager에서 단골손님의 호감도를 불러옴
             specialCustomer.favorability = GetFavorability(index);
 
-
-            special_customer_list.Add(specialCustomer); // 젤리를 젤리 리스트에 추가
+            // 단골손님을 리스트에 추가
+            specialCustomerList.Add(specialCustomer);
         }
     }
 
-    IEnumerator SpawnSpecialRandomly()
+    // 각 맵별로 단골손님을 스폰하는 코루틴
+    IEnumerator SpawnSpecialOnMap1()
     {
-        while (true) // 무한 반복
+        while (true)
         {
             float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // 랜덤 시간 설정
             yield return new WaitForSeconds(waitTime); // 랜덤 시간만큼 대기
-            spawnSpecial(); // 젤리 스폰
+            int index = Random.Range(0, 5); // 1번 맵에서의 단골손님 생성 (0 ~ 4)
+            Vector3 spawnPos = new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0); // 1번 맵의 랜덤 위치
+            SpawnSpecialOnMap(spawnPos, index, map1specialCustomerList); // 단골손님 생성
         }
     }
+
+    IEnumerator SpawnSpecialOnMap2()
+    {
+        while (true)
+        {
+            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // 랜덤 시간 설정
+            yield return new WaitForSeconds(waitTime); // 랜덤 시간만큼 대기
+            int index = Random.Range(5, 9); // 2번 맵에서의 단골손님 생성 (5 ~ 8)
+            Vector3 spawnPos = new Vector3(Random.Range(15.5f, 24.5f), 1.3f, 0); // 2번 맵의 랜덤 위치
+            SpawnSpecialOnMap(spawnPos, index, map2specialCustomerList); // 단골손님 생성
+        }
+    }
+
+    IEnumerator SpawnSpecialOnMap3()
+    {
+        while (true)
+        {
+            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // 랜덤 시간 설정
+            yield return new WaitForSeconds(waitTime); // 랜덤 시간만큼 대기
+            int index = Random.Range(9, 14); // 3번 맵에서의 단골손님 생성 (9 ~ 13)
+            Vector3 spawnPos = new Vector3(Random.Range(35.5f, 44.5f), 1.3f, 0); // 3번 맵의 랜덤 위치
+            SpawnSpecialOnMap(spawnPos, index, map3specialCustomerList); // 단골손님 생성
+        }
+    }
+
+    IEnumerator SpawnSpecialOnMap4()
+    {
+        while (true)
+        {
+            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // 랜덤 시간 설정
+            yield return new WaitForSeconds(waitTime); // 랜덤 시간만큼 대기
+            int index = Random.Range(14, 19); // 4번 맵에서의 단골손님 생성 (14 ~ 18)
+            Vector3 spawnPos = new Vector3(Random.Range(55.5f, 64.5f), 1.3f, 0); // 4번 맵의 랜덤 위치
+            SpawnSpecialOnMap(spawnPos, index, map4specialCustomerList);
+        }
+    }
+
+    IEnumerator SpawnSpecialOnMap5()
+    {
+        while (true)
+        {
+            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // 랜덤 시간 설정
+            yield return new WaitForSeconds(waitTime); // 랜덤 시간만큼 대기
+            int index = Random.Range(19, 24); // 5번 맵에서의 단골손님 생성 (19 ~ 23)
+            Vector3 spawnPos = new Vector3(Random.Range(75.5f, 84.5f), 1.3f, 0); // 5번 맵의 랜덤 위치
+            SpawnSpecialOnMap(spawnPos, index, map5specialCustomerList); // 단골손님 생성
+        }
+    }
+
 
     // 호감도 업데이트 함수
     public void UpdateFavorability(int index, int favorability)
     {
-       
-         specialCustomerFavorability[index] = favorability;
-      
+
+        specialCustomerFavorability[index] = favorability;
+
     }
 
     // 특정 단골손님의 호감도를 불러오는 함수
     public int GetFavorability(int index)
     {
-        
-         return specialCustomerFavorability[index];
-      
+
+        return specialCustomerFavorability[index];
+
     }
 
     // 클릭 골드 획득 함수

@@ -297,6 +297,7 @@ public class Jelly : MonoBehaviour
             // y좌표가 1.5에 도달하면 오브젝트 삭제
             if (transform.position.y >= 1.5f)
             {
+                RemoveFromJellyList();
                 Destroy(gameObject); // 오브젝트 파괴
             }
         }
@@ -310,5 +311,33 @@ public class Jelly : MonoBehaviour
         isWaiting = true; // 대기 상태로 변경
         yield return new WaitForSeconds(waitTime); // 4~7초 대기
         isWaiting = false; // 대기 종료 후 다시 이동
+    }
+
+    // 젤리의 위치를 기반으로 리스트에서 제거하는 함수
+    void RemoveFromJellyList()
+    {
+        float xPosition = transform.position.x;
+
+        // 젤리가 속한 맵을 xPosition으로 판단
+        if (xPosition >= -4.5f && xPosition <= 4.5f)
+        {
+            game_manager.map1JellyList.Remove(this.GetComponent<Jelly>());
+        }
+        else if (xPosition >= 15.5f && xPosition <= 24.5f)
+        {
+            game_manager.map2JellyList.Remove(this.GetComponent<Jelly>());
+        }
+        else if (xPosition >= 35.5f && xPosition <= 44.5f)
+        {
+            game_manager.map3JellyList.Remove(this.GetComponent<Jelly>());
+        }
+        else if (xPosition >= 55.5f && xPosition <= 64.5f)
+        {
+            game_manager.map4JellyList.Remove(this.GetComponent<Jelly>());
+        }
+        else if (xPosition >= 75.5f && xPosition <= 84.5f)
+        {
+            game_manager.map5JellyList.Remove(this.GetComponent<Jelly>());
+        }
     }
 }

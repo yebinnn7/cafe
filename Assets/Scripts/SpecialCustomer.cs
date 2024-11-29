@@ -312,6 +312,7 @@ public class SpecialCustomer : MonoBehaviour
             // y좌표가 1.5에 도달하면 오브젝트 삭제
             if (transform.position.y >= 1.5f)
             {
+                RemoveFromSpecialCustomerList();
                 Destroy(gameObject); // 오브젝트 파괴
                 Destroy(favorabilityEffectInstance); // 파티클 시스템 파괴
             }
@@ -332,5 +333,32 @@ public class SpecialCustomer : MonoBehaviour
     {
         favorability_effect.transform.position = transform.position;
         favorability_effect.Play();
+    }
+
+    void RemoveFromSpecialCustomerList()
+    {
+        float xPosition = transform.position.x;
+
+        // 젤리가 속한 맵을 xPosition으로 판단
+        if (xPosition >= -4.5f && xPosition <= 4.5f)
+        {
+            game_manager.map1specialCustomerList.Remove(this.GetComponent<SpecialCustomer>());
+        }
+        else if (xPosition >= 15.5f && xPosition <= 24.5f)
+        {
+            game_manager.map2specialCustomerList.Remove(this.GetComponent<SpecialCustomer>());
+        }
+        else if (xPosition >= 35.5f && xPosition <= 44.5f)
+        {
+            game_manager.map3specialCustomerList.Remove(this.GetComponent<SpecialCustomer>());
+        }
+        else if (xPosition >= 55.5f && xPosition <= 64.5f)
+        {
+            game_manager.map4specialCustomerList.Remove(this.GetComponent<SpecialCustomer>());
+        }
+        else if (xPosition >= 75.5f && xPosition <= 84.5f)
+        {
+            game_manager.map5specialCustomerList.Remove(this.GetComponent<SpecialCustomer>());
+        }
     }
 }
