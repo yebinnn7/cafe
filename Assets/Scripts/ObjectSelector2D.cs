@@ -22,6 +22,7 @@ public class ObjectSelector2D : MonoBehaviour
     {
         // 클릭 시 내구도 감소
         ReduceDurability(10f);
+        Debug.Log("Object Broken!");
         // 흔들림 효과 시작
         if (!isShaking)
             StartCoroutine(Shake());
@@ -36,11 +37,11 @@ public class ObjectSelector2D : MonoBehaviour
         // 내구도 바 업데이트
         if (durabilityBar != null)
             durabilityBar.value = durability / 100f;
+        
 
         // 내구도가 0이면 파괴 처리
         if (durability == 0)
         {
-            Debug.Log("Object Broken!");
             Destroy(gameObject, 0.5f); // 0.5초 뒤 오브젝트 파괴
         }
     }
