@@ -955,6 +955,8 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        gold -= special_customer_gold;
+
         // 모든 젤리가 해제되었으면 종료
         if (AllSpecialColleted())
         {
