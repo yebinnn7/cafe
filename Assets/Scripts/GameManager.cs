@@ -207,11 +207,11 @@ public class GameManager : MonoBehaviour
 
         spawnPos = new Vector3[]
         {
-             new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0),
-             new Vector3(Random.Range(15.5f, 24.5f), 1.3f, 0),
-            new Vector3(Random.Range(35.5f, 44.5f), 1.3f, 0),
-            new Vector3(Random.Range(55.5f, 64.5f), 1.3f, 0),
-            new Vector3(Random.Range(75.5f, 84.5f), 1.3f, 0),
+             new Vector3(Random.Range(-1.25f, 1.25f), 1.3f, 0),
+             new Vector3(Random.Range(18.75f, 21.25f), 1.3f, 0),
+            new Vector3(Random.Range(38.75f, 41.25f), 1.3f, 0),
+            new Vector3(Random.Range(58.75f, 61.25f), 1.3f, 0),
+            new Vector3(Random.Range(78.75f, 81.25f), 1.3f, 0),
 
          };
     }
@@ -846,7 +846,7 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
             yield return new WaitForSeconds(waitTime);
 
-            SpawnJellyOnMap(new Vector3(0, 1.3f, 0), 4.5f, map1JellyList); // ¸Ê 1 Áß½É°ú ¹üÀ§
+            SpawnJellyOnMap(new Vector3(0, 1.3f, 0), 1.25f, map1JellyList); // ¸Ê 1 Áß½É°ú ¹üÀ§
         }
     }
 
@@ -858,7 +858,7 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
             yield return new WaitForSeconds(waitTime);
 
-            SpawnJellyOnMap(new Vector3(20, 1.3f, 0), 4.5f, map2JellyList); // ¸Ê 2 Áß½É°ú ¹üÀ§
+            SpawnJellyOnMap(new Vector3(20, 1.3f, 0), 1.25f, map2JellyList); // ¸Ê 2 Áß½É°ú ¹üÀ§
         }
     }
 
@@ -870,7 +870,7 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
             yield return new WaitForSeconds(waitTime);
 
-            SpawnJellyOnMap(new Vector3(40, 1.3f, 0), 4.5f, map3JellyList); // ¸Ê 3 Áß½É°ú ¹üÀ§
+            SpawnJellyOnMap(new Vector3(40, 1.3f, 0), 1.25f, map3JellyList); // ¸Ê 3 Áß½É°ú ¹üÀ§
         }
     }
 
@@ -882,7 +882,7 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
             yield return new WaitForSeconds(waitTime);
 
-            SpawnJellyOnMap(new Vector3(60, 1.3f, 0), 4.5f, map4JellyList); // ¸Ê 4 Áß½É°ú ¹üÀ§
+            SpawnJellyOnMap(new Vector3(60, 1.3f, 0), 1.25f, map4JellyList); // ¸Ê 4 Áß½É°ú ¹üÀ§
         }
     }
 
@@ -894,7 +894,7 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
             yield return new WaitForSeconds(waitTime);
 
-            SpawnJellyOnMap(new Vector3(80, 1.3f, 0), 4.5f, map5JellyList); // ¸Ê 5 Áß½É°ú ¹üÀ§
+            SpawnJellyOnMap(new Vector3(80, 1.3f, 0), 1.25f, map5JellyList); // ¸Ê 5 Áß½É°ú ¹üÀ§
         }
     }
 
@@ -987,7 +987,7 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ·£´ý ½Ã°£ ¼³Á¤
             yield return new WaitForSeconds(waitTime); // ·£´ý ½Ã°£¸¸Å­ ´ë±â
             int index = Random.Range(0, 5); // 1¹ø ¸Ê¿¡¼­ÀÇ ´Ü°ñ¼Õ´Ô »ý¼º (0 ~ 4)
-            Vector3 spawnPos = new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0); // 1¹ø ¸ÊÀÇ ·£´ý À§Ä¡
+            Vector3 spawnPos = new Vector3(Random.Range(-1.25f, 1.25f), 1.3f, 0); // 1¹ø ¸ÊÀÇ ·£´ý À§Ä¡
             SpawnSpecialOnMap(spawnPos, index, map1specialCustomerList); // ´Ü°ñ¼Õ´Ô »ý¼º
         }
     }
@@ -999,7 +999,7 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ·£´ý ½Ã°£ ¼³Á¤
             yield return new WaitForSeconds(waitTime); // ·£´ý ½Ã°£¸¸Å­ ´ë±â
             int index = Random.Range(5, 9); // 2¹ø ¸Ê¿¡¼­ÀÇ ´Ü°ñ¼Õ´Ô »ý¼º (5 ~ 8)
-            Vector3 spawnPos = new Vector3(Random.Range(15.5f, 24.5f), 1.3f, 0); // 2¹ø ¸ÊÀÇ ·£´ý À§Ä¡
+            Vector3 spawnPos = new Vector3(Random.Range(18.75f, 21.25f), 1.3f, 0); // 2¹ø ¸ÊÀÇ ·£´ý À§Ä¡
             SpawnSpecialOnMap(spawnPos, index, map2specialCustomerList); // ´Ü°ñ¼Õ´Ô »ý¼º
         }
     }
@@ -1011,7 +1011,7 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ·£´ý ½Ã°£ ¼³Á¤
             yield return new WaitForSeconds(waitTime); // ·£´ý ½Ã°£¸¸Å­ ´ë±â
             int index = Random.Range(9, 14); // 3¹ø ¸Ê¿¡¼­ÀÇ ´Ü°ñ¼Õ´Ô »ý¼º (9 ~ 13)
-            Vector3 spawnPos = new Vector3(Random.Range(35.5f, 44.5f), 1.3f, 0); // 3¹ø ¸ÊÀÇ ·£´ý À§Ä¡
+            Vector3 spawnPos = new Vector3(Random.Range(38.75f, 41.25f), 1.3f, 0); // 3¹ø ¸ÊÀÇ ·£´ý À§Ä¡
             SpawnSpecialOnMap(spawnPos, index, map3specialCustomerList); // ´Ü°ñ¼Õ´Ô »ý¼º
         }
     }
@@ -1023,7 +1023,7 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ·£´ý ½Ã°£ ¼³Á¤
             yield return new WaitForSeconds(waitTime); // ·£´ý ½Ã°£¸¸Å­ ´ë±â
             int index = Random.Range(14, 19); // 4¹ø ¸Ê¿¡¼­ÀÇ ´Ü°ñ¼Õ´Ô »ý¼º (14 ~ 18)
-            Vector3 spawnPos = new Vector3(Random.Range(55.5f, 64.5f), 1.3f, 0); // 4¹ø ¸ÊÀÇ ·£´ý À§Ä¡
+            Vector3 spawnPos = new Vector3(Random.Range(58.75f, 61.25f), 1.3f, 0); // 4¹ø ¸ÊÀÇ ·£´ý À§Ä¡
             SpawnSpecialOnMap(spawnPos, index, map4specialCustomerList);
         }
     }
@@ -1035,7 +1035,7 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ·£´ý ½Ã°£ ¼³Á¤
             yield return new WaitForSeconds(waitTime); // ·£´ý ½Ã°£¸¸Å­ ´ë±â
             int index = Random.Range(19, 24); // 5¹ø ¸Ê¿¡¼­ÀÇ ´Ü°ñ¼Õ´Ô »ý¼º (19 ~ 23)
-            Vector3 spawnPos = new Vector3(Random.Range(75.5f, 84.5f), 1.3f, 0); // 5¹ø ¸ÊÀÇ ·£´ý À§Ä¡
+            Vector3 spawnPos = new Vector3(Random.Range(78.75f, 81.25f), 1.3f, 0); // 5¹ø ¸ÊÀÇ ·£´ý À§Ä¡
             SpawnSpecialOnMap(spawnPos, index, map5specialCustomerList); // ´Ü°ñ¼Õ´Ô »ý¼º
         }
     }

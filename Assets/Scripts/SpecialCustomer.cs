@@ -251,23 +251,23 @@ public class SpecialCustomer : MonoBehaviour
         float xPosition = transform.position.x;
 
         // 젤리가 속한 맵을 xPosition으로 판단
-        if (xPosition >= -4.5f && xPosition <= 4.5f)
+        if (xPosition >= -1.25f && xPosition <= 1.25f)
         {
             game_manager.map1specialCustomerList.Remove(this.GetComponent<SpecialCustomer>());
         }
-        else if (xPosition >= 15.5f && xPosition <= 24.5f)
+        else if (xPosition >= 18.75f && xPosition <= 21.25f)
         {
             game_manager.map2specialCustomerList.Remove(this.GetComponent<SpecialCustomer>());
         }
-        else if (xPosition >= 35.5f && xPosition <= 44.5f)
+        else if (xPosition >= 38.75f && xPosition <= 41.25f)
         {
             game_manager.map3specialCustomerList.Remove(this.GetComponent<SpecialCustomer>());
         }
-        else if (xPosition >= 55.5f && xPosition <= 64.5f)
+        else if (xPosition >= 58.75f && xPosition <= 61.25f)
         {
             game_manager.map4specialCustomerList.Remove(this.GetComponent<SpecialCustomer>());
         }
-        else if (xPosition >= 75.5f && xPosition <= 84.5f)
+        else if (xPosition >= 78.75f && xPosition <= 81.25f)
         {
             game_manager.map5specialCustomerList.Remove(this.GetComponent<SpecialCustomer>());
         }
@@ -278,30 +278,30 @@ public class SpecialCustomer : MonoBehaviour
         float xPosition = transform.position.x;  // 현재 오브젝트의 X 좌표
 
         // 트레쉬가 특정 범위에 있을 경우 호감도 감소
-        if (xPosition >= -4.5f && xPosition <= 4.5f)
+        if (xPosition >= -1.25f && xPosition <= 1.25f)
         {
             // 해당 범위에 trash 오브젝트가 있는지 확인
-            CheckTrashInMap(-4.5f, 4.5f);
+            CheckTrashInMap(-1.25f, 1.25f);
             game_manager.map1specialCustomerList.Remove(this);
         }
-        else if (xPosition >= 15.5f && xPosition <= 24.5f)
+        else if (xPosition >= 18.75f && xPosition <= 21.25f)
         {
-            CheckTrashInMap(15.5f, 24.5f);
+            CheckTrashInMap(18.75f, 21.25f);
             game_manager.map2specialCustomerList.Remove(this);
         }
-        else if (xPosition >= 35.5f && xPosition <= 44.5f)
+        else if (xPosition >= 38.75f && xPosition <= 41.25f)
         {
-            CheckTrashInMap(35.5f, 44.5f);
+            CheckTrashInMap(38.75f, 41.25f);
             game_manager.map3specialCustomerList.Remove(this);
         }
-        else if (xPosition >= 55.5f && xPosition <= 64.5f)
+        else if (xPosition >= 58.75f && xPosition <= 61.25f)
         {
-            CheckTrashInMap(55.5f, 64.5f);
+            CheckTrashInMap(58.75f, 61.25f);
             game_manager.map4specialCustomerList.Remove(this);
         }
-        else if (xPosition >= 75.5f && xPosition <= 84.5f)
+        else if (xPosition >= 78.75f && xPosition <= 81.25f)
         {
-            CheckTrashInMap(75.5f, 84.5f);
+            CheckTrashInMap(78.75f, 81.25f);
             game_manager.map5specialCustomerList.Remove(this);
         }
 

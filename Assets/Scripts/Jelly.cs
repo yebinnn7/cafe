@@ -93,6 +93,7 @@ public class Jelly : MonoBehaviour
     // 매 프레임마다 호출되는 함수로, 주로 상태 업데이트를 담당
     void Update()
     {
+
         // 젤리의 경험치가 최대 경험치보다 적을 때, 시간이 지남에 따라 경험치를 증가시킴
         if (exp < max_exp)
             exp += Time.deltaTime;
@@ -113,7 +114,7 @@ public class Jelly : MonoBehaviour
         {
             MoveObject(); // 오브젝트 이동을 별도 함수로 처리
         }
-
+        
     }
 
 
@@ -163,6 +164,7 @@ public class Jelly : MonoBehaviour
         SoundManager.instance.PlaySound("Touch");
     }
 
+    
     // 마우스 드래그 시 젤리를 끌어당기는 동작 처리
     void OnMouseDrag()
     {
@@ -185,6 +187,8 @@ public class Jelly : MonoBehaviour
 
         transform.position = point;
     }
+
+    /*
 
     // 마우스를 떼었을 때 호출되는 함수
     void OnMouseUp()
@@ -211,6 +215,7 @@ public class Jelly : MonoBehaviour
             transform.position = new Vector3(0, -1, 0); // 초기 위치로 되돌림
     }
 
+    */
     /*
     // 젤리의 이동 처리 함수
     void Move()
@@ -283,7 +288,7 @@ public class Jelly : MonoBehaviour
             transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
 
             // y좌표가 -1.5에 도달하면 5초 대기
-            if (transform.position.y <= -1.5f)
+            if (transform.position.y <= -1.3f)
             {
                 movingDown = false; // 이동 방향을 위로 바꿈
                 StartCoroutine(WaitAtPosition()); // 5초 대기 시작
@@ -319,23 +324,23 @@ public class Jelly : MonoBehaviour
         float xPosition = transform.position.x;
 
         // 젤리가 속한 맵을 xPosition으로 판단
-        if (xPosition >= -4.5f && xPosition <= 4.5f)
+        if (xPosition >= -1.25f && xPosition <= 1.25f)
         {
             game_manager.map1JellyList.Remove(this.GetComponent<Jelly>());
         }
-        else if (xPosition >= 15.5f && xPosition <= 24.5f)
+        else if (xPosition >= 18.75f && xPosition <= 21.25f)
         {
             game_manager.map2JellyList.Remove(this.GetComponent<Jelly>());
         }
-        else if (xPosition >= 35.5f && xPosition <= 44.5f)
+        else if (xPosition >= 38.75f && xPosition <= 41.25f)
         {
             game_manager.map3JellyList.Remove(this.GetComponent<Jelly>());
         }
-        else if (xPosition >= 55.5f && xPosition <= 64.5f)
+        else if (xPosition >= 58.75f && xPosition <= 61.25f)
         {
             game_manager.map4JellyList.Remove(this.GetComponent<Jelly>());
         }
-        else if (xPosition >= 75.5f && xPosition <= 84.5f)
+        else if (xPosition >= 78.75f && xPosition <= 81.25f)
         {
             game_manager.map5JellyList.Remove(this.GetComponent<Jelly>());
         }
