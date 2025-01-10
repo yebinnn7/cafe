@@ -4,8 +4,8 @@ using UnityEngine;
 public class ObjectSpawner : MonoBehaviour
 {
     public GameObject objectToSpawn; // 소환할 프리팹
-    public Vector2 spawnRangeX = new Vector2(-5f, 5f); // X축 범위
-    public Vector2 spawnRangeY = new Vector2(-5f, 5f); // Y축 범위
+    public Vector2 spawnRangeX = new Vector2(-1.25f, 1.25f); // X축 범위
+    public Vector2 spawnRangeY = new Vector2(-1f, 1.4f); // Y축 범위
     public float objectLifetime = 5f; // 물체가 사라지는 시간
     public float spawnInterval = 5f; // 물체 생성 간격 (초)
 

@@ -158,6 +158,15 @@ public class GameManager : MonoBehaviour
     // Map별로 스폰 위치 배열 정의
     Vector3[] spawnPos;
 
+    // 기계 구매
+    public int machine_level;
+    public Text machine_sub_text;
+    public Text machine_btn_text;
+    public Button machine_btn;
+    public int[] machine_goldlist;
+
+    // 기계 이미지
+    public GameObject[] machine_list;
 
     // Map별 손님 리스트
     public List<Jelly> map1JellyList = new List<Jelly>();
@@ -176,6 +185,8 @@ public class GameManager : MonoBehaviour
     public List<SpecialCustomer> map5specialCustomerList = new List<SpecialCustomer>(); // 5번 맵
 
     
+
+
 
     void Awake()
     {
@@ -780,6 +791,39 @@ public class GameManager : MonoBehaviour
         else click_btn_text.text = string.Format("{0:n0}", click_goldlist[click_level]);
 
         SoundManager.instance.PlaySound("Unlock");
+        // SoundManager.instance.PlaySound("Buy");
+    }
+
+    public void BuyMachine()
+    {
+        if (gold < machine_goldlist[machine_level])
+        {
+            SoundManager.instance.PlaySound("Fail");
+            return;
+        }
+
+        machine_list[machine_level].SetActive(true);
+
+        gold -= machine_goldlist[machine_level++];
+
+        machine_sub_text.text = "보유 기계: " + machine_level + "개";
+
+        
+
+        if (machine_level >= 5)
+        {
+            machine_btn_text.text = "최대 보유";
+            machine_btn.interactable = false; // 버튼 비활성화
+        }
+        else
+        {
+            machine_btn_text.text = string.Format("{0:n0}", machine_goldlist[machine_level]);
+        }
+
+        SoundManager.instance.PlaySound("Unlock");
+
+
+
         // SoundManager.instance.PlaySound("Buy");
     }
 
