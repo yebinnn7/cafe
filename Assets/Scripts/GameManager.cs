@@ -159,14 +159,25 @@ public class GameManager : MonoBehaviour
     Vector3[] spawnPos;
 
     // 기계 구매
-    public int machine_level;
-    public Text machine_sub_text;
-    public Text machine_btn_text;
-    public Button machine_btn;
-    public int[] machine_goldlist;
+    public int[] machine_level;
+    public Text[] machine_sub_text;
+    public Text[] machine_btn_text;
+    public Button[] machine_btn;
 
-    // 기계 이미지
-    public GameObject[] machine_list;
+
+    // 각 기계의 레벨별 금액
+    public int[] machine_goldlist1 = new int[5];  // 기계 1의 금액 (레벨 1~5)
+    public int[] machine_goldlist2 = new int[5];  // 기계 2의 금액 (레벨 1~5)
+    public int[] machine_goldlist3 = new int[5];  // 기계 3의 금액 (레벨 1~5)
+    public int[] machine_goldlist4 = new int[5];  // 기계 4의 금액 (레벨 1~5)
+    public int[] machine_goldlist5 = new int[5];  // 기계 5의 금액 (레벨 1~5)
+
+    // 각 기계의 이미지 (1~5)
+    public GameObject[] machine_list1 = new GameObject[5];  // 기계 1의 이미지 (레벨 1~5)
+    public GameObject[] machine_list2 = new GameObject[5];  // 기계 2의 이미지 (레벨 1~5)
+    public GameObject[] machine_list3 = new GameObject[5];  // 기계 3의 이미지 (레벨 1~5)
+    public GameObject[] machine_list4 = new GameObject[5];  // 기계 4의 이미지 (레벨 1~5)
+    public GameObject[] machine_list5 = new GameObject[5];  // 기계 5의 이미지 (레벨 1~5)
 
     // Map별 손님 리스트
     public List<Jelly> map1JellyList = new List<Jelly>();
@@ -246,6 +257,13 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SpawnSpecialOnMap3()); // 3번 맵
         StartCoroutine(SpawnSpecialOnMap4()); // 4번 맵
         StartCoroutine(SpawnSpecialOnMap5()); // 5번 맵
+
+        for (int i = 0; i < machine_btn.Length; i++)
+        {
+            // 각 버튼에 해당하는 인덱스를 전달하여 함수 연결
+            int index = i;
+            machine_btn[i].onClick.AddListener(() => BuyMachine(index));
+        }
     }
 
     void Update()
@@ -794,38 +812,95 @@ public class GameManager : MonoBehaviour
         // SoundManager.instance.PlaySound("Buy");
     }
 
-    public void BuyMachine()
+    public void BuyMachine(int machineIndex)
     {
-        if (gold < machine_goldlist[machine_level])
+        // 기계 금액을 기계의 레벨에 맞게 가져옴
+        int currentMachineGold = 0;
+        GameObject[] currentMachineList = null;
+
+        // 각 기계에 대해 레벨에 맞는 금액과 이미지를 가져옴
+        switch (machineIndex)
+        {
+            case 0:
+                currentMachineGold = machine_goldlist1[machine_level[machineIndex]];
+                currentMachineList = machine_list1;
+                break;
+            case 1:
+                currentMachineGold = machine_goldlist2[machine_level[machineIndex]];
+                currentMachineList = machine_list2;
+                break;
+            case 2:
+                currentMachineGold = machine_goldlist3[machine_level[machineIndex]];
+                currentMachineList = machine_list3;
+                break;
+            case 3:
+                currentMachineGold = machine_goldlist4[machine_level[machineIndex]];
+                currentMachineList = machine_list4;
+                break;
+            case 4:
+                currentMachineGold = machine_goldlist5[machine_level[machineIndex]];
+                currentMachineList = machine_list5;
+                break;
+        }
+
+        // 금액 비교
+        if (gold < currentMachineGold)
         {
             SoundManager.instance.PlaySound("Fail");
             return;
         }
 
-        machine_list[machine_level].SetActive(true);
+        // 기계 활성화
+        currentMachineList[machine_level[machineIndex]].SetActive(true);
 
-        gold -= machine_goldlist[machine_level++];
+        // 금액 차감
+        gold -= currentMachineGold;
 
-        machine_sub_text.text = "보유 기계: " + machine_level + "개";
+        // 기계 레벨 업
+        machine_level[machineIndex]++;
 
+        // 보유 기계 수 업데이트
+        machine_sub_text[machineIndex].text = "보유 기계: " + machine_level[machineIndex] + "개";
         
 
-        if (machine_level >= 5)
+
+        // 기계 구매 후 버튼 상태 업데이트
+        if (machine_level[machineIndex] >= 5)
         {
-            machine_btn_text.text = "최대 보유";
-            machine_btn.interactable = false; // 버튼 비활성화
+            machine_btn_text[machineIndex].text = "최대 보유";
+            machine_btn[machineIndex].interactable = false;  // 버튼 비활성화
         }
         else
         {
-            machine_btn_text.text = string.Format("{0:n0}", machine_goldlist[machine_level]);
+            // 다음 레벨 금액을 버튼에 표시
+            switch (machineIndex)
+            {
+                case 0:
+                    currentMachineGold = machine_goldlist1[machine_level[machineIndex]];
+                    break;
+                case 1:
+                    currentMachineGold = machine_goldlist2[machine_level[machineIndex]];
+                    break;
+                case 2:
+                    currentMachineGold = machine_goldlist3[machine_level[machineIndex]];
+                    break;
+                case 3:
+                    currentMachineGold = machine_goldlist4[machine_level[machineIndex]];
+                    break;
+                case 4:
+                    currentMachineGold = machine_goldlist5[machine_level[machineIndex]];
+                    break;
+            }
+
+            machine_btn_text[machineIndex].text = string.Format("{0:n0}", currentMachineGold);
         }
 
+        // 소리 재생
         SoundManager.instance.PlaySound("Unlock");
-
-
-
-        // SoundManager.instance.PlaySound("Buy");
     }
+
+
+    
 
     /*
     IEnumerator SpawnJellyRandomly()
