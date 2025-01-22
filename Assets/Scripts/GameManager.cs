@@ -160,9 +160,13 @@ public class GameManager : MonoBehaviour
 
     // 기계 구매
     public int[] machine_level;
-    public Text[] machine_sub_text;
-    public Text[] machine_btn_text;
-    public Button[] machine_btn;
+    public Text machine_sub_text;
+    public Text machine_btn_text;
+    public Button machine_btn;
+    public Text map_text;
+
+
+    int machinePage;
 
 
     // 각 기계의 레벨별 금액
@@ -258,12 +262,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SpawnSpecialOnMap4()); // 4번 맵
         StartCoroutine(SpawnSpecialOnMap5()); // 5번 맵
 
-        for (int i = 0; i < machine_btn.Length; i++)
-        {
-            // 각 버튼에 해당하는 인덱스를 전달하여 함수 연결
-            int index = i;
-            machine_btn[i].onClick.AddListener(() => BuyMachine(index));
-        }
+        
     }
 
     void Update()
@@ -624,6 +623,8 @@ public class GameManager : MonoBehaviour
         SoundManager.instance.PlaySound("Button");
     }
 
+    
+
     // 페이지를 이전으로 이동
     public void PageDown()
     {
@@ -812,36 +813,159 @@ public class GameManager : MonoBehaviour
         // SoundManager.instance.PlaySound("Buy");
     }
 
-    public void BuyMachine(int machineIndex)
+    public void MachinePageUp()
+    {
+        UnityEngine.Debug.Log("페이지 up");
+
+        if (machinePage >= 4) // 최대 페이지를 넘지 않도록 제한
+        {
+            SoundManager.instance.PlaySound("Fail");
+            return;
+        }
+
+        ++machinePage;
+        ChangeMachinePage(); // 페이지 변경
+        SoundManager.instance.PlaySound("Button");
+
+    }
+
+    public void MachinePageDown()
+    {
+        if (machinePage <= 0) // 최소 페이지를 넘지 않도록 제한
+        {
+            SoundManager.instance.PlaySound("Fail");
+            return;
+        }
+
+        --machinePage;
+        ChangeMachinePage(); // 페이지 변경
+        SoundManager.instance.PlaySound("Button");
+    }
+
+    public void ChangeMachinePage()
+    {
+        MachineUIUpdate();
+        
+    }
+
+    public void MachineUIUpdate()
+    {
+        int mapIndex = machinePage; // 현재 페이지를 맵 인덱스로 사용
+        int currentMachineGold = 0;
+
+        try
+        {
+            // mapIndex에 해당하는 기계 가격 가져오기
+            switch (mapIndex)
+            {
+                case 0:
+                    if (machine_level[mapIndex] < machine_goldlist1.Length)
+                    {
+                        currentMachineGold = machine_goldlist1[machine_level[mapIndex]];
+                    }
+                    else
+                    {
+                        UnityEngine.Debug.LogError("machine_goldlist1 인덱스 초과: " + machine_level[mapIndex]);
+                    }
+                    break;
+                case 1:
+                    if (machine_level[mapIndex] < machine_goldlist2.Length)
+                    {
+                        currentMachineGold = machine_goldlist2[machine_level[mapIndex]];
+                    }
+                    else
+                    {
+                        UnityEngine.Debug.LogError("machine_goldlist2 인덱스 초과: " + machine_level[mapIndex]);
+                    }
+                    break;
+                case 2:
+                    if (machine_level[mapIndex] < machine_goldlist3.Length)
+                    {
+                        currentMachineGold = machine_goldlist3[machine_level[mapIndex]];
+                    }
+                    else
+                    {
+                        UnityEngine.Debug.LogError("machine_goldlist3 인덱스 초과: " + machine_level[mapIndex]);
+                    }
+                    break;
+                case 3:
+                    if (machine_level[mapIndex] < machine_goldlist4.Length)
+                    {
+                        currentMachineGold = machine_goldlist4[machine_level[mapIndex]];
+                    }
+                    else
+                    {
+                        UnityEngine.Debug.LogError("machine_goldlist4 인덱스 초과: " + machine_level[mapIndex]);
+                    }
+                    break;
+                case 4:
+                    if (machine_level[mapIndex] < machine_goldlist5.Length)
+                    {
+                        currentMachineGold = machine_goldlist5[machine_level[mapIndex]];
+                    }
+                    else
+                    {
+                        UnityEngine.Debug.LogError("machine_goldlist5 인덱스 초과: " + machine_level[mapIndex]);
+                    }
+                    break;
+                default:
+                    UnityEngine.Debug.LogError("알 수 없는 mapIndex: " + mapIndex);
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            UnityEngine.Debug.LogError("MachineUIUpdate 오류: " + ex.Message);
+        }
+
+        // 기계 정보 업데이트
+        machine_sub_text.text = "보유 기계: " + machine_level[mapIndex] + "개";
+        if (machine_level[mapIndex] >= 5)
+        {
+            machine_btn_text.text = "최대 보유";
+            machine_btn.interactable = false;
+        }
+        else
+        {
+            machine_btn_text.text = string.Format("{0:n0}", currentMachineGold);
+            machine_btn.interactable = true;
+        }
+
+        // 맵 인덱스를 UI에 반영
+        map_text.text = "지점: " + (mapIndex + 1);
+    }
+
+    public void BuyMachine()
     {
         // 기계 금액을 기계의 레벨에 맞게 가져옴
         int currentMachineGold = 0;
         GameObject[] currentMachineList = null;
 
         // 각 기계에 대해 레벨에 맞는 금액과 이미지를 가져옴
-        switch (machineIndex)
+        switch (machinePage)
         {
             case 0:
-                currentMachineGold = machine_goldlist1[machine_level[machineIndex]];
+                currentMachineGold = machine_goldlist1[machine_level[machinePage]];
                 currentMachineList = machine_list1;
                 break;
             case 1:
-                currentMachineGold = machine_goldlist2[machine_level[machineIndex]];
+                currentMachineGold = machine_goldlist2[machine_level[machinePage]];
                 currentMachineList = machine_list2;
                 break;
             case 2:
-                currentMachineGold = machine_goldlist3[machine_level[machineIndex]];
+                currentMachineGold = machine_goldlist3[machine_level[machinePage]];
                 currentMachineList = machine_list3;
                 break;
             case 3:
-                currentMachineGold = machine_goldlist4[machine_level[machineIndex]];
+                currentMachineGold = machine_goldlist4[machine_level[machinePage]];
                 currentMachineList = machine_list4;
                 break;
             case 4:
-                currentMachineGold = machine_goldlist5[machine_level[machineIndex]];
+                currentMachineGold = machine_goldlist5[machine_level[machinePage]];
                 currentMachineList = machine_list5;
                 break;
         }
+
 
         // 금액 비교
         if (gold < currentMachineGold)
@@ -851,56 +975,22 @@ public class GameManager : MonoBehaviour
         }
 
         // 기계 활성화
-        currentMachineList[machine_level[machineIndex]].SetActive(true);
+        currentMachineList[machine_level[machinePage]].SetActive(true);
 
         // 금액 차감
         gold -= currentMachineGold;
 
         // 기계 레벨 업
-        machine_level[machineIndex]++;
+        machine_level[machinePage]++;
 
-        // 보유 기계 수 업데이트
-        machine_sub_text[machineIndex].text = "보유 기계: " + machine_level[machineIndex] + "개";
-        
-
-
-        // 기계 구매 후 버튼 상태 업데이트
-        if (machine_level[machineIndex] >= 5)
-        {
-            machine_btn_text[machineIndex].text = "최대 보유";
-            machine_btn[machineIndex].interactable = false;  // 버튼 비활성화
-        }
-        else
-        {
-            // 다음 레벨 금액을 버튼에 표시
-            switch (machineIndex)
-            {
-                case 0:
-                    currentMachineGold = machine_goldlist1[machine_level[machineIndex]];
-                    break;
-                case 1:
-                    currentMachineGold = machine_goldlist2[machine_level[machineIndex]];
-                    break;
-                case 2:
-                    currentMachineGold = machine_goldlist3[machine_level[machineIndex]];
-                    break;
-                case 3:
-                    currentMachineGold = machine_goldlist4[machine_level[machineIndex]];
-                    break;
-                case 4:
-                    currentMachineGold = machine_goldlist5[machine_level[machineIndex]];
-                    break;
-            }
-
-            machine_btn_text[machineIndex].text = string.Format("{0:n0}", currentMachineGold);
-        }
+        MachineUIUpdate();
 
         // 소리 재생
         SoundManager.instance.PlaySound("Unlock");
     }
 
 
-    
+
 
     /*
     IEnumerator SpawnJellyRandomly()
@@ -1183,4 +1273,6 @@ public class GameManager : MonoBehaviour
     {
         gold += goldReward;
     }
+
+   
 }
