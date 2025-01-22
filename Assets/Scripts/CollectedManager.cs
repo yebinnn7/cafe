@@ -13,12 +13,13 @@ public class CollectedManager : MonoBehaviour
     public Sprite[] customer_spritelist;
     public string[] customer_namelist;
     public int[] customer_favorability;
+    public string[] collected_name;
+    public Sprite[] collected_sprites;
 
     public Image lockGroupImage0;
     public Image lockGroupImage1;
     public Image lockGroupImage2;
-    public Image lockGroupImage3;
-    public Image lockGroupImage4;
+    
 
     public Text pageText;
     int page;
@@ -26,20 +27,17 @@ public class CollectedManager : MonoBehaviour
     public Image SpecialSprite0;
     public Image SpecialSprite1;
     public Image SpecialSprite2;
-    public Image SpecialSprite3;
-    public Image SpecialSprite4;
+    
 
     public Text SpecialName0;
     public Text SpecialName1;
     public Text SpecialName2;
-    public Text SpecialName3;
-    public Text SpecialName4;
+    
 
     public Button SpecialButton0;
     public Button SpecialButton1;
     public Button SpecialButton2;
-    public Button SpecialButton3;
-    public Button SpecialButton4;
+    
 
     public Image InformationImage;
     public Text InformationText;
@@ -59,6 +57,8 @@ public class CollectedManager : MonoBehaviour
         customer_spritelist = game_manager.special_customer_spritelist;
         customer_namelist = game_manager.special_customer_namelist;
         customer_favorability = game_manager.specialCustomerFavorability;
+        collected_name = game_manager.collected_name;
+        collected_sprites = game_manager.collected_sprites;
 
         // 첫 페이지로 초기화
         page = 0;
@@ -72,6 +72,7 @@ public class CollectedManager : MonoBehaviour
         
     }
 
+    /*
     public void UpdateLockGroupImages()
     {
         // 각 페이지에 맞는 인덱스를 기반으로 잠금 상태를 업데이트
@@ -98,6 +99,32 @@ public class CollectedManager : MonoBehaviour
                     case 4:
                         lockGroupImage4.gameObject.SetActive(!collected_list[index]);
                         break;
+                }
+            }
+        }
+    }*/
+
+    public void UpdateLockGroupImages()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            int index = page * 3 + i;
+
+            if (index < collected_name.Length) // collected_name 배열 범위 내인지 확인
+            {
+                bool isUnlocked = !string.IsNullOrEmpty(collected_name[index]); // 이름이 있는지 확인
+                switch (i)
+                {
+                    case 0:
+                        lockGroupImage0.gameObject.SetActive(!isUnlocked);
+                        break;
+                    case 1:
+                        lockGroupImage1.gameObject.SetActive(!isUnlocked);
+                        break;
+                    case 2:
+                        lockGroupImage2.gameObject.SetActive(!isUnlocked);
+                        break;
+                    
                 }
             }
         }
@@ -140,45 +167,36 @@ public class CollectedManager : MonoBehaviour
         SoundManager.instance.PlaySound("Button");
     }
 
+
     public void ChangePage()
     {
-        int startIndex = page * 5; // 각 페이지에 대해 시작 인덱스 계산
-        pageText.text = string.Format("#{0:00}", (page + 1)); // 페이지 번호 표시
+        int startIndex = page * 3;
+        pageText.text = string.Format("#{0:00}", (page + 1));
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 3; i++)
         {
-            if (startIndex + i < customer_spritelist.Length) // 인덱스 범위 확인
+            if (startIndex + i < collected_name.Length)
             {
-                // SpecialSprite 배열 생성
-                Image[] specialSprites = { SpecialSprite0, SpecialSprite1, SpecialSprite2, SpecialSprite3, SpecialSprite4 };
-                specialSprites[i].sprite = customer_spritelist[startIndex + i];
+                Image[] specialSprites = { SpecialSprite0, SpecialSprite1, SpecialSprite2 };
+                Text[] specialNames = { SpecialName0, SpecialName1, SpecialName2 };
+
+                // 이름과 스프라이트 업데이트
+                specialSprites[i].sprite = collected_sprites[startIndex + i];
+                specialNames[i].text = collected_name[startIndex + i];
             }
         }
 
-
-        for (int i = 0; i < 5; i++)
-        {
-            if (startIndex + i < customer_namelist.Length) // 인덱스 범위 확인
-            {
-                Text[] specialNames = { SpecialName0, SpecialName1, SpecialName2, SpecialName3, SpecialName4 };
-                specialNames[i].text = customer_namelist[startIndex + i].ToString(); // text 속성에 할당
-            }
-        }
-
-
-
-        // 페이지가 변경될 때 잠금 상태 업데이트
-        UpdateLockGroupImages(); // UI 갱신 호출
+        UpdateLockGroupImages();
     }
 
     public void ClickSpecialBitton0()
     {
         information_anim.SetTrigger("doShow");
 
-        int index = page * 5;
+        int index = page * 3;
 
-        InformationImage.sprite = customer_spritelist[index];
-        InformationText.text = customer_namelist[index];
+        InformationImage.sprite = collected_sprites[index];
+        InformationText.text = collected_name[index];
         InformationFavorability.text = "호감도 " + customer_favorability[index];
 
         game_manager.isInformationClick = true;
@@ -191,10 +209,10 @@ public class CollectedManager : MonoBehaviour
     {
         information_anim.SetTrigger("doShow");
 
-        int index = page * 5 + 1;
+        int index = page * 3 + 1;
 
-        InformationImage.sprite = customer_spritelist[index];
-        InformationText.text = customer_namelist[index];
+        InformationImage.sprite = collected_sprites[index];
+        InformationText.text = collected_name[index];
         InformationFavorability.text = "호감도 " + customer_favorability[index];
 
         game_manager.isInformationClick = true;
@@ -204,40 +222,15 @@ public class CollectedManager : MonoBehaviour
     {
         information_anim.SetTrigger("doShow");
 
-        int index = page * 5 + 2;
+        int index = page * 3 + 2;
 
-        InformationImage.sprite = customer_spritelist[index];
-        InformationText.text = customer_namelist[index];
+        InformationImage.sprite = collected_sprites[index];
+        InformationText.text = collected_name[index];
         InformationFavorability.text = "호감도 " + customer_favorability[index];
 
         game_manager.isInformationClick = true;
     }
 
-    public void ClickSpecialBitton3()
-    {
-        information_anim.SetTrigger("doShow");
-
-        int index = page * 5 + 3;
-
-        InformationImage.sprite = customer_spritelist[index];
-        InformationText.text = customer_namelist[index];
-        InformationFavorability.text = "호감도 " + customer_favorability[index];
-
-        game_manager.isInformationClick = true;
-    }
-
-    public void ClickSpecialBitton4()
-    {
-        information_anim.SetTrigger("doShow");
-
-        int index = page * 5 + 4;
-
-        InformationImage.sprite = customer_spritelist[index];
-        InformationText.text = customer_namelist[index];
-        InformationFavorability.text = "호감도 " + customer_favorability[index];
-
-        game_manager.isInformationClick = true;
-    }
 
     public void ExitButton()
     {

@@ -144,6 +144,8 @@ public class GameManager : MonoBehaviour
     public Sprite[] special_customer_spritelist; // 젤리의 스프라이트 리스트
     public string[] special_customer_namelist; // 젤리 이름 리스트
     public bool[] collected_list;
+    public string[] collected_name;
+    public Sprite[] collected_sprites;
 
     // 단골손님 스폰시간
     public float minSpecialSpawnTime = 5f;
@@ -199,6 +201,8 @@ public class GameManager : MonoBehaviour
     public List<Jelly> map5JellyList = new List<Jelly>();
     public List<SpecialCustomer> map5specialCustomerList = new List<SpecialCustomer>(); // 5번 맵
 
+
+    int specialNum = 0;
     
 
 
@@ -1088,7 +1092,14 @@ public class GameManager : MonoBehaviour
         do
         {
             index = Random.Range(0, collected_list.Length); // 0부터 5까지 랜덤 인덱스 선택
+            
+            
         } while (collected_list[index]); // 이미 해제된 젤리 인덱스는 선택하지 않음
+
+
+        collected_name[specialNum] = special_customer_namelist[index];
+        collected_sprites[specialNum] = special_customer_spritelist[index];
+        specialNum++;
 
         collected_list[index] = true; // 젤리 잠금 해제 상태로 변경
         collectedManager.UpdateCollectedList(index, true); // index 1의 collected_list를 true로 변경
@@ -1118,14 +1129,15 @@ public class GameManager : MonoBehaviour
     // 특정 Map에 단골손님 생성
     void SpawnSpecialOnMap(Vector3 spawnPos, int index, List<SpecialCustomer> specialCustomerList)
     {
-        if (collected_list[index]) // index가 collected_list에서 true일 때만 스폰
+        // 조건: 이름과 스프라이트가 유효한 경우에만 생성
+        if (!string.IsNullOrEmpty(collected_name[index]) && collected_sprites[index] != null)
         {
             // 단골손님 오브젝트 생성
             GameObject obj = Instantiate(prefab_special_customer, spawnPos, Quaternion.identity); // 단골손님 프리팹 생성
             SpecialCustomer specialCustomer = obj.GetComponent<SpecialCustomer>(); // 생성된 단골손님 오브젝트의 SpecialCustomer 스크립트를 가져옴
             obj.name = "Special Customer " + index; // 단골손님 오브젝트의 이름을 현재 페이지 번호로 설정
             specialCustomer.id = index;
-            specialCustomer.sprite_renderer.sprite = special_customer_spritelist[index]; // 단골손님의 스프라이트 이미지를 설정
+            specialCustomer.sprite_renderer.sprite = collected_sprites[index]; // 단골손님의 스프라이트 이미지를 설정
 
             // 파티클 시스템 프리팹 생성
             GameObject instantFavEffectObj = Instantiate(favorability_effect_prefab);
@@ -1152,7 +1164,7 @@ public class GameManager : MonoBehaviour
         {
             float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // 랜덤 시간 설정
             yield return new WaitForSeconds(waitTime); // 랜덤 시간만큼 대기
-            int index = Random.Range(0, 5); // 1번 맵에서의 단골손님 생성 (0 ~ 4)
+            int index = Random.Range(0, 3); // 1번 맵에서의 단골손님 생성 (0 ~ 4)
             Vector3 spawnPos = new Vector3(Random.Range(-1.25f, 1.25f), 1.3f, 0); // 1번 맵의 랜덤 위치
             SpawnSpecialOnMap(spawnPos, index, map1specialCustomerList); // 단골손님 생성
         }
@@ -1164,7 +1176,7 @@ public class GameManager : MonoBehaviour
         {
             float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // 랜덤 시간 설정
             yield return new WaitForSeconds(waitTime); // 랜덤 시간만큼 대기
-            int index = Random.Range(5, 9); // 2번 맵에서의 단골손님 생성 (5 ~ 8)
+            int index = Random.Range(3, 6); // 2번 맵에서의 단골손님 생성 (5 ~ 8)
             Vector3 spawnPos = new Vector3(Random.Range(18.75f, 21.25f), 1.3f, 0); // 2번 맵의 랜덤 위치
             SpawnSpecialOnMap(spawnPos, index, map2specialCustomerList); // 단골손님 생성
         }
@@ -1176,7 +1188,7 @@ public class GameManager : MonoBehaviour
         {
             float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // 랜덤 시간 설정
             yield return new WaitForSeconds(waitTime); // 랜덤 시간만큼 대기
-            int index = Random.Range(9, 14); // 3번 맵에서의 단골손님 생성 (9 ~ 13)
+            int index = Random.Range(6, 9); // 3번 맵에서의 단골손님 생성 (9 ~ 13)
             Vector3 spawnPos = new Vector3(Random.Range(38.75f, 41.25f), 1.3f, 0); // 3번 맵의 랜덤 위치
             SpawnSpecialOnMap(spawnPos, index, map3specialCustomerList); // 단골손님 생성
         }
@@ -1188,7 +1200,7 @@ public class GameManager : MonoBehaviour
         {
             float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // 랜덤 시간 설정
             yield return new WaitForSeconds(waitTime); // 랜덤 시간만큼 대기
-            int index = Random.Range(14, 19); // 4번 맵에서의 단골손님 생성 (14 ~ 18)
+            int index = Random.Range(9, 12); // 4번 맵에서의 단골손님 생성 (14 ~ 18)
             Vector3 spawnPos = new Vector3(Random.Range(58.75f, 61.25f), 1.3f, 0); // 4번 맵의 랜덤 위치
             SpawnSpecialOnMap(spawnPos, index, map4specialCustomerList);
         }
@@ -1200,7 +1212,7 @@ public class GameManager : MonoBehaviour
         {
             float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // 랜덤 시간 설정
             yield return new WaitForSeconds(waitTime); // 랜덤 시간만큼 대기
-            int index = Random.Range(19, 24); // 5번 맵에서의 단골손님 생성 (19 ~ 23)
+            int index = Random.Range(12, 15); // 5번 맵에서의 단골손님 생성 (19 ~ 23)
             Vector3 spawnPos = new Vector3(Random.Range(78.75f, 81.25f), 1.3f, 0); // 5번 맵의 랜덤 위치
             SpawnSpecialOnMap(spawnPos, index, map5specialCustomerList); // 단골손님 생성
         }
