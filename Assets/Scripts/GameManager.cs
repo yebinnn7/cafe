@@ -853,69 +853,24 @@ public class GameManager : MonoBehaviour
         int mapIndex = machinePage; // 현재 페이지를 맵 인덱스로 사용
         int currentMachineGold = 0;
 
-        try
+        // mapIndex에 해당하는 기계 가격 가져오기
+        switch (mapIndex)
         {
-            // mapIndex에 해당하는 기계 가격 가져오기
-            switch (mapIndex)
-            {
-                case 0:
-                    if (machine_level[mapIndex] < machine_goldlist1.Length)
-                    {
-                        currentMachineGold = machine_goldlist1[machine_level[mapIndex]];
-                    }
-                    else
-                    {
-                        UnityEngine.Debug.LogError("machine_goldlist1 인덱스 초과: " + machine_level[mapIndex]);
-                    }
-                    break;
-                case 1:
-                    if (machine_level[mapIndex] < machine_goldlist2.Length)
-                    {
-                        currentMachineGold = machine_goldlist2[machine_level[mapIndex]];
-                    }
-                    else
-                    {
-                        UnityEngine.Debug.LogError("machine_goldlist2 인덱스 초과: " + machine_level[mapIndex]);
-                    }
-                    break;
-                case 2:
-                    if (machine_level[mapIndex] < machine_goldlist3.Length)
-                    {
-                        currentMachineGold = machine_goldlist3[machine_level[mapIndex]];
-                    }
-                    else
-                    {
-                        UnityEngine.Debug.LogError("machine_goldlist3 인덱스 초과: " + machine_level[mapIndex]);
-                    }
-                    break;
-                case 3:
-                    if (machine_level[mapIndex] < machine_goldlist4.Length)
-                    {
-                        currentMachineGold = machine_goldlist4[machine_level[mapIndex]];
-                    }
-                    else
-                    {
-                        UnityEngine.Debug.LogError("machine_goldlist4 인덱스 초과: " + machine_level[mapIndex]);
-                    }
-                    break;
-                case 4:
-                    if (machine_level[mapIndex] < machine_goldlist5.Length)
-                    {
-                        currentMachineGold = machine_goldlist5[machine_level[mapIndex]];
-                    }
-                    else
-                    {
-                        UnityEngine.Debug.LogError("machine_goldlist5 인덱스 초과: " + machine_level[mapIndex]);
-                    }
-                    break;
-                default:
-                    UnityEngine.Debug.LogError("알 수 없는 mapIndex: " + mapIndex);
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            UnityEngine.Debug.LogError("MachineUIUpdate 오류: " + ex.Message);
+            case 0:
+                currentMachineGold = machine_goldlist1[machine_level[mapIndex]];
+                break;
+            case 1:
+                currentMachineGold = machine_goldlist2[machine_level[mapIndex]];
+                break;
+            case 2:
+                currentMachineGold = machine_goldlist3[machine_level[mapIndex]];
+                break;
+            case 3:
+                currentMachineGold = machine_goldlist4[machine_level[mapIndex]];
+                break;
+            case 4:
+                currentMachineGold = machine_goldlist5[machine_level[mapIndex]];
+                break;
         }
 
         // 기계 정보 업데이트
