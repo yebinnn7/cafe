@@ -164,7 +164,7 @@ public class Jelly : MonoBehaviour
         SoundManager.instance.PlaySound("Touch");
     }
 
-    
+    /*
     // 마우스 드래그 시 젤리를 끌어당기는 동작 처리
     void OnMouseDrag()
     {
@@ -188,7 +188,7 @@ public class Jelly : MonoBehaviour
         transform.position = point;
     }
 
-    /*
+    
 
     // 마우스를 떼었을 때 호출되는 함수
     void OnMouseUp()

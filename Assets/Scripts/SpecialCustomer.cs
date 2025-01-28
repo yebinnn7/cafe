@@ -159,6 +159,7 @@ public class SpecialCustomer : MonoBehaviour
         SoundManager.instance.PlaySound("Touch");
     }
 
+    /*
     // 마우스 드래그 시 젤리를 끌어당기는 동작 처리
     void OnMouseDrag()
     {
@@ -181,6 +182,7 @@ public class SpecialCustomer : MonoBehaviour
 
         transform.position = point;
     }
+    */
 
     // 젤라틴을 주기적으로 획득하는 코루틴 함수
     IEnumerator GetJelatin()
