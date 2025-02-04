@@ -1,0 +1,6 @@
+# Serialized player data file is intended to be saved
+# under the app bundle or executable directory.
+# But in the Unity Editor, it is saved under the Assets directory.
+# So, It is required to ignore playerdata.bin in the repository.
+playerdata.bin
+playerdata.bin.meta

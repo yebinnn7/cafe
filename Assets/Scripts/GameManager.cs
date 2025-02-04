@@ -3,116 +3,117 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random; // ¸ðÈ£ÇÑ ÂüÁ¶ ¿À·ù¶ä
+using Random = UnityEngine.Random; // ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;// // ½Ì±ÛÅæ ÆÐÅÏÀ¸·Î GameManager ÀÎ½ºÅÏ½º¸¦ Àü¿ª¿¡¼­ Á¢±ÙÇÒ ¼ö ÀÖ°Ô ¼³Á¤
+    public static GameManager instance;// // ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ GameManager ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     [Header("Money")]
-    public int jelatin; // Á©¶óÆ¾ ÀÚ¿ø
-    public int gold; // °ñµå ÀÚ¿ø
+    public int jelatin; // ï¿½ï¿½ï¿½ï¿½Æ¾ ï¿½Ú¿ï¿½
+    public int gold; // ï¿½ï¿½ï¿½ ï¿½Ú¿ï¿½
 
     [Space(10f)]
     [Header("List")]
-    public List<Jelly> jelly_list = new List<Jelly>(); // »ý¼ºµÈ Á©¸®µéÀ» ÀúÀåÇÒ ¸®½ºÆ®
-    public List<Data> jelly_data_list = new List<Data>(); // ÀúÀåµÈ Á©¸®ÀÇ µ¥ÀÌÅÍ¸¦ ÀúÀåÇÒ ¸®½ºÆ®
-    public bool[] jelly_unlock_list; // Á©¸® Àá±Ý ÇØÁ¦ »óÅÂ¸¦ ÀúÀåÇÒ ¹è¿­
+    public List<Jelly> jelly_list = new List<Jelly>(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
+    public List<Data> jelly_data_list = new List<Data>(); // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
+    public bool[] jelly_unlock_list; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­
     public List<SpecialCustomer> special_customer_list = new List<SpecialCustomer>();
     public List<Data> special_customer_data_list = new List<Data>();
 
-    public int max_jelatin; // Á©¶óÆ¾ÀÇ ÃÖ´ëÄ¡
-    public int max_gold; // °ñµåÀÇ ÃÖ´ëÄ¡
+    public int max_jelatin; // ï¿½ï¿½ï¿½ï¿½Æ¾ï¿½ï¿½ ï¿½Ö´ï¿½Ä¡
+    public int max_gold; // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½Ä¡
 
     [Space(10f)]
     [Header("Game On Off")]
-    public bool isSell; // Á©¸®¸¦ ÆÇ¸ÅÇÒ ¼ö ÀÖ´Â »óÅÂÀÎÁö ¿©ºÎ
-    public bool isLive; // °ÔÀÓÀÌ È°¼ºÈ­µÈ »óÅÂÀÎÁö ¿©ºÎ
+    public bool isSell; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public bool isLive; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     [Space(10f)]
     [Header("Store Jelly")]
-    public Sprite[] jelly_spritelist; // Á©¸®ÀÇ ½ºÇÁ¶óÀÌÆ® ¸®½ºÆ®
-    public string[] jelly_namelist; // Á©¸® ÀÌ¸§ ¸®½ºÆ®
-    public int[] jelly_jelatinlist; // Á©¸® Àá±Ý ÇØÁ¦¿¡ ÇÊ¿äÇÑ Á©¶óÆ¾ ¸®½ºÆ®
-    public int[] jelly_goldlist; // Á©¸® ±¸¸Å¿¡ ÇÊ¿äÇÑ °ñµå ¸®½ºÆ®
+    public Sprite[] jelly_spritelist; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½Æ®
+    public string[] jelly_namelist; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
+    public int[] jelly_jelatinlist; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½Æ®
+    public int[] jelly_goldlist; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å¿ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 
     [Space(10f)]
     [Header("Map")]
-    public int[] map_goldlist; // ¸Ê ±¸¸Å¿¡ ÇÊ¿äÇÑ °ñµå¸¦ ³ªÅ¸³¿
-    public int lock_cafe_list; // Àá±ä Ä«Æä°¡ ¸îÈ£Á¡ÀÎÁö ³ªÅ¸³¿
+    public int[] map_goldlist; // ï¿½ï¿½ ï¿½ï¿½ï¿½Å¿ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½å¸¦ ï¿½ï¿½Å¸ï¿½ï¿½
+    public int lock_cafe_list; // ï¿½ï¿½ï¿½ Ä«ï¿½ä°¡ ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½
 
     [Space(10f)]
     [Header("Store Jelly(Unlock)")]
-    public Text page_text; // ÆäÀÌÁö¸¦ Ç¥½ÃÇÏ´Â ÅØ½ºÆ® UI
-    public Image unlock_group_jelly_img; // Àá±Ý ÇØÁ¦µÈ Á©¸®ÀÇ ÀÌ¹ÌÁö¸¦ Ç¥½ÃÇÒ UI
-    public Text unlock_group_gold_text; // Àá±Ý ÇØÁ¦µÈ Á©¸®ÀÇ ±¸¸Å ºñ¿ëÀ» Ç¥½ÃÇÒ ÅØ½ºÆ®
-    public Text unlock_group_name_text; // Àá±Ý ÇØÁ¦µÈ Á©¸®ÀÇ ÀÌ¸§À» Ç¥½ÃÇÒ ÅØ½ºÆ® UI
+    public Text page_text; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ø½ï¿½Æ® UI
+    public Image unlock_group_jelly_img; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ UI
+    public Text unlock_group_gold_text; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®
+    public Text unlock_group_name_text; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® UI
 
     [Space(10f)]
     [Header("Store Jelly(Lock)")]
-    public GameObject lock_group; // Àá±ÝµÈ Á©¸® ±×·ìÀ» °ü¸®ÇÏ´Â ¿ÀºêÁ§Æ®
-    public Image lock_group_jelly_img; // Àá±ÝµÈ Á©¸®ÀÇ ÀÌ¹ÌÁö¸¦ Ç¥½ÃÇÒ UI
-    public Text lock_group_jelatin_text; // Àá±Ý ÇØÁ¦¿¡ ÇÊ¿äÇÑ Á©¶óÆ¾ ¼ö·®À» Ç¥½ÃÇÒ ÅØ½ºÆ® UI
+    public GameObject lock_group; // ï¿½ï¿½Ýµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    public Image lock_group_jelly_img; // ï¿½ï¿½Ýµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ UI
+    public Text lock_group_jelatin_text; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® UI
 
-    // Animator º¯°æ °ü¸®¸¦ À§ÇÑ Animator ¹è¿­
+    // Animator ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Animator ï¿½è¿­
     [Space(10f)]
     [Header("Animation")]
-    public RuntimeAnimatorController[] level_ac; // Á©¸® ·¹º§¿¡ µû¸¥ ¾Ö´Ï¸ÞÀÌÅÍ ÄÁÆ®·Ñ·¯ ¸®½ºÆ®
+    public RuntimeAnimatorController[] level_ac; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 
     [Space(10f)]
     [Header("Canvers")]
-    public Text jelatin_text; // Á©¶óÆ¾ ÀÚ¿ø ¼ö·®À» Ç¥½ÃÇÒ ÅØ½ºÆ® UI
-    public Text gold_text; // °ñµå ÀÚ¿ø ¼ö·®À» Ç¥½ÃÇÒ ÅØ½ºÆ® UI
+    public Text jelatin_text; // ï¿½ï¿½ï¿½ï¿½Æ¾ ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® UI
+    public Text gold_text; // ï¿½ï¿½ï¿½ ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® UI
 
 
-    public Image jelly_panel; // Á©¸® ¸Þ´º ÆÐ³Î
-    public Image plant_panel; // ÇÃ·£Æ® ¸Þ´º ÆÐ³Î
-    public Image option_panel; // ¿É¼Ç ¸Þ´º ÆÐ³Î
-    public Image map_panel; // ¸Ê ¸Þ´º ÆÐ³Î
-    public Image random_panel; // ·£´ý ¸Þ´º ÆÐ³Î
-    public Image collected_panel; // µµ°¨ ¸Þ´º ÆÐ³Î
-    public Image information_panel; // Á¤º¸ ¸Þ´º ÆÐ³Î
+    public Image jelly_panel; // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½Ð³ï¿½
+    public Image plant_panel; // ï¿½Ã·ï¿½Æ® ï¿½Þ´ï¿½ ï¿½Ð³ï¿½
+    public Image option_panel; // ï¿½É¼ï¿½ ï¿½Þ´ï¿½ ï¿½Ð³ï¿½
+    public Image map_panel; // ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½Ð³ï¿½
+    public Image random_panel; // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½Ð³ï¿½
+    public Image collected_panel; // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½Ð³ï¿½
+    public Image information_panel; // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½Ð³ï¿½
 
 
     [Space(10f)]
     [Header("Prefabs")]
-    public GameObject prefab; // Á©¸® ÇÁ¸®ÆÕ
-    public GameObject prefab_special_customer; // ´Ü°ñ¼Õ´Ô ÇÁ¸®ÆÕ
-    public GameObject favorability_effect_prefab; // È£°¨µµ ÀÌÆåÆ® ÇÁ¸®ÆÕ
+    public GameObject prefab; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public GameObject prefab_special_customer; // ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public GameObject favorability_effect_prefab; // È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     [Space(10f)]
     [Header("Data")]
-    public GameObject data_manager_obj; // DataManager ¿ÀºêÁ§Æ®
-    DataManager data_manager; // DataManager ½ºÅ©¸³Æ®
+    public GameObject data_manager_obj; // DataManager ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    DataManager data_manager; // DataManager ï¿½ï¿½Å©ï¿½ï¿½Æ®
 
     [Space(10f)]
     [Header("Animation")]
-    Animator jelly_anim; // Á©¸® ÆÐ³Î ¾Ö´Ï¸ÞÀÌ¼Ç °ü¸®
-    Animator plant_anim; // ÇÃ·£Æ® ÆÐ³Î ¾Ö´Ï¸ÞÀÌ¼Ç °ü¸®
-    Animator map_anim; // ¸Ê ÆÐ³Î ¾Ö´Ï¸ÞÀÌ¼Ç °ü¸®
-    Animator random_anim; // ·£´ý ÆÐ³Î ¾Ö´Ï¸ÞÀÌ¼Ç °ü¸®
-    Animator collected_anim; // µµ°¨ ÆÐ³Î ¾Ö´Ï¸ÞÀÌ¼Ç °ü¸®
-    Animator information_anim; // Á¤º¸ ÆÐ³Î ¾Ö´Ï¸ÞÀÌ¼Ç °ü¸®
+    Animator jelly_anim; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+    Animator plant_anim; // ï¿½Ã·ï¿½Æ® ï¿½Ð³ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+    Animator map_anim; // ï¿½ï¿½ ï¿½Ð³ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+    Animator random_anim; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+    Animator collected_anim; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+    Animator information_anim; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     [Space(10f)]
     [Header("Click On Off")]
-    bool isJellyClick; // Á©¸® ¹öÆ°ÀÌ Å¬¸¯µÈ »óÅÂÀÎÁö ¿©ºÎ
-    bool isPlantClick; // ÇÃ·£Æ® ¹öÆ°ÀÌ Å¬¸¯µÈ »óÅÂÀÎÁö ¿©ºÎ
-    bool isOption; // ¿É¼Ç ÆÐ³ÎÀÌ È°¼ºÈ­µÈ »óÅÂÀÎÁö ¿©ºÎ
-    bool isMapClick; // ¸Ê ¹öÆ°ÀÌ Å¬¸¯µÈ »óÅÂÀÎÁö ¿©ºÎ
-    bool isRandomClick; // ·£´ý ¹öÆ°ÀÌ Å¬¸¯µÈ »óÅÂÀÎÁö ¿©ºÎ
-    bool isCollectedClick; // µµ°¨ ¹öÆ°ÀÌ Å¬¸¯µÈ »óÅÂÀÎÁö ¿©ºÎ
+    bool isJellyClick; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    bool isPlantClick; // ï¿½Ã·ï¿½Æ® ï¿½ï¿½Æ°ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    bool isOption; // ï¿½É¼ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    bool isMapClick; // ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    bool isRandomClick; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    bool isCollectedClick; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public bool isInformationClick;
 
-    int page; // ÇöÀç ¼±ÅÃµÈ ÆäÀÌÁö
-    int index; // ´Ü°ñ ¼Õ´Ô ¹øÈ£
+    int page; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    int index; // ï¿½Ü°ï¿½ ï¿½Õ´ï¿½ ï¿½ï¿½È£
 
     [Space(10f)]
     [Header("Upgrade")]
-    // ¾÷±×·¹ÀÌµå ½Ã½ºÅÛ º¯¼ö
+    // ï¿½ï¿½ï¿½×·ï¿½ï¿½Ìµï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public int num_level;
     public Text num_sub_text;
     public Text num_btn_text;
@@ -129,7 +130,7 @@ public class GameManager : MonoBehaviour
     public Button click_btn;
     public int[] click_goldlist;
 
-    // Á©¸® ½ºÆù½Ã°£
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½
     [Space(10f)]
     [Header("SpawnTime")]
     public float minSpawnTime = 5f;
@@ -137,30 +138,30 @@ public class GameManager : MonoBehaviour
 
     [Space(10f)]
     [Header("Regular customer")]
-    // ´Ü°ñ¼Õ´Ô »Ì±â °¡°Ý
+    // ï¿½Ü°ï¿½Õ´ï¿½ ï¿½Ì±ï¿½ ï¿½ï¿½ï¿½ï¿½
     public int special_customer_gold;
 
-    // ´Ü°ñ¼Õ´Ô ¸®½ºÆ®
-    public Sprite[] special_customer_spritelist; // Á©¸®ÀÇ ½ºÇÁ¶óÀÌÆ® ¸®½ºÆ®
-    public string[] special_customer_namelist; // Á©¸® ÀÌ¸§ ¸®½ºÆ®
+    // ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
+    public Sprite[] special_customer_spritelist; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½Æ®
+    public string[] special_customer_namelist; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
     public bool[] collected_list;
     public string[] collected_name;
     public Sprite[] collected_sprites;
 
-    // ´Ü°ñ¼Õ´Ô ½ºÆù½Ã°£
+    // ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½
     public float minSpecialSpawnTime = 5f;
     public float maxSpecialSpawnTime = 8f;
 
-    // ´Ü°ñ¼Õ´Ô È£°¨µµ ÀúÀå µñ¼Å³Ê¸®
+    // ï¿½Ü°ï¿½Õ´ï¿½ È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³Ê¸ï¿½
     public int[] specialCustomerFavorability;
 
-    // Collected Manager ÂüÁ¶
+    // Collected Manager ï¿½ï¿½ï¿½ï¿½
     private CollectedManager collectedManager;
 
-    // Mapº°·Î ½ºÆù À§Ä¡ ¹è¿­ Á¤ÀÇ
+    // Mapï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½
     Vector3[] spawnPos;
 
-    // ±â°è ±¸¸Å
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public int[] machine_level;
     public Text machine_sub_text;
     public Text machine_btn_text;
@@ -171,35 +172,35 @@ public class GameManager : MonoBehaviour
     int machinePage;
 
 
-    // °¢ ±â°èÀÇ ·¹º§º° ±Ý¾×
-    public int[] machine_goldlist1 = new int[5];  // ±â°è 1ÀÇ ±Ý¾× (·¹º§ 1~5)
-    public int[] machine_goldlist2 = new int[5];  // ±â°è 2ÀÇ ±Ý¾× (·¹º§ 1~5)
-    public int[] machine_goldlist3 = new int[5];  // ±â°è 3ÀÇ ±Ý¾× (·¹º§ 1~5)
-    public int[] machine_goldlist4 = new int[5];  // ±â°è 4ÀÇ ±Ý¾× (·¹º§ 1~5)
-    public int[] machine_goldlist5 = new int[5];  // ±â°è 5ÀÇ ±Ý¾× (·¹º§ 1~5)
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¾ï¿½
+    public int[] machine_goldlist1 = new int[5];  // ï¿½ï¿½ï¿½ 1ï¿½ï¿½ ï¿½Ý¾ï¿½ (ï¿½ï¿½ï¿½ï¿½ 1~5)
+    public int[] machine_goldlist2 = new int[5];  // ï¿½ï¿½ï¿½ 2ï¿½ï¿½ ï¿½Ý¾ï¿½ (ï¿½ï¿½ï¿½ï¿½ 1~5)
+    public int[] machine_goldlist3 = new int[5];  // ï¿½ï¿½ï¿½ 3ï¿½ï¿½ ï¿½Ý¾ï¿½ (ï¿½ï¿½ï¿½ï¿½ 1~5)
+    public int[] machine_goldlist4 = new int[5];  // ï¿½ï¿½ï¿½ 4ï¿½ï¿½ ï¿½Ý¾ï¿½ (ï¿½ï¿½ï¿½ï¿½ 1~5)
+    public int[] machine_goldlist5 = new int[5];  // ï¿½ï¿½ï¿½ 5ï¿½ï¿½ ï¿½Ý¾ï¿½ (ï¿½ï¿½ï¿½ï¿½ 1~5)
 
-    // °¢ ±â°èÀÇ ÀÌ¹ÌÁö (1~5)
-    public GameObject[] machine_list1 = new GameObject[5];  // ±â°è 1ÀÇ ÀÌ¹ÌÁö (·¹º§ 1~5)
-    public GameObject[] machine_list2 = new GameObject[5];  // ±â°è 2ÀÇ ÀÌ¹ÌÁö (·¹º§ 1~5)
-    public GameObject[] machine_list3 = new GameObject[5];  // ±â°è 3ÀÇ ÀÌ¹ÌÁö (·¹º§ 1~5)
-    public GameObject[] machine_list4 = new GameObject[5];  // ±â°è 4ÀÇ ÀÌ¹ÌÁö (·¹º§ 1~5)
-    public GameObject[] machine_list5 = new GameObject[5];  // ±â°è 5ÀÇ ÀÌ¹ÌÁö (·¹º§ 1~5)
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ (1~5)
+    public GameObject[] machine_list1 = new GameObject[5];  // ï¿½ï¿½ï¿½ 1ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ 1~5)
+    public GameObject[] machine_list2 = new GameObject[5];  // ï¿½ï¿½ï¿½ 2ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ 1~5)
+    public GameObject[] machine_list3 = new GameObject[5];  // ï¿½ï¿½ï¿½ 3ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ 1~5)
+    public GameObject[] machine_list4 = new GameObject[5];  // ï¿½ï¿½ï¿½ 4ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ 1~5)
+    public GameObject[] machine_list5 = new GameObject[5];  // ï¿½ï¿½ï¿½ 5ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ 1~5)
 
-    // Mapº° ¼Õ´Ô ¸®½ºÆ®
+    // Mapï¿½ï¿½ ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
     public List<Jelly> map1JellyList = new List<Jelly>();
-    public List<SpecialCustomer> map1specialCustomerList = new List<SpecialCustomer>(); // 1¹ø ¸Ê
+    public List<SpecialCustomer> map1specialCustomerList = new List<SpecialCustomer>(); // 1ï¿½ï¿½ ï¿½ï¿½
 
     public List<Jelly> map2JellyList = new List<Jelly>();
-    public List<SpecialCustomer> map2specialCustomerList = new List<SpecialCustomer>(); // 2¹ø ¸Ê
+    public List<SpecialCustomer> map2specialCustomerList = new List<SpecialCustomer>(); // 2ï¿½ï¿½ ï¿½ï¿½
 
     public List<Jelly> map3JellyList = new List<Jelly>();
-    public List<SpecialCustomer> map3specialCustomerList = new List<SpecialCustomer>(); // 3¹ø ¸Ê
+    public List<SpecialCustomer> map3specialCustomerList = new List<SpecialCustomer>(); // 3ï¿½ï¿½ ï¿½ï¿½
 
     public List<Jelly> map4JellyList = new List<Jelly>();
-    public List<SpecialCustomer> map4specialCustomerList = new List<SpecialCustomer>(); // 4¹ø ¸Ê
+    public List<SpecialCustomer> map4specialCustomerList = new List<SpecialCustomer>(); // 4ï¿½ï¿½ ï¿½ï¿½
 
     public List<Jelly> map5JellyList = new List<Jelly>();
-    public List<SpecialCustomer> map5specialCustomerList = new List<SpecialCustomer>(); // 5¹ø ¸Ê
+    public List<SpecialCustomer> map5specialCustomerList = new List<SpecialCustomer>(); // 5ï¿½ï¿½ ï¿½ï¿½
 
 
     int specialNum = 0;
@@ -209,9 +210,9 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        instance = this; // ½Ì±ÛÅæ ÆÐÅÏ Àû¿ë
+        instance = this; // ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        // ÆÐ³Î ¾Ö´Ï¸ÞÀÌÅÍ ÃÊ±âÈ­
+        // ï¿½Ð³ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         jelly_anim = jelly_panel.GetComponent<Animator>();
         plant_anim = plant_panel.GetComponent<Animator>();
         map_anim = map_panel.GetComponent<Animator>();
@@ -219,19 +220,19 @@ public class GameManager : MonoBehaviour
         collected_anim = collected_panel.GetComponent<Animator>();
         information_anim = information_panel.GetComponent<Animator>();
 
-        isLive = true; // °ÔÀÓ È°¼ºÈ­ »óÅÂ·Î ¼³Á¤
+        isLive = true; // ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        // UI ÃÊ±âÈ­
-        jelatin_text.text = jelatin.ToString(); // intÇüÀ» stringÇüÀ¸·Î º¯È¯
+        // UI ï¿½Ê±ï¿½È­
+        jelatin_text.text = jelatin.ToString(); // intï¿½ï¿½ï¿½ï¿½ stringï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
         gold_text.text = gold.ToString();
         unlock_group_gold_text.text = jelly_goldlist[0].ToString();
         lock_group_jelatin_text.text = jelly_jelatinlist[0].ToString();
 
-        // DataManager ÃÊ±âÈ­
+        // DataManager ï¿½Ê±ï¿½È­
         data_manager = data_manager_obj.GetComponent<DataManager>();
 
-        page = 0; // Ã¹ ÆäÀÌÁö·Î ÃÊ±âÈ­
-        jelly_unlock_list = new bool[12]; // Á©¸® Àá±Ý ÇØÁ¦ ¹è¿­ ÃÊ±âÈ­ (12°³ÀÇ Á©¸®)
+        page = 0; // Ã¹ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
+        jelly_unlock_list = new bool[12]; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ ï¿½Ê±ï¿½È­ (12ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 
         collectedManager = FindObjectOfType<CollectedManager>();
 
@@ -248,7 +249,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // µ¥ÀÌÅÍ¸¦ ºÒ·¯¿À±â À§ÇÑ È£Ãâ, ¾ÀÀÌ ·ÎµåµÈ Á÷ÈÄ È£ÃâµÇ¹Ç·Î ¾à°£ÀÇ Áö¿¬ ÈÄ ½ÇÇà
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½Ç¹Ç·ï¿½ ï¿½à°£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         // Invoke("LoadData", 0.1f);
         // StartCoroutine(SpawnJellyRandomly());
         // StartCoroutine(SpawnSpecialRandomly());
@@ -259,107 +260,108 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SpawnJellyOnMap4());
         StartCoroutine(SpawnJellyOnMap5());
 
-        // °¢ ¸Êº°·Î ´Ü°ñ¼Õ´Ô ½ºÆù ÄÚ·çÆ¾À» ½ÃÀÛ
-        StartCoroutine(SpawnSpecialOnMap1()); // 1¹ø ¸Ê
-        StartCoroutine(SpawnSpecialOnMap2()); // 2¹ø ¸Ê
-        StartCoroutine(SpawnSpecialOnMap3()); // 3¹ø ¸Ê
-        StartCoroutine(SpawnSpecialOnMap4()); // 4¹ø ¸Ê
-        StartCoroutine(SpawnSpecialOnMap5()); // 5¹ø ¸Ê
+        // ï¿½ï¿½ ï¿½Êºï¿½ï¿½ï¿½ ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ú·ï¿½Æ¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        StartCoroutine(SpawnSpecialOnMap1()); // 1ï¿½ï¿½ ï¿½ï¿½
+        StartCoroutine(SpawnSpecialOnMap2()); // 2ï¿½ï¿½ ï¿½ï¿½
+        StartCoroutine(SpawnSpecialOnMap3()); // 3ï¿½ï¿½ ï¿½ï¿½
+        StartCoroutine(SpawnSpecialOnMap4()); // 4ï¿½ï¿½ ï¿½ï¿½
+        StartCoroutine(SpawnSpecialOnMap5()); // 5ï¿½ï¿½ ï¿½ï¿½
 
-        
+        //
+        LoadAndPullPlayerData();
     }
 
     void Update()
     {
-        // 'Ãë¼Ò' ¹öÆ°ÀÌ ´­·ÈÀ» ¶§ Ã³¸®
+        // 'ï¿½ï¿½ï¿½' ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã³ï¿½ï¿½
         if (Input.GetButtonDown("Cancel"))
         {
-            if (isJellyClick) ClickJellyBtn(); // Á©¸® ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
-            else if (isPlantClick) ClickPlantBtn(); // ÇÃ·£Æ® ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
-            else if (isMapClick) ClickMapBtn(); // ÇÃ·£Æ® ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
-            else if (isRandomClick) ClickRandomBtn(); // ·£´ý ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
-            else if (isCollectedClick) ClickCollectedBtn(); // µµ°¨ ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
-            else if (isInformationClick) collectedManager.ExitButton(); // µµ°¨ ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
-            else Option(); // ¿É¼Ç ¸Þ´º¸¦ ¿­°Å³ª ´ÝÀ½
+            if (isJellyClick) ClickJellyBtn(); // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            else if (isPlantClick) ClickPlantBtn(); // ï¿½Ã·ï¿½Æ® ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            else if (isMapClick) ClickMapBtn(); // ï¿½Ã·ï¿½Æ® ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            else if (isRandomClick) ClickRandomBtn(); // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            else if (isCollectedClick) ClickCollectedBtn(); // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            else if (isInformationClick) collectedManager.ExitButton(); // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            else Option(); // ï¿½É¼ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
 
     }
 
     void LateUpdate()
     {
-        // ºÎµå·´°Ô ÅØ½ºÆ® °ªÀ» ¾÷µ¥ÀÌÆ®ÇÏ¸ç ºÎµ¿¼Ò¼öÁ¡ °è»ê ¿ÀÂ÷¸¦ ÃÖ¼ÒÈ­ÇÏ±â À§ÇØ ¹Ý¿Ã¸² Àû¿ë
+        // ï¿½Îµå·´ï¿½ï¿½ ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ï¸ï¿½ ï¿½Îµï¿½ï¿½Ò¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½È­ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¿Ã¸ï¿½ ï¿½ï¿½ï¿½ï¿½
         jelatin_text.text = string.Format("{0:n0}", (int)Mathf.SmoothStep(float.Parse(jelatin_text.text), jelatin, 0.5f));
         gold_text.text = string.Format("{0:n0}", (int)Mathf.SmoothStep(float.Parse(gold_text.text), gold, 0.5f));
     }
 
-    // Á©¸® ·¹º§¿¡ µû¶ó Animator Controller¸¦ º¯°æ
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Animator Controllerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void ChangeAc(Animator anim, int level)
     {
         anim.runtimeAnimatorController = level_ac[level - 1];
     }
 
-    // Á©¶óÆ¾ È¹µæ
+    // ï¿½ï¿½ï¿½ï¿½Æ¾ È¹ï¿½ï¿½
     public void GetJelatin(int id, int level)
     {
-        jelatin += (id + 1) * level * click_level; // id¿Í ·¹º§¿¡ µû¶ó Á©¶óÆ¾ Áõ°¡
+        jelatin += (id + 1) * level * click_level; // idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½
 
-        if (jelatin > max_jelatin) // Á©¶óÆ¾ÀÌ ÃÖ´ëÄ¡¸¦ ³ÑÁö ¾Êµµ·Ï Á¦ÇÑ
+        if (jelatin > max_jelatin) // ï¿½ï¿½ï¿½ï¿½Æ¾ï¿½ï¿½ ï¿½Ö´ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             jelatin = max_jelatin;
     }
 
-    // °ñµå È¹µæ ¹× Á©¸® Á¦°Å
+    // ï¿½ï¿½ï¿½ È¹ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void GetGold(int id, int level, Jelly jelly)
     {
-        gold += jelly_goldlist[id] * level; // °ñµå Ãß°¡
+        gold += jelly_goldlist[id] * level; // ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 
-        if (gold > max_gold) // °ñµå°¡ ÃÖ´ëÄ¡¸¦ ³ÑÁö ¾Êµµ·Ï Á¦ÇÑ
+        if (gold > max_gold) // ï¿½ï¿½å°¡ ï¿½Ö´ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             gold = max_gold;
 
-        jelly_list.Remove(jelly); // Á©¸® ¸®½ºÆ®¿¡¼­ Á¦°Å
+        jelly_list.Remove(jelly); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         SoundManager.instance.PlaySound("Sell");
     }
 
-    // ÆÇ¸Å »óÅÂ Ã¼Å©
+    // ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
     public void CheckSell()
     {
-        isSell = !isSell; // ÆÇ¸Å »óÅÂ¸¦ Åä±Û
+        isSell = !isSell; // ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½
     }
 
-    // Á©¸® ¸Þ´º ¹öÆ° Å¬¸¯ Ã³¸®
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½Æ° Å¬ï¿½ï¿½ Ã³ï¿½ï¿½
     public void ClickJellyBtn()
     {
         SoundManager.instance.PlaySound("Button");
 
-        if (isPlantClick) // ÇÃ·£Æ® ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isPlantClick) // ï¿½Ã·ï¿½Æ® ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             plant_anim.SetTrigger("doHide");
             isPlantClick = false;
             isLive = true;
         }
 
-        if (isMapClick) // ¸Ê ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isMapClick) // ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             map_anim.SetTrigger("doHide");
             isMapClick = false;
             isLive = true;
         }
 
-        if (isRandomClick) // ·£´ý ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isRandomClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             random_anim.SetTrigger("doHide");
             isRandomClick = false;
             isLive = true;
         }
 
-        if (isCollectedClick) // µµ°¨ ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isCollectedClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             collected_anim.SetTrigger("doHide");
             isCollectedClick = false;
             isLive = true;
         }
 
-        if (isInformationClick) // µµ°¨ ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isInformationClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             information_anim.SetTrigger("doHide");
             isInformationClick = false;
@@ -367,110 +369,110 @@ public class GameManager : MonoBehaviour
         }
 
 
-        if (isJellyClick) // Á©¸® ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isJellyClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             jelly_anim.SetTrigger("doHide");
-        else // Á©¸® ¸Þ´º°¡ ´ÝÇô ÀÖÀ¸¸é ¿­À½
+        else // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             jelly_anim.SetTrigger("doShow");
 
-        isJellyClick = !isJellyClick; // Á©¸® Å¬¸¯ »óÅÂ¸¦ Åä±Û
-        isLive = !isLive; // °ÔÀÓ È°¼ºÈ­ »óÅÂ¸¦ Åä±Û
+        isJellyClick = !isJellyClick; // ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½
+        isLive = !isLive; // ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½
     }
 
-    // ÇÃ·£Æ® ¸Þ´º ¹öÆ° Å¬¸¯ Ã³¸®
+    // ï¿½Ã·ï¿½Æ® ï¿½Þ´ï¿½ ï¿½ï¿½Æ° Å¬ï¿½ï¿½ Ã³ï¿½ï¿½
     public void ClickPlantBtn()
     {
         SoundManager.instance.PlaySound("Button");
 
-        if (isJellyClick) // Á©¸® ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isJellyClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             jelly_anim.SetTrigger("doHide");
             isJellyClick = false;
             isLive = true;
         }
 
-        if (isMapClick) // ¸Ê ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isMapClick) // ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             map_anim.SetTrigger("doHide");
             isMapClick = false;
             isLive = true;
         }
 
-        if (isRandomClick) // ·£´ý ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isRandomClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             random_anim.SetTrigger("doHide");
             isRandomClick = false;
             isLive = true;
         }
 
-        if (isCollectedClick) // µµ°¨ ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isCollectedClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             collected_anim.SetTrigger("doHide");
             isCollectedClick = false;
             isLive = true;
         }
 
-        if (isInformationClick) // µµ°¨ ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isInformationClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             information_anim.SetTrigger("doHide");
             isInformationClick = false;
             // isLive = true;
         }
 
-        if (isPlantClick) // ÇÃ·£Æ® ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isPlantClick) // ï¿½Ã·ï¿½Æ® ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             plant_anim.SetTrigger("doHide");
-        else // ÇÃ·£Æ® ¸Þ´º°¡ ´ÝÇô ÀÖÀ¸¸é ¿­À½
+        else // ï¿½Ã·ï¿½Æ® ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             plant_anim.SetTrigger("doShow");
 
-        isPlantClick = !isPlantClick; // ÇÃ·£Æ® Å¬¸¯ »óÅÂ¸¦ Åä±Û
-        isLive = !isLive; // °ÔÀÓ È°¼ºÈ­ »óÅÂ¸¦ Åä±Û
+        isPlantClick = !isPlantClick; // ï¿½Ã·ï¿½Æ® Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½
+        isLive = !isLive; // ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½
     }
 
     public void ClickMapBtn()
     {
         SoundManager.instance.PlaySound("Button");
 
-        if (isJellyClick) // Á©¸® ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isJellyClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             jelly_anim.SetTrigger("doHide");
             isJellyClick = false;
             isLive = true;
         }
 
-        if (isPlantClick) // ÇÃ·£Æ® ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isPlantClick) // ï¿½Ã·ï¿½Æ® ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             plant_anim.SetTrigger("doHide");
             isPlantClick = false;
             isLive = true;
         }
 
-        if (isRandomClick) // ·£´ý ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isRandomClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             random_anim.SetTrigger("doHide");
             isRandomClick = false;
             isLive = true;
         }
 
-        if (isCollectedClick) // µµ°¨ ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isCollectedClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             collected_anim.SetTrigger("doHide");
             isCollectedClick = false;
             isLive = true;
         }
 
-        if (isInformationClick) // µµ°¨ ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isInformationClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             information_anim.SetTrigger("doHide");
             isInformationClick = false;
             // isLive = true;
         }
 
-        if (isMapClick) // ¸Ê ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isMapClick) // ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             map_anim.SetTrigger("doHide");
-        else // ¸Ê ¸Þ´º°¡ ´ÝÇô ÀÖÀ¸¸é ¿­À½
+        else // ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             map_anim.SetTrigger("doShow");
 
-        isMapClick = !isMapClick; // ¸Ê Å¬¸¯ »óÅÂ¸¦ Åä±Û
-        isLive = !isLive; // °ÔÀÓ È°¼ºÈ­ »óÅÂ¸¦ Åä±Û
+        isMapClick = !isMapClick; // ï¿½ï¿½ Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½
+        isLive = !isLive; // ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½
     }
 
     public void ClickMapExitBtn()
@@ -485,49 +487,49 @@ public class GameManager : MonoBehaviour
     {
         SoundManager.instance.PlaySound("Button");
 
-        if (isJellyClick) // Á©¸® ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isJellyClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             jelly_anim.SetTrigger("doHide");
             isJellyClick = false;
             isLive = true;
         }
 
-        if (isPlantClick) // ÇÃ·£Æ® ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isPlantClick) // ï¿½Ã·ï¿½Æ® ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             plant_anim.SetTrigger("doHide");
             isPlantClick = false;
             isLive = true;
         }
 
-        if (isMapClick) // ¸Ê ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isMapClick) // ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             map_anim.SetTrigger("doHide");
             isMapClick = false;
             isLive = true;
         }
 
-        if (isCollectedClick) // µµ°¨ ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isCollectedClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             collected_anim.SetTrigger("doHide");
             isCollectedClick = false;
             isLive = true;
         }
 
-        if (isInformationClick) // µµ°¨ ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isInformationClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             information_anim.SetTrigger("doHide");
             isInformationClick = false;
             // isLive = true;
         }
 
-        if (isRandomClick) // ·£´ý ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isRandomClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             random_anim.SetTrigger("doHide");
-        else // ·£´ý ¸Þ´º°¡ ´ÝÇô ÀÖÀ¸¸é ¿­À½
+        else // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             random_anim.SetTrigger("doShow");
 
 
-        isRandomClick = !isRandomClick; // ¸Ê Å¬¸¯ »óÅÂ¸¦ Åä±Û
-        isLive = !isLive; // °ÔÀÓ È°¼ºÈ­ »óÅÂ¸¦ Åä±Û
+        isRandomClick = !isRandomClick; // ï¿½ï¿½ Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½
+        isLive = !isLive; // ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½
     }
 
     public void ClickRandomExitBtn()
@@ -545,7 +547,7 @@ public class GameManager : MonoBehaviour
         SoundManager.instance.PlaySound("Button");
         collectedManager.ChangePage();
 
-        if (isJellyClick) // Á©¸® ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isJellyClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             jelly_anim.SetTrigger("doHide");
             isJellyClick = false;
@@ -553,43 +555,43 @@ public class GameManager : MonoBehaviour
             
         }
 
-        if (isPlantClick) // ÇÃ·£Æ® ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isPlantClick) // ï¿½Ã·ï¿½Æ® ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             plant_anim.SetTrigger("doHide");
             isPlantClick = false;
             isLive = true;
         }
 
-        if (isMapClick) // ¸Ê ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isMapClick) // ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             map_anim.SetTrigger("doHide");
             isMapClick = false;
             isLive = true;
         }
 
-        if (isRandomClick) // ·£´ý ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isRandomClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             random_anim.SetTrigger("doHide");
             isRandomClick = false;
             isLive = true;
         }
 
-        if (isInformationClick) // µµ°¨ ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isInformationClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             information_anim.SetTrigger("doHide");
             isInformationClick = false;
             // isLive = true;
         }
 
-        if (isCollectedClick) // µµ°¨ ¸Þ´º°¡ ¿­·Á ÀÖÀ¸¸é ´ÝÀ½
+        if (isCollectedClick) // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             collected_anim.SetTrigger("doHide");
-        else // ·£´ý ¸Þ´º°¡ ´ÝÇô ÀÖÀ¸¸é ¿­À½
+        else // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             collected_anim.SetTrigger("doShow");
 
 
 
-        isCollectedClick = !isCollectedClick; // ¸Ê Å¬¸¯ »óÅÂ¸¦ Åä±Û
-        isLive = !isLive; // °ÔÀÓ È°¼ºÈ­ »óÅÂ¸¦ Åä±Û
+        isCollectedClick = !isCollectedClick; // ï¿½ï¿½ Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½
+        isLive = !isLive; // ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½
     }
 
     public void ClickCollectedExitBtn()
@@ -600,183 +602,184 @@ public class GameManager : MonoBehaviour
         isLive = true;
     }
 
-    // ¿É¼Ç ÆÐ³Î ¿­°í ´Ý±â
+    // ï¿½É¼ï¿½ ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ý±ï¿½
     public void Option()
     {
-        isOption = !isOption; // ¿É¼Ç ÆÐ³Î »óÅÂ¸¦ Åä±Û
-        isLive = !isLive; // °ÔÀÓ È°¼ºÈ­ »óÅÂ¸¦ Åä±Û
+        isOption = !isOption; // ï¿½É¼ï¿½ ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½
+        isLive = !isLive; // ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½
 
-        option_panel.gameObject.SetActive(isOption); // ¿É¼Ç ÆÐ³Î Ç¥½Ã/¼û±â±â
-        Time.timeScale = isOption == true ? 0 : 1; // ¿É¼Ç ÆÐ³ÎÀÌ ¿­¸®¸é ½Ã°£ Á¤Áö
+        option_panel.gameObject.SetActive(isOption); // ï¿½É¼ï¿½ ï¿½Ð³ï¿½ Ç¥ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½
+        Time.timeScale = isOption == true ? 0 : 1; // ï¿½É¼ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         if (isOption) SoundManager.instance.PlaySound("Pause In");
         else SoundManager.instance.PlaySound("Pause Out");
     }
 
-    // ÆäÀÌÁö¸¦ ´ÙÀ½À¸·Î ÀÌµ¿
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
     public void PageUp()
     {
-        if (page >= 11) // ÃÖ´ë ÆäÀÌÁö¸¦ ³ÑÁö ¾Êµµ·Ï Á¦ÇÑ
+        if (page >= 11) // ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             SoundManager.instance.PlaySound("Fail");
             return;
         }
 
         ++page;
-        ChangePage(); // ÆäÀÌÁö º¯°æ
+        ChangePage(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         SoundManager.instance.PlaySound("Button");
     }
 
     
 
-    // ÆäÀÌÁö¸¦ ÀÌÀüÀ¸·Î ÀÌµ¿
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
     public void PageDown()
     {
-        if (page <= 0) // ÃÖ¼Ò ÆäÀÌÁö¸¦ ³ÑÁö ¾Êµµ·Ï Á¦ÇÑ
+        if (page <= 0) // ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             SoundManager.instance.PlaySound("Fail");
             return;
         }
 
         --page;
-        ChangePage(); // ÆäÀÌÁö º¯°æ
+        ChangePage(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         SoundManager.instance.PlaySound("Button");
     }
 
-    // ÆäÀÌÁö º¯°æ¿¡ µû¸¥ UI ¾÷µ¥ÀÌÆ®
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½æ¿¡ ï¿½ï¿½ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     void ChangePage()
     {
-        lock_group.gameObject.SetActive(!jelly_unlock_list[page]); // ÇöÀç ÆäÀÌÁöÀÇ Á©¸®°¡ Àá±Ý »óÅÂÀÎÁö ¿©ºÎ¿¡ µû¶ó Àá±Ý ±×·ì Ç¥½Ã
+        lock_group.gameObject.SetActive(!jelly_unlock_list[page]); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½×·ï¿½ Ç¥ï¿½ï¿½
 
-        page_text.text = string.Format("#{0:00}", (page + 1)); // ÆäÀÌÁö ¹øÈ£ Ç¥½Ã
+        page_text.text = string.Format("#{0:00}", (page + 1)); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ Ç¥ï¿½ï¿½
 
-        if (lock_group.activeSelf) // Àá±Ý »óÅÂÀÏ °æ¿ì Àá±Ý ±×·ì UI ¾÷µ¥ÀÌÆ®
+        if (lock_group.activeSelf) // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½×·ï¿½ UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         {
-            lock_group_jelly_img.sprite = jelly_spritelist[page]; // ÇöÀç ÆäÀÌÁö¿¡ ÇØ´çÇÏ´Â Á©¸® ÀÌ¹ÌÁö¸¦ Àá±Ý ±×·ì¿¡ ¼³Á¤
-            lock_group_jelatin_text.text = string.Format("{0:n0}", jelly_jelatinlist[page]); // ÇØ´ç Á©¸®ÀÇ ÇØÁ¦¿¡ ÇÊ¿äÇÑ Á©¶óÆ¾ ¼ö·®À» ÅØ½ºÆ®·Î Ç¥½Ã
+            lock_group_jelly_img.sprite = jelly_spritelist[page]; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½×·ì¿¡ ï¿½ï¿½ï¿½ï¿½
+            lock_group_jelatin_text.text = string.Format("{0:n0}", jelly_jelatinlist[page]); // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ Ç¥ï¿½ï¿½
 
-            lock_group_jelly_img.SetNativeSize(); // ÀÌ¹ÌÁöÀÇ Å©±â¸¦ ¿øº» Å©±â·Î ¼³Á¤
+            lock_group_jelly_img.SetNativeSize(); // ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
-        else // Àá±Ý ÇØÁ¦ »óÅÂÀÏ °æ¿ì Àá±Ý ÇØÁ¦ ±×·ì UI ¾÷µ¥ÀÌÆ®
+        else // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         {
-            unlock_group_jelly_img.sprite = jelly_spritelist[page]; // ÇöÀç ÆäÀÌÁö¿¡ ÇØ´çÇÏ´Â Á©¸® ÀÌ¹ÌÁö¸¦ Àá±Ý ÇØÁ¦ ±×·ì¿¡ ¼³Á¤
-            // Á©¸®ÀÇ ÀÌ¸§°ú °¡°ÝÀ» ÅØ½ºÆ®·Î Ç¥½Ã
+            unlock_group_jelly_img.sprite = jelly_spritelist[page]; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ì¿¡ ï¿½ï¿½ï¿½ï¿½
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ Ç¥ï¿½ï¿½
             unlock_group_name_text.text = jelly_namelist[page];
             unlock_group_gold_text.text = string.Format("{0:n0}", jelly_goldlist[page]);
 
-            unlock_group_jelly_img.SetNativeSize(); // ÀÌ¹ÌÁöÀÇ Å©±â¸¦ ¿øº» Å©±â·Î ¼³Á¤
+            unlock_group_jelly_img.SetNativeSize(); // ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
-    // Á©¸® Àá±Ý ÇØÁ¦ ÇÔ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     public void Unlock()
     {
-        // ÇöÀç Á©¶óÆ¾ÀÌ Àá±Ý ÇØÁ¦¿¡ ÇÊ¿äÇÑ Á©¶óÆ¾ ¼öº¸´Ù ÀûÀ¸¸é ÇÔ¼ö Á¾·á
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ¾ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (jelatin < jelly_jelatinlist[page])
         {
             SoundManager.instance.PlaySound("Fail");
             return;
         }
 
-        jelly_unlock_list[page] = true; // Á©¸® Àá±Ý ÇØÁ¦ »óÅÂ·Î º¯°æ
-        ChangePage(); // ÆäÀÌÁö UI ¾÷µ¥ÀÌÆ®
+        jelly_unlock_list[page] = true; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
+        ChangePage(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 
-        jelatin -= jelly_jelatinlist[page]; // Á©¶óÆ¾ ¼ö·® °¨¼Ò
+        jelatin -= jelly_jelatinlist[page]; // ï¿½ï¿½ï¿½ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         SoundManager.instance.PlaySound("Unlock");
     }
 
     public void MapChange()
     {
-        MapManager.instance.maplock_group[lock_cafe_list].gameObject.SetActive(false); //¸Ê Àá±Ý ÇØÁ¦
-        MapManager.instance.maplock_button[lock_cafe_list].gameObject.SetActive(false); //¸Ê Àá±Ý ¹öÆ° ÇØÁ¦
+        MapManager.instance.maplock_group[lock_cafe_list].gameObject.SetActive(false); //ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        MapManager.instance.maplock_button[lock_cafe_list].gameObject.SetActive(false); //ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½
     }
 
-    //¸Ê Àá±Ý ÇØÁ¦ ÇÔ¼ö
+    //ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     public void MapUnlock()
     {
-        // ÇöÀç °ñµå°¡ Àá±Ý ÇØÁ¦¿¡ ÇÊ¿äÇÑ °ñµåº¸´Ù ÀûÀ¸¸é ÇÔ¼ö Á¾·á
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½åº¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (gold < map_goldlist[lock_cafe_list])
         {
             SoundManager.instance.PlaySound("Fail");
             return;
         }
 
-        MapChange(); // ÆäÀÌÁö UI ¾÷µ¥ÀÌÆ®
+        MapChange(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 
-        gold -= map_goldlist[lock_cafe_list]; //°ñµå °¨¼Ò
+        gold -= map_goldlist[lock_cafe_list]; //ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         SoundManager.instance.PlaySound("Unlock");
 
         mapunlock_Button.gameObject.SetActive(false);
     }
 
-    // Á©¸® ±¸¸Å ÇÔ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     public void BuyJelly()
     {
-        // ÇöÀç °ñµå°¡ Á©¸® ±¸¸Å¿¡ ÇÊ¿äÇÑ °ñµåº¸´Ù ÀûÀ¸¸é ÇÔ¼ö Á¾·á
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å¿ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½åº¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (gold < jelly_goldlist[page] || jelly_list.Count >= num_level * 2)
         {
             SoundManager.instance.PlaySound("Fail");
             return;
         }
 
-        gold -= jelly_goldlist[page]; // °ñµå °¨¼Ò
+        gold -= jelly_goldlist[page]; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        GameObject obj = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity); // Á©¸® ÇÁ¸®ÆÕ »ý¼º
-        Jelly jelly = obj.GetComponent<Jelly>(); // »ý¼ºµÈ Á©¸® ¿ÀºêÁ§Æ®ÀÇ Jelly ½ºÅ©¸³Æ®¸¦ °¡Á®¿È
-        obj.name = "Jelly " + page; // Á©¸® ¿ÀºêÁ§Æ®ÀÇ ÀÌ¸§À» ÇöÀç ÆäÀÌÁö ¹øÈ£·Î ¼³Á¤
-        jelly.id = page; // Á©¸®ÀÇ ID¸¦ ÇöÀç ÆäÀÌÁö·Î ¼³Á¤
-        jelly.sprite_renderer.sprite = jelly_spritelist[page]; // Á©¸®ÀÇ ½ºÇÁ¶óÀÌÆ® ÀÌ¹ÌÁö¸¦ ÇöÀç ÆäÀÌÁö¿¡ ÇØ´çÇÏ´Â ÀÌ¹ÌÁö·Î ¼³Á¤
+        GameObject obj = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        Jelly jelly = obj.GetComponent<Jelly>(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Jelly ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        obj.name = "Jelly " + page; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        jelly.id = page; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        jelly.sprite_renderer.sprite = jelly_spritelist[page]; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        jelly_list.Add(jelly); // Á©¸®¸¦ Á©¸® ¸®½ºÆ®¿¡ Ãß°¡
+        jelly_list.Add(jelly); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½
 
         SoundManager.instance.PlaySound("Buy");
     }
 
-    // °ÔÀÓ µ¥ÀÌÅÍ¸¦ ºÒ·¯¿À´Â ÇÔ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     void LoadData()
     {
-        // ÇöÀç ÆäÀÌÁöÀÇ Á©¸® Àá±Ý »óÅÂ¿¡ µû¶ó Àá±Ý ±×·ì Ç¥½Ã
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½×·ï¿½ Ç¥ï¿½ï¿½
         lock_group.gameObject.SetActive(!jelly_unlock_list[page]);
 
-        // ÀúÀåµÈ Á©¸® µ¥ÀÌÅÍ¸¦ ºÒ·¯¿Í¼­ °ÔÀÓ¿¡ ¹Ý¿µ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ò·ï¿½ï¿½Í¼ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ ï¿½Ý¿ï¿½
         for (int i = 0; i < jelly_data_list.Count; ++i)
         {
-            GameObject obj = Instantiate(prefab, jelly_data_list[i].pos, Quaternion.identity); // Á©¸® ÇÁ¸®ÆÕ »ý¼º, ÀúÀåµÈ À§Ä¡(pos)¿¡ »ý¼º
-            Jelly jelly = obj.GetComponent<Jelly>(); // »ý¼ºµÈ Á©¸® ¿ÀºêÁ§Æ®ÀÇ Jelly ½ºÅ©¸³Æ®¸¦ °¡Á®¿È
-            // Á©¸®ÀÇ ID, ·¹º§, °æÇèÄ¡¸¦ ÀúÀåµÈ µ¥ÀÌÅÍ·Î ¼³Á¤
+            GameObject obj = Instantiate(prefab, jelly_data_list[i].pos, Quaternion.identity); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡(pos)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            Jelly jelly = obj.GetComponent<Jelly>(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Jelly ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ID, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ ï¿½ï¿½ï¿½ï¿½
             jelly.id = jelly_data_list[i].id;
             jelly.level = jelly_data_list[i].level;
             jelly.exp = jelly_data_list[i].exp;
-            jelly.sprite_renderer.sprite = jelly_spritelist[jelly.id]; // Á©¸®ÀÇ ½ºÇÁ¶óÀÌÆ® ÀÌ¹ÌÁö¸¦ ÀúÀåµÈ ID¿¡ ÇØ´çÇÏ´Â ÀÌ¹ÌÁö·Î ¼³Á¤
-            jelly.anim.runtimeAnimatorController = level_ac[jelly.level - 1]; // Á©¸®ÀÇ ¾Ö´Ï¸ÞÀÌ¼Ç ÄÁÆ®·Ñ·¯¸¦ ·¹º§¿¡ ¸Â°Ô ¼³Á¤
-            obj.name = "Jelly " + jelly.id; // Á©¸® ¿ÀºêÁ§Æ®ÀÇ ÀÌ¸§À» Jelly + ID·Î ¼³Á¤
+            jelly.sprite_renderer.sprite = jelly_spritelist[jelly.id]; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ IDï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            jelly.anim.runtimeAnimatorController = level_ac[jelly.level - 1]; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½
+            obj.name = "Jelly " + jelly.id; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ Jelly + IDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-            jelly_list.Add(jelly); // Á©¸®¸¦ Á©¸® ¸®½ºÆ®¿¡ Ãß°¡
+            jelly_list.Add(jelly); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½
 
-            num_sub_text.text = "Á©¸® ¼ö¿ë·® " + num_level * 2;
+            num_sub_text.text = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ë·® " + num_level * 2;
             if (num_level >= 5) num_btn.gameObject.SetActive(false);
             else num_btn_text.text = string.Format("{0:n0}", num_goldlist[num_level]);
 
-            click_sub_text.text = "Å¬¸¯ »ý»ê·® X " + click_level;
+            click_sub_text.text = "Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½ê·® X " + click_level;
             if (click_level >= 5) click_btn.gameObject.SetActive(false);
             else click_btn_text.text = string.Format("{0:n0}", click_goldlist[click_level]);
         }
     }
 
-    // ¾ÖÇÃ¸®ÄÉÀÌ¼Ç Á¾·á ½Ã µ¥ÀÌÅÍ¸¦ ÀúÀåÇÏ´Â ÇÔ¼ö
+    // ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
     public void Exit()
     {
-        // µ¥ÀÌÅÍ ¸Å´ÏÀú¸¦ ÅëÇØ °ÔÀÓ µ¥ÀÌÅÍ¸¦ JSON Çü½ÄÀ¸·Î ÀúÀå
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ JSON ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         data_manager.JsonSave();
+        // PushAndSavePlayerData();
 
         SoundManager.instance.PlaySound("Pause Out");
 
         Application.Quit();
     }
 
-    // Á©¸® ¼ö¿ë·® ¾÷±×·¹ÀÌµå ÇÔ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ë·® ï¿½ï¿½ï¿½×·ï¿½ï¿½Ìµï¿½ ï¿½Ô¼ï¿½
     public void NumUpgrade()
     {
         if (gold < num_goldlist[num_level])
@@ -787,7 +790,7 @@ public class GameManager : MonoBehaviour
 
         gold -= num_goldlist[num_level++];
 
-        num_sub_text.text = "Á©¸® ¼ö¿ë·® " + num_level * 2;
+        num_sub_text.text = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ë·® " + num_level * 2;
 
         if (num_level >= 5) num_btn.gameObject.SetActive(false);
         else num_btn_text.text = string.Format("{0:n0}", num_goldlist[num_level]);
@@ -797,7 +800,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    // Å¬¸¯ »ý»ê·® ¾÷±×·¹ÀÌµå ÇÔ¼ö
+    // Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½ê·® ï¿½ï¿½ï¿½×·ï¿½ï¿½Ìµï¿½ ï¿½Ô¼ï¿½
     public void ClickUpgrade()
     {
         if (gold < click_goldlist[click_level])
@@ -808,7 +811,7 @@ public class GameManager : MonoBehaviour
 
         gold -= click_goldlist[click_level++];
 
-        click_sub_text.text = "Å¬¸¯ »ý»ê·® X " + click_level * 2;
+        click_sub_text.text = "Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½ê·® X " + click_level * 2;
 
         if (click_level >= 5) click_btn.gameObject.SetActive(false);
         else click_btn_text.text = string.Format("{0:n0}", click_goldlist[click_level]);
@@ -819,30 +822,30 @@ public class GameManager : MonoBehaviour
 
     public void MachinePageUp()
     {
-        UnityEngine.Debug.Log("ÆäÀÌÁö up");
+        UnityEngine.Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ up");
 
-        if (machinePage >= 4) // ÃÖ´ë ÆäÀÌÁö¸¦ ³ÑÁö ¾Êµµ·Ï Á¦ÇÑ
+        if (machinePage >= 4) // ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             SoundManager.instance.PlaySound("Fail");
             return;
         }
 
         ++machinePage;
-        ChangeMachinePage(); // ÆäÀÌÁö º¯°æ
+        ChangeMachinePage(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         SoundManager.instance.PlaySound("Button");
 
     }
 
     public void MachinePageDown()
     {
-        if (machinePage <= 0) // ÃÖ¼Ò ÆäÀÌÁö¸¦ ³ÑÁö ¾Êµµ·Ï Á¦ÇÑ
+        if (machinePage <= 0) // ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             SoundManager.instance.PlaySound("Fail");
             return;
         }
 
         --machinePage;
-        ChangeMachinePage(); // ÆäÀÌÁö º¯°æ
+        ChangeMachinePage(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         SoundManager.instance.PlaySound("Button");
     }
 
@@ -854,10 +857,10 @@ public class GameManager : MonoBehaviour
 
     public void MachineUIUpdate()
     {
-        int mapIndex = machinePage; // ÇöÀç ÆäÀÌÁö¸¦ ¸Ê ÀÎµ¦½º·Î »ç¿ë
+        int mapIndex = machinePage; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         int currentMachineGold = 0;
 
-        // mapIndex¿¡ ÇØ´çÇÏ´Â ±â°è °¡°Ý °¡Á®¿À±â
+        // mapIndexï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         switch (mapIndex)
         {
             case 0:
@@ -877,11 +880,11 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        // ±â°è Á¤º¸ ¾÷µ¥ÀÌÆ®
-        machine_sub_text.text = "º¸À¯ ±â°è: " + machine_level[mapIndex] + "°³";
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+        machine_sub_text.text = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½: " + machine_level[mapIndex] + "ï¿½ï¿½";
         if (machine_level[mapIndex] >= 5)
         {
-            machine_btn_text.text = "ÃÖ´ë º¸À¯";
+            machine_btn_text.text = "ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½";
             machine_btn.interactable = false;
         }
         else
@@ -890,17 +893,17 @@ public class GameManager : MonoBehaviour
             machine_btn.interactable = true;
         }
 
-        // ¸Ê ÀÎµ¦½º¸¦ UI¿¡ ¹Ý¿µ
-        map_text.text = "ÁöÁ¡: " + (mapIndex + 1);
+        // ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ UIï¿½ï¿½ ï¿½Ý¿ï¿½
+        map_text.text = "ï¿½ï¿½ï¿½ï¿½: " + (mapIndex + 1);
     }
 
     public void BuyMachine()
     {
-        // ±â°è ±Ý¾×À» ±â°èÀÇ ·¹º§¿¡ ¸Â°Ô °¡Á®¿È
+        // ï¿½ï¿½ï¿½ ï¿½Ý¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         int currentMachineGold = 0;
         GameObject[] currentMachineList = null;
 
-        // °¢ ±â°è¿¡ ´ëÇØ ·¹º§¿¡ ¸Â´Â ±Ý¾×°ú ÀÌ¹ÌÁö¸¦ °¡Á®¿È
+        // ï¿½ï¿½ ï¿½ï¿½è¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½Ý¾×°ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         switch (machinePage)
         {
             case 0:
@@ -926,25 +929,25 @@ public class GameManager : MonoBehaviour
         }
 
 
-        // ±Ý¾× ºñ±³
+        // ï¿½Ý¾ï¿½ ï¿½ï¿½
         if (gold < currentMachineGold)
         {
             SoundManager.instance.PlaySound("Fail");
             return;
         }
 
-        // ±â°è È°¼ºÈ­
+        // ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­
         currentMachineList[machine_level[machinePage]].SetActive(true);
 
-        // ±Ý¾× Â÷°¨
+        // ï¿½Ý¾ï¿½ ï¿½ï¿½ï¿½ï¿½
         gold -= currentMachineGold;
 
-        // ±â°è ·¹º§ ¾÷
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         machine_level[machinePage]++;
 
         MachineUIUpdate();
 
-        // ¼Ò¸® Àç»ý
+        // ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½
         SoundManager.instance.PlaySound("Unlock");
     }
 
@@ -954,11 +957,11 @@ public class GameManager : MonoBehaviour
     /*
     IEnumerator SpawnJellyRandomly()
     {
-        while (true) // ¹«ÇÑ ¹Ýº¹
+        while (true) // ï¿½ï¿½ï¿½ï¿½ ï¿½Ýºï¿½
         {
-            float waitTime = Random.Range(minSpawnTime, maxSpawnTime); // ·£´ý ½Ã°£ ¼³Á¤
-            yield return new WaitForSeconds(waitTime); // ·£´ý ½Ã°£¸¸Å­ ´ë±â
-            spawnJelly(); // Á©¸® ½ºÆù
+            float waitTime = Random.Range(minSpawnTime, maxSpawnTime); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
+            yield return new WaitForSeconds(waitTime); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½
+            spawnJelly(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
@@ -979,34 +982,34 @@ public class GameManager : MonoBehaviour
         int RandomSpawnPos = Random.Range(0, 5);
         
 
-        GameObject obj = Instantiate(prefab, spawnPos[RandomSpawnPos], Quaternion.identity); // Á©¸® ÇÁ¸®ÆÕ »ý¼º
-        Jelly jelly = obj.GetComponent<Jelly>(); // »ý¼ºµÈ Á©¸® ¿ÀºêÁ§Æ®ÀÇ Jelly ½ºÅ©¸³Æ®¸¦ °¡Á®¿È
-        obj.name = "Jelly " + page; // Á©¸® ¿ÀºêÁ§Æ®ÀÇ ÀÌ¸§À» ÇöÀç ÆäÀÌÁö ¹øÈ£·Î ¼³Á¤
-        jelly.id = page; // Á©¸®ÀÇ ID¸¦ ÇöÀç ÆäÀÌÁö·Î ¼³Á¤
-        jelly.sprite_renderer.sprite = jelly_spritelist[page]; // Á©¸®ÀÇ ½ºÇÁ¶óÀÌÆ® ÀÌ¹ÌÁö¸¦ ÇöÀç ÆäÀÌÁö¿¡ ÇØ´çÇÏ´Â ÀÌ¹ÌÁö·Î ¼³Á¤
+        GameObject obj = Instantiate(prefab, spawnPos[RandomSpawnPos], Quaternion.identity); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        Jelly jelly = obj.GetComponent<Jelly>(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Jelly ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        obj.name = "Jelly " + page; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        jelly.id = page; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        jelly.sprite_renderer.sprite = jelly_spritelist[page]; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        jelly_list.Add(jelly); // Á©¸®¸¦ Á©¸® ¸®½ºÆ®¿¡ Ãß°¡
+        jelly_list.Add(jelly); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½
     }
     */
 
-    // Æ¯Á¤ Map¿¡ Á©¸® »ý¼º
+    // Æ¯ï¿½ï¿½ Mapï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     void SpawnJellyOnMap(Vector3 spawnCenter, float spawnRangeX, List<Jelly> jellyList)
     {
-        float randomX = Random.Range(spawnCenter.x - spawnRangeX, spawnCenter.x + spawnRangeX); // xÁÂÇ¥ ·£´ýÈ­
-        Vector3 spawnPosition = new Vector3(randomX, spawnCenter.y, spawnCenter.z); // y, z´Â °íÁ¤
+        float randomX = Random.Range(spawnCenter.x - spawnRangeX, spawnCenter.x + spawnRangeX); // xï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½È­
+        Vector3 spawnPosition = new Vector3(randomX, spawnCenter.y, spawnCenter.z); // y, zï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity);
         Jelly jelly = obj.GetComponent<Jelly>();
 
-        page = Random.Range(0, 6); // ·£´ý ÆäÀÌÁö ¼³Á¤
+        page = Random.Range(0, 6); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         obj.name = "Jelly " + page;
         jelly.id = page;
         jelly.sprite_renderer.sprite = jelly_spritelist[page];
 
-        jellyList.Add(jelly); // ÇØ´ç MapÀÇ Jelly ¸®½ºÆ®¿¡ Ãß°¡
+        jellyList.Add(jelly); // ï¿½Ø´ï¿½ Mapï¿½ï¿½ Jelly ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½
     }
 
-    // Map 1¿¡ Á©¸® »ý¼º
+    // Map 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     IEnumerator SpawnJellyOnMap1()
     {
         while (true)
@@ -1014,11 +1017,11 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
             yield return new WaitForSeconds(waitTime);
 
-            SpawnJellyOnMap(new Vector3(0, 1.3f, 0), 1.25f, map1JellyList); // ¸Ê 1 Áß½É°ú ¹üÀ§
+            SpawnJellyOnMap(new Vector3(0, 1.3f, 0), 1.25f, map1JellyList); // ï¿½ï¿½ 1 ï¿½ß½É°ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
-    // Map 2¿¡ Á©¸® »ý¼º
+    // Map 2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     IEnumerator SpawnJellyOnMap2()
     {
         while (true)
@@ -1026,11 +1029,11 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
             yield return new WaitForSeconds(waitTime);
 
-            SpawnJellyOnMap(new Vector3(20, 1.3f, 0), 1.25f, map2JellyList); // ¸Ê 2 Áß½É°ú ¹üÀ§
+            SpawnJellyOnMap(new Vector3(20, 1.3f, 0), 1.25f, map2JellyList); // ï¿½ï¿½ 2 ï¿½ß½É°ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
-    // Map 3¿¡ Á©¸® »ý¼º
+    // Map 3ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     IEnumerator SpawnJellyOnMap3()
     {
         while (true)
@@ -1038,11 +1041,11 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
             yield return new WaitForSeconds(waitTime);
 
-            SpawnJellyOnMap(new Vector3(40, 1.3f, 0), 1.25f, map3JellyList); // ¸Ê 3 Áß½É°ú ¹üÀ§
+            SpawnJellyOnMap(new Vector3(40, 1.3f, 0), 1.25f, map3JellyList); // ï¿½ï¿½ 3 ï¿½ß½É°ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
-    // Map 4¿¡ Á©¸® »ý¼º
+    // Map 4ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     IEnumerator SpawnJellyOnMap4()
     {
         while (true)
@@ -1050,11 +1053,11 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
             yield return new WaitForSeconds(waitTime);
 
-            SpawnJellyOnMap(new Vector3(60, 1.3f, 0), 1.25f, map4JellyList); // ¸Ê 4 Áß½É°ú ¹üÀ§
+            SpawnJellyOnMap(new Vector3(60, 1.3f, 0), 1.25f, map4JellyList); // ï¿½ï¿½ 4 ï¿½ß½É°ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
-    // Map 5¿¡ Á©¸® »ý¼º
+    // Map 5ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     IEnumerator SpawnJellyOnMap5()
     {
         while (true)
@@ -1062,17 +1065,17 @@ public class GameManager : MonoBehaviour
             float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
             yield return new WaitForSeconds(waitTime);
 
-            SpawnJellyOnMap(new Vector3(80, 1.3f, 0), 1.25f, map5JellyList); // ¸Ê 5 Áß½É°ú ¹üÀ§
+            SpawnJellyOnMap(new Vector3(80, 1.3f, 0), 1.25f, map5JellyList); // ï¿½ï¿½ 5 ï¿½ß½É°ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
-    /* »Ì±â ÇÔ¼ö
-    ·£´ý ÆÐ³Î¿¡¼­ ¹öÆ°À» Å¬¸¯ÇÏ¸é ´Ü°ñ¼Õ´Ô¸®½ºÆ® 0~6ÀÇ ÀÎµ¦½º Áß ÇÏ³ª ·£´ýÀ¸·Î »ÌÀ½
-    ÇØ´ç ÀÎµ¦½ºÀÇ Á©¸®´Â collected Ã³¸®
+    /* ï¿½Ì±ï¿½ ï¿½Ô¼ï¿½
+    ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½Ü°ï¿½Õ´Ô¸ï¿½ï¿½ï¿½Æ® 0~6ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    ï¿½Ø´ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ collected Ã³ï¿½ï¿½
     */
     public void RandomPick()
     {
-        // ÇöÀç Á©¶óÆ¾ÀÌ Àá±Ý ÇØÁ¦¿¡ ÇÊ¿äÇÑ Á©¶óÆ¾ ¼öº¸´Ù ÀûÀ¸¸é ÇÔ¼ö Á¾·á
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ¾ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (gold < special_customer_gold)
         {
             SoundManager.instance.PlaySound("Fail");
@@ -1081,7 +1084,7 @@ public class GameManager : MonoBehaviour
 
         gold -= special_customer_gold;
 
-        // ¸ðµç Á©¸®°¡ ÇØÁ¦µÇ¾úÀ¸¸é Á¾·á
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (AllSpecialColleted())
         {
             return;
@@ -1091,82 +1094,82 @@ public class GameManager : MonoBehaviour
 
         do
         {
-            index = Random.Range(0, collected_list.Length); // 0ºÎÅÍ 5±îÁö ·£´ý ÀÎµ¦½º ¼±ÅÃ
+            index = Random.Range(0, collected_list.Length); // 0ï¿½ï¿½ï¿½ï¿½ 5ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             
             
-        } while (collected_list[index]); // ÀÌ¹Ì ÇØÁ¦µÈ Á©¸® ÀÎµ¦½º´Â ¼±ÅÃÇÏÁö ¾ÊÀ½
+        } while (collected_list[index]); // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 
         collected_name[specialNum] = special_customer_namelist[index];
         collected_sprites[specialNum] = special_customer_spritelist[index];
         specialNum++;
 
-        collected_list[index] = true; // Á©¸® Àá±Ý ÇØÁ¦ »óÅÂ·Î º¯°æ
-        collectedManager.UpdateCollectedList(index, true); // index 1ÀÇ collected_list¸¦ true·Î º¯°æ
+        collected_list[index] = true; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
+        collectedManager.UpdateCollectedList(index, true); // index 1ï¿½ï¿½ collected_listï¿½ï¿½ trueï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         SoundManager.instance.PlaySound("Unlock");
 
     }
 
-    // ¸ðµç Á©¸®°¡ ÇØÁ¦µÇ¾ú´ÂÁö Ã¼Å©ÇÏ´Â ¸Þ¼Òµå
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½Ï´ï¿½ ï¿½Þ¼Òµï¿½
     private bool AllSpecialColleted()
     {
         foreach (bool collected in collected_list)
         {
             if (!collected)
             {
-                return false; // ÇÏ³ª¶óµµ ÇØÁ¦µÇÁö ¾ÊÀº Á©¸®°¡ ÀÖÀ¸¸é false ¹ÝÈ¯
+                return false; // ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ false ï¿½ï¿½È¯
             }
         }
-        return true; // ¸ðµÎ ÇØÁ¦µÇ¾úÀ¸¸é true ¹ÝÈ¯
+        return true; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ true ï¿½ï¿½È¯
     }
 
 
-    /* ´Ü°ñ¼Õ´Ô »ý¼º ÇÔ¼ö
-    spawnJellyÃ³·³ ·£´ýÀ¸·Î »ÌµÇ, collected_list[page] = falseÀÌ¸é ´Ù¸¥ ¼ö Ã£À½
-    trueÀÌ¸é spawnJellyÃ³·³ »ý¼º
-    ÀÌÆåÆ® Ãß°¡?
+    /* ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
+    spawnJellyÃ³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½, collected_list[page] = falseï¿½Ì¸ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ Ã£ï¿½ï¿½
+    trueï¿½Ì¸ï¿½ spawnJellyÃ³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ß°ï¿½?
     */
-    // Æ¯Á¤ Map¿¡ ´Ü°ñ¼Õ´Ô »ý¼º
+    // Æ¯ï¿½ï¿½ Mapï¿½ï¿½ ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½
     void SpawnSpecialOnMap(Vector3 spawnPos, int index, List<SpecialCustomer> specialCustomerList)
     {
-        // Á¶°Ç: ÀÌ¸§°ú ½ºÇÁ¶óÀÌÆ®°¡ À¯È¿ÇÑ °æ¿ì¿¡¸¸ »ý¼º
+        // ï¿½ï¿½ï¿½ï¿½: ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (!string.IsNullOrEmpty(collected_name[index]) && collected_sprites[index] != null)
         {
-            // ´Ü°ñ¼Õ´Ô ¿ÀºêÁ§Æ® »ý¼º
-            GameObject obj = Instantiate(prefab_special_customer, spawnPos, Quaternion.identity); // ´Ü°ñ¼Õ´Ô ÇÁ¸®ÆÕ »ý¼º
-            SpecialCustomer specialCustomer = obj.GetComponent<SpecialCustomer>(); // »ý¼ºµÈ ´Ü°ñ¼Õ´Ô ¿ÀºêÁ§Æ®ÀÇ SpecialCustomer ½ºÅ©¸³Æ®¸¦ °¡Á®¿È
-            obj.name = "Special Customer " + index; // ´Ü°ñ¼Õ´Ô ¿ÀºêÁ§Æ®ÀÇ ÀÌ¸§À» ÇöÀç ÆäÀÌÁö ¹øÈ£·Î ¼³Á¤
+            // ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+            GameObject obj = Instantiate(prefab_special_customer, spawnPos, Quaternion.identity); // ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            SpecialCustomer specialCustomer = obj.GetComponent<SpecialCustomer>(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ SpecialCustomer ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            obj.name = "Special Customer " + index; // ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             specialCustomer.id = index;
-            specialCustomer.sprite_renderer.sprite = collected_sprites[index]; // ´Ü°ñ¼Õ´ÔÀÇ ½ºÇÁ¶óÀÌÆ® ÀÌ¹ÌÁö¸¦ ¼³Á¤
+            specialCustomer.sprite_renderer.sprite = collected_sprites[index]; // ï¿½Ü°ï¿½Õ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-            // ÆÄÆ¼Å¬ ½Ã½ºÅÛ ÇÁ¸®ÆÕ »ý¼º
+            // ï¿½ï¿½Æ¼Å¬ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             GameObject instantFavEffectObj = Instantiate(favorability_effect_prefab);
             ParticleSystem instantFavEffect = instantFavEffectObj.GetComponent<ParticleSystem>();
 
-            // ÆÄÆ¼Å¬ ½Ã½ºÅÛÀ» ´Ü°ñ¼Õ´Ô¿¡ ÇÒ´ç
+            // ï¿½ï¿½Æ¼Å¬ ï¿½Ã½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½Õ´Ô¿ï¿½ ï¿½Ò´ï¿½
             specialCustomer.favorability_effect = instantFavEffect;
 
-            // ÆÄÆ¼Å¬ ½Ã½ºÅÛ ÀÎ½ºÅÏ½º¸¦ ÃßÀûÇÏµµ·Ï ¼³Á¤
+            // ï¿½ï¿½Æ¼Å¬ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             specialCustomer.favorabilityEffectInstance = instantFavEffectObj;
 
-            // GameManager¿¡¼­ ´Ü°ñ¼Õ´ÔÀÇ È£°¨µµ¸¦ ºÒ·¯¿È
+            // GameManagerï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½Õ´ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½
             specialCustomer.favorability = GetFavorability(index);
 
-            // ´Ü°ñ¼Õ´ÔÀ» ¸®½ºÆ®¿¡ Ãß°¡
+            // ï¿½Ü°ï¿½Õ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½
             specialCustomerList.Add(specialCustomer);
         }
     }
 
-    // °¢ ¸Êº°·Î ´Ü°ñ¼Õ´ÔÀ» ½ºÆùÇÏ´Â ÄÚ·çÆ¾
+    // ï¿½ï¿½ ï¿½Êºï¿½ï¿½ï¿½ ï¿½Ü°ï¿½Õ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ú·ï¿½Æ¾
     IEnumerator SpawnSpecialOnMap1()
     {
         while (true)
         {
-            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ·£´ý ½Ã°£ ¼³Á¤
-            yield return new WaitForSeconds(waitTime); // ·£´ý ½Ã°£¸¸Å­ ´ë±â
-            int index = Random.Range(0, 3); // 1¹ø ¸Ê¿¡¼­ÀÇ ´Ü°ñ¼Õ´Ô »ý¼º (0 ~ 4)
-            Vector3 spawnPos = new Vector3(Random.Range(-1.25f, 1.25f), 1.3f, 0); // 1¹ø ¸ÊÀÇ ·£´ý À§Ä¡
-            SpawnSpecialOnMap(spawnPos, index, map1specialCustomerList); // ´Ü°ñ¼Õ´Ô »ý¼º
+            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
+            yield return new WaitForSeconds(waitTime); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½
+            int index = Random.Range(0, 3); // 1ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ (0 ~ 4)
+            Vector3 spawnPos = new Vector3(Random.Range(-1.25f, 1.25f), 1.3f, 0); // 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+            SpawnSpecialOnMap(spawnPos, index, map1specialCustomerList); // ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
@@ -1174,11 +1177,11 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ·£´ý ½Ã°£ ¼³Á¤
-            yield return new WaitForSeconds(waitTime); // ·£´ý ½Ã°£¸¸Å­ ´ë±â
-            int index = Random.Range(3, 6); // 2¹ø ¸Ê¿¡¼­ÀÇ ´Ü°ñ¼Õ´Ô »ý¼º (5 ~ 8)
-            Vector3 spawnPos = new Vector3(Random.Range(18.75f, 21.25f), 1.3f, 0); // 2¹ø ¸ÊÀÇ ·£´ý À§Ä¡
-            SpawnSpecialOnMap(spawnPos, index, map2specialCustomerList); // ´Ü°ñ¼Õ´Ô »ý¼º
+            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
+            yield return new WaitForSeconds(waitTime); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½
+            int index = Random.Range(3, 6); // 2ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ (5 ~ 8)
+            Vector3 spawnPos = new Vector3(Random.Range(18.75f, 21.25f), 1.3f, 0); // 2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+            SpawnSpecialOnMap(spawnPos, index, map2specialCustomerList); // ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
@@ -1186,11 +1189,11 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ·£´ý ½Ã°£ ¼³Á¤
-            yield return new WaitForSeconds(waitTime); // ·£´ý ½Ã°£¸¸Å­ ´ë±â
-            int index = Random.Range(6, 9); // 3¹ø ¸Ê¿¡¼­ÀÇ ´Ü°ñ¼Õ´Ô »ý¼º (9 ~ 13)
-            Vector3 spawnPos = new Vector3(Random.Range(38.75f, 41.25f), 1.3f, 0); // 3¹ø ¸ÊÀÇ ·£´ý À§Ä¡
-            SpawnSpecialOnMap(spawnPos, index, map3specialCustomerList); // ´Ü°ñ¼Õ´Ô »ý¼º
+            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
+            yield return new WaitForSeconds(waitTime); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½
+            int index = Random.Range(6, 9); // 3ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ (9 ~ 13)
+            Vector3 spawnPos = new Vector3(Random.Range(38.75f, 41.25f), 1.3f, 0); // 3ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+            SpawnSpecialOnMap(spawnPos, index, map3specialCustomerList); // ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
@@ -1198,10 +1201,10 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ·£´ý ½Ã°£ ¼³Á¤
-            yield return new WaitForSeconds(waitTime); // ·£´ý ½Ã°£¸¸Å­ ´ë±â
-            int index = Random.Range(9, 12); // 4¹ø ¸Ê¿¡¼­ÀÇ ´Ü°ñ¼Õ´Ô »ý¼º (14 ~ 18)
-            Vector3 spawnPos = new Vector3(Random.Range(58.75f, 61.25f), 1.3f, 0); // 4¹ø ¸ÊÀÇ ·£´ý À§Ä¡
+            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
+            yield return new WaitForSeconds(waitTime); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½
+            int index = Random.Range(9, 12); // 4ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ (14 ~ 18)
+            Vector3 spawnPos = new Vector3(Random.Range(58.75f, 61.25f), 1.3f, 0); // 4ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
             SpawnSpecialOnMap(spawnPos, index, map4specialCustomerList);
         }
     }
@@ -1210,16 +1213,16 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ·£´ý ½Ã°£ ¼³Á¤
-            yield return new WaitForSeconds(waitTime); // ·£´ý ½Ã°£¸¸Å­ ´ë±â
-            int index = Random.Range(12, 15); // 5¹ø ¸Ê¿¡¼­ÀÇ ´Ü°ñ¼Õ´Ô »ý¼º (19 ~ 23)
-            Vector3 spawnPos = new Vector3(Random.Range(78.75f, 81.25f), 1.3f, 0); // 5¹ø ¸ÊÀÇ ·£´ý À§Ä¡
-            SpawnSpecialOnMap(spawnPos, index, map5specialCustomerList); // ´Ü°ñ¼Õ´Ô »ý¼º
+            float waitTime = Random.Range(minSpecialSpawnTime, maxSpecialSpawnTime); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
+            yield return new WaitForSeconds(waitTime); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½
+            int index = Random.Range(12, 15); // 5ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ (19 ~ 23)
+            Vector3 spawnPos = new Vector3(Random.Range(78.75f, 81.25f), 1.3f, 0); // 5ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+            SpawnSpecialOnMap(spawnPos, index, map5specialCustomerList); // ï¿½Ü°ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
 
-    // È£°¨µµ ¾÷µ¥ÀÌÆ® ÇÔ¼ö
+    // È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ô¼ï¿½
     public void UpdateFavorability(int index, int favorability)
     {
 
@@ -1227,7 +1230,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    // Æ¯Á¤ ´Ü°ñ¼Õ´ÔÀÇ È£°¨µµ¸¦ ºÒ·¯¿À´Â ÇÔ¼ö
+    // Æ¯ï¿½ï¿½ ï¿½Ü°ï¿½Õ´ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     public int GetFavorability(int index)
     {
 
@@ -1235,11 +1238,48 @@ public class GameManager : MonoBehaviour
 
     }
 
-    // Å¬¸¯ °ñµå È¹µæ ÇÔ¼ö
+    // Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½ È¹ï¿½ï¿½ ï¿½Ô¼ï¿½
     public void ClickGetGold(int goldReward)
     {
         gold += goldReward;
     }
 
-   
+    /**
+     *  Bridge for PlayerDataModel families
+     */
+
+    // declaring local variable in this position is for optimization
+    private PlayerDataModel playerDataModel;
+    
+    public void PushAndSavePlayerData()
+    {
+        PlayerDataContainer.I.PlayerData = new PlayerDataModel
+        (
+            jelatin,
+            gold,
+            jelly_unlock_list,
+            jelly_data_list,
+            num_level,
+            click_level,
+            SoundManager.instance != null ? SoundManager.instance.bgm_slider.value : PlayerDataModelDefaults.BGM_VOLUME,
+            SoundManager.instance != null ? SoundManager.instance.sfx_slider.value : PlayerDataModelDefaults.SFX_VOLUME
+        );
+        PlayerDataContainer.I.PushDataToLocal();
+    }
+
+    public void LoadAndPullPlayerData()
+    {
+        playerDataModel = PlayerDataContainer.I.PlayerData;
+        jelatin = playerDataModel.jelatin;
+        gold = playerDataModel.gold;
+        jelly_unlock_list = playerDataModel.jellyUnlocks;
+        jelly_data_list = playerDataModel.jelly.Select(each => (Data)each).ToList();
+        num_level = playerDataModel.numLevel;
+        click_level = playerDataModel.clickLevel;
+        if (SoundManager.instance)
+        {
+            SoundManager.instance.bgm_slider.value = playerDataModel.bgmVolume;
+            SoundManager.instance.sfx_slider.value = playerDataModel.sfxVolume;
+        }
+    }
 }

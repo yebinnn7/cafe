@@ -24,8 +24,8 @@ public class DataManager : MonoBehaviour
 
     void Start()
     {
-        path = Path.Combine(Application.dataPath, "database.json");
-        JsonLoad();
+        // path = Path.Combine(Application.dataPath, "database.json");
+        // JsonLoad();
     }
     /*
     public class SaveData
