@@ -180,11 +180,11 @@ public class GameManager : MonoBehaviour
     public int[] machine_goldlist5 = new int[5];  // ��� 5�� �ݾ� (���� 1~5)
 
     // �� ����� �̹��� (1~5)
-    public GameObject[] machine_list1 = new GameObject[5];  // ��� 1�� �̹��� (���� 1~5)
-    public GameObject[] machine_list2 = new GameObject[5];  // ��� 2�� �̹��� (���� 1~5)
-    public GameObject[] machine_list3 = new GameObject[5];  // ��� 3�� �̹��� (���� 1~5)
-    public GameObject[] machine_list4 = new GameObject[5];  // ��� 4�� �̹��� (���� 1~5)
-    public GameObject[] machine_list5 = new GameObject[5];  // ��� 5�� �̹��� (���� 1~5)
+    public GameObject[] machine_list1 = new GameObject[6];  // ��� 1�� �̹��� (���� 1~5)
+    public GameObject[] machine_list2 = new GameObject[6];  // ��� 2�� �̹��� (���� 1~5)
+    public GameObject[] machine_list3 = new GameObject[6];  // ��� 3�� �̹��� (���� 1~5)
+    public GameObject[] machine_list4 = new GameObject[6];  // ��� 4�� �̹��� (���� 1~5)
+    public GameObject[] machine_list5 = new GameObject[6];  // ��� 5�� �̹��� (���� 1~5)
 
     // Map�� �մ� ����Ʈ
     public List<Jelly> map1JellyList = new List<Jelly>();
@@ -881,10 +881,10 @@ public class GameManager : MonoBehaviour
         }
 
         // ��� ���� ������Ʈ
-        machine_sub_text.text = "���� ���: " + machine_level[mapIndex] + "��";
+        machine_sub_text.text = "보유 기계: " + machine_level[mapIndex] + "개";
         if (machine_level[mapIndex] >= 5)
         {
-            machine_btn_text.text = "�ִ� ����";
+            machine_btn_text.text = "최대 보유";
             machine_btn.interactable = false;
         }
         else
@@ -894,7 +894,7 @@ public class GameManager : MonoBehaviour
         }
 
         // �� �ε����� UI�� �ݿ�
-        map_text.text = "����: " + (mapIndex + 1);
+        map_text.text = "지점: " + (mapIndex + 1);
     }
 
     public void BuyMachine()
@@ -938,6 +938,13 @@ public class GameManager : MonoBehaviour
 
         // ��� Ȱ��ȭ
         currentMachineList[machine_level[machinePage]].SetActive(true);
+        // 5번째 원소도 활성화
+        if (machine_level[machinePage] == 4)
+        {
+            currentMachineList[machine_level[machinePage] + 1].SetActive(true);
+            
+        }
+
 
         // �ݾ� ����
         gold -= currentMachineGold;
