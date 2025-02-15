@@ -59,6 +59,14 @@ public class SpecialCustomer : MonoBehaviour
     Camera selectedCamera;
     private GameObject trash;
 
+    public string specialMenuName;        // 선호하는 메뉴 이름
+    public string specialMenuDescription; // 선호하는 메뉴 설명
+    public Sprite specialMenuImage;
+
+    bool isUnlock = false;
+
+    
+
     // 게임 시작 시 필요한 변수와 오브젝트를 설정하는 초기화 함수
     void Awake()
     {
@@ -98,6 +106,7 @@ public class SpecialCustomer : MonoBehaviour
         // GameManager에서 기존 호감도 가져옴
         favorability = game_manager.GetFavorability(id);
 
+        
 
         Invoke("CheckTrashInArea", 0.5f);
     }
@@ -106,9 +115,9 @@ public class SpecialCustomer : MonoBehaviour
     {
         id = newid;
     }
-    
 
- 
+
+
 
     // 매 프레임마다 호출되는 함수로, 주로 상태 업데이트를 담당
     void Update()
@@ -143,46 +152,31 @@ public class SpecialCustomer : MonoBehaviour
         if (!game_manager.isLive) return;
 
         // 걷는 동작을 멈추고 터치 애니메이션 실행
-        // isWalking = false;
         anim.SetBool("isWalk", false);
         anim.SetTrigger("doTouch");
-
-        favorability += 3;
-
-        game_manager.UpdateFavorability(id, favorability);
-
-        // 이펙트 생성
-        FavEffectPlay();
-
-
 
         SoundManager.instance.PlaySound("Touch");
+
+        // 호감도가 20 이상일 때
+        if (favorability >= 20 && isUnlock == false && game_manager.unlockMenu[id] == false)
+        {
+            game_manager.ClickMenuBtn(id);
+            isUnlock = true;
+            return; // 호감도가 20 이상일 때는 더 이상 진행되지 않음
+        }
+
+        if (favorability < 20)
+        {
+            // 호감도가 20 미만일 경우에만 증가하고 이펙트 생성
+            favorability += 2;
+            game_manager.UpdateFavorability(id, favorability);
+
+            // 이펙트 생성
+            FavEffectPlay();
+        }
+        
     }
 
-    /*
-    // 마우스 드래그 시 젤리를 끌어당기는 동작 처리
-    void OnMouseDrag()
-    {
-        // 게임이 진행 중이지 않으면 드래그 동작을 수행하지 않음
-        if (!game_manager.isLive) return;
-
-        pick_time += Time.deltaTime; // 마우스 클릭 시간을 누적
-
-        // 클릭 시간이 너무 짧으면 드래그를 처리하지 않음
-        if (pick_time < 0.1f) return;
-
-        // 젤리가 걷는 동작을 멈추고 터치 애니메이션 실행
-        // isWalking = false;
-        anim.SetBool("isWalk", false);
-        anim.SetTrigger("doTouch");
-
-        // 마우스 위치를 월드 좌표로 변환하여 젤리의 위치를 이동
-        Vector3 mouse_pos = Input.mousePosition;
-        Vector3 point = Camera.main.ScreenToWorldPoint(new Vector3(mouse_pos.x, mouse_pos.y, mouse_pos.y));
-
-        transform.position = point;
-    }
-    */
 
     // 젤라틴을 주기적으로 획득하는 코루틴 함수
     IEnumerator GetJelatin()

@@ -46,6 +46,11 @@ public class CollectedManager : MonoBehaviour
     public Image information_panel; 
     Animator information_anim;
 
+    public Text InformationMenuName;
+    public Text InformationMenuDescription;
+    public Image InformationMenuImage;
+
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -199,11 +204,15 @@ public class CollectedManager : MonoBehaviour
         InformationText.text = collected_name[index];
         InformationFavorability.text = "호감도 " + customer_favorability[index];
 
+        InformationMenuName.text = game_manager.collected_menu_name[index];
+        InformationMenuDescription.text = game_manager.collected_menu_description[index];
+        InformationMenuImage.sprite = game_manager.collected_menu_image[index];
+
         game_manager.isInformationClick = true;
 
+        
 
-
-    }
+}
 
     public void ClickSpecialBitton1()
     {
@@ -214,6 +223,10 @@ public class CollectedManager : MonoBehaviour
         InformationImage.sprite = collected_sprites[index];
         InformationText.text = collected_name[index];
         InformationFavorability.text = "호감도 " + customer_favorability[index];
+
+        InformationMenuName.text = game_manager.collected_menu_name[index];
+        InformationMenuDescription.text = game_manager.collected_menu_description[index];
+        InformationMenuImage.sprite = game_manager.collected_menu_image[index];
 
         game_manager.isInformationClick = true;
     }
@@ -227,6 +240,10 @@ public class CollectedManager : MonoBehaviour
         InformationImage.sprite = collected_sprites[index];
         InformationText.text = collected_name[index];
         InformationFavorability.text = "호감도 " + customer_favorability[index];
+
+        InformationMenuName.text = game_manager.collected_menu_name[index];
+        InformationMenuDescription.text = game_manager.collected_menu_description[index];
+        InformationMenuImage.sprite = game_manager.collected_menu_image[index];
 
         game_manager.isInformationClick = true;
     }

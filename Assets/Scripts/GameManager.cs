@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
     public Image random_panel; // ���� �޴� �г�
     public Image collected_panel; // ���� �޴� �г�
     public Image information_panel; // ���� �޴� �г�
+    public Image menu_panel;
 
 
     [Space(10f)]
@@ -97,6 +98,7 @@ public class GameManager : MonoBehaviour
     Animator random_anim; // ���� �г� �ִϸ��̼� ����
     Animator collected_anim; // ���� �г� �ִϸ��̼� ����
     Animator information_anim; // ���� �г� �ִϸ��̼� ����
+    Animator menu_anim;
 
     [Space(10f)]
     [Header("Click On Off")]
@@ -107,6 +109,7 @@ public class GameManager : MonoBehaviour
     bool isRandomClick; // ���� ��ư�� Ŭ���� �������� ����
     bool isCollectedClick; // ���� ��ư�� Ŭ���� �������� ����
     public bool isInformationClick;
+    bool isMenuClick;
 
     int page; // ���� ���õ� ������
     int index; // �ܰ� �մ� ��ȣ
@@ -154,6 +157,8 @@ public class GameManager : MonoBehaviour
 
     // �ܰ�մ� ȣ���� ���� ��ųʸ�
     public int[] specialCustomerFavorability;
+    public int maxFavorability = 20;
+    public bool[] isUnlock;
 
     // Collected Manager ����
     private CollectedManager collectedManager;
@@ -204,7 +209,27 @@ public class GameManager : MonoBehaviour
 
 
     int specialNum = 0;
-    
+
+    public string[] menu_name;
+    public string[] menu_description;
+    public Sprite[] menu_image;
+
+    // 단골손님이 선호하는 메뉴 정보 저장 배열
+    public string[] collected_menu_name = new string[15];
+    public string[] collected_menu_description = new string[15];
+    public Sprite[] collected_menu_image = new Sprite[15];
+
+    public Text customerName;
+    public Image customerImage;
+    public Text menuName;
+    public Text menuDescription;
+    public Image menuImage;
+
+    public bool[] unlockMenu;
+
+    public Text InformationMenuName;
+    public Text InformationMenuDescription;
+    public Image InformationMenuImage;
 
 
 
@@ -219,6 +244,7 @@ public class GameManager : MonoBehaviour
         random_anim = random_panel.GetComponent<Animator>();
         collected_anim = collected_panel.GetComponent<Animator>();
         information_anim = information_panel.GetComponent<Animator>();
+        menu_anim = menu_panel.GetComponent<Animator>();
 
         isLive = true; // ���� Ȱ��ȭ ���·� ����
 
@@ -282,6 +308,7 @@ public class GameManager : MonoBehaviour
             else if (isRandomClick) ClickRandomBtn(); // ���� �޴��� ���� ������ ����
             else if (isCollectedClick) ClickCollectedBtn(); // ���� �޴��� ���� ������ ����
             else if (isInformationClick) collectedManager.ExitButton(); // ���� �޴��� ���� ������ ����
+            else if (isMenuClick) ClickMenuExitBtn();
             else Option(); // �ɼ� �޴��� ���ų� ����
         }
 
@@ -538,6 +565,33 @@ public class GameManager : MonoBehaviour
 
         isRandomClick = false;
         isLive = true;
+    }
+
+    public void ClickMenuBtn(int specialNum)
+    {
+        isMenuClick = true;
+        menu_panel.gameObject.SetActive(isMenuClick);
+        isLive = false;
+
+        SoundManager.instance.PlaySound("Clear");
+
+        // 단골손님 정보 출력
+        customerName.text = collected_name[specialNum];
+        customerImage.sprite = collected_sprites[specialNum];
+        menuName.text = collected_menu_name[specialNum];
+        menuDescription.text = collected_menu_description[specialNum];
+        menuImage.sprite = collected_menu_image[specialNum];
+
+        unlockMenu[specialNum] = true;
+        
+    }
+
+    public void ClickMenuExitBtn()
+    {
+        isMenuClick = false;
+        isLive = true;
+        menu_panel.gameObject.SetActive(isMenuClick);
+        
     }
 
 
@@ -1082,7 +1136,7 @@ public class GameManager : MonoBehaviour
     */
     public void RandomPick()
     {
-        // ���� ����ƾ�� ��� ������ �ʿ��� ����ƾ ������ ������ �Լ� ����
+        // 금액이 부족하면 선택하지 않음
         if (gold < special_customer_gold)
         {
             SoundManager.instance.PlaySound("Fail");
@@ -1091,7 +1145,7 @@ public class GameManager : MonoBehaviour
 
         gold -= special_customer_gold;
 
-        // ��� ������ �����Ǿ����� ����
+        // 이미 모든 단골손님을 모았다면 종료
         if (AllSpecialColleted())
         {
             return;
@@ -1099,22 +1153,28 @@ public class GameManager : MonoBehaviour
 
         int index;
 
+        // 단골손님 목록에서 아직 선택되지 않은 단골손님을 선택
         do
         {
-            index = Random.Range(0, collected_list.Length); // 0���� 5���� ���� �ε��� ����
-            
-            
-        } while (collected_list[index]); // �̹� ������ ���� �ε����� �������� ����
+            index = Random.Range(0, special_customer_namelist.Length); // special_customer_namelist에서 랜덤 인덱스 선택
+        } while (collected_list[index]); // 이미 선택된 단골손님은 다시 선택하지 않음
 
-
+        // 선택된 단골손님의 정보 저장
         collected_name[specialNum] = special_customer_namelist[index];
         collected_sprites[specialNum] = special_customer_spritelist[index];
-        specialNum++;
 
-        collected_list[index] = true; // ���� ��� ���� ���·� ����
-        collectedManager.UpdateCollectedList(index, true); // index 1�� collected_list�� true�� ����
-        SoundManager.instance.PlaySound("Unlock");
+        // 메뉴 정보도 함께 저장
+        collected_menu_name[specialNum] = menu_name[index];
+        collected_menu_description[specialNum] = menu_description[index];
+        collected_menu_image[specialNum] = menu_image[index];
 
+        specialNum++; // 특수 고객 수 증가
+
+        // 선택된 고객은 더 이상 선택할 수 없도록 처리
+        collected_list[index] = true;
+        collectedManager.UpdateCollectedList(index, true); // Update collected_list
+
+        SoundManager.instance.PlaySound("Unlock"); // 성공 사운드
     }
 
     // ��� ������ �����Ǿ����� üũ�ϴ� �޼ҵ�
@@ -1137,32 +1197,35 @@ public class GameManager : MonoBehaviour
     ����Ʈ �߰�?
     */
     // Ư�� Map�� �ܰ�մ� ����
-    void SpawnSpecialOnMap(Vector3 spawnPos, int index, List<SpecialCustomer> specialCustomerList)
+    void SpawnSpecialOnMap(Vector3 spawnPos, int specialNum, List<SpecialCustomer> specialCustomerList)
     {
-        // ����: �̸��� ��������Ʈ�� ��ȿ�� ��쿡�� ����
-        if (!string.IsNullOrEmpty(collected_name[index]) && collected_sprites[index] != null)
+        // collected_name 기준으로 이름이 비어있지 않으면
+        if (!string.IsNullOrEmpty(collected_name[specialNum]) && collected_sprites[specialNum] != null)
         {
-            // �ܰ�մ� ������Ʈ ����
-            GameObject obj = Instantiate(prefab_special_customer, spawnPos, Quaternion.identity); // �ܰ�մ� ������ ����
-            SpecialCustomer specialCustomer = obj.GetComponent<SpecialCustomer>(); // ������ �ܰ�մ� ������Ʈ�� SpecialCustomer ��ũ��Ʈ�� ������
-            obj.name = "Special Customer " + index; // �ܰ�մ� ������Ʈ�� �̸��� ���� ������ ��ȣ�� ����
-            specialCustomer.id = index;
-            specialCustomer.sprite_renderer.sprite = collected_sprites[index]; // �ܰ�մ��� ��������Ʈ �̹����� ����
+            // 특수 고객 객체 생성
+            GameObject obj = Instantiate(prefab_special_customer, spawnPos, Quaternion.identity);
+            SpecialCustomer specialCustomer = obj.GetComponent<SpecialCustomer>();
+            obj.name = "Special Customer " + specialNum;
+            specialCustomer.id = specialNum; // id는 specialNum으로 설정
+            specialCustomer.sprite_renderer.sprite = collected_sprites[specialNum]; // 고객 스프라이트 설정
 
-            // ��ƼŬ �ý��� ������ ����
+            // 선호도 효과 추가
             GameObject instantFavEffectObj = Instantiate(favorability_effect_prefab);
             ParticleSystem instantFavEffect = instantFavEffectObj.GetComponent<ParticleSystem>();
 
-            // ��ƼŬ �ý����� �ܰ�մԿ� �Ҵ�
-            specialCustomer.favorability_effect = instantFavEffect;
+            // 단골손님의 선호 메뉴 정보 설정
+            specialCustomer.specialMenuName = collected_menu_name[specialNum];
+            specialCustomer.specialMenuDescription = collected_menu_description[specialNum];
+            specialCustomer.specialMenuImage = collected_menu_image[specialNum];
 
-            // ��ƼŬ �ý��� �ν��Ͻ��� �����ϵ��� ����
+            // 선호도 효과 설정
+            specialCustomer.favorability_effect = instantFavEffect;
             specialCustomer.favorabilityEffectInstance = instantFavEffectObj;
 
-            // GameManager���� �ܰ�մ��� ȣ������ �ҷ���
-            specialCustomer.favorability = GetFavorability(index);
+            // GameManager에서 해당 단골손님의 선호도 설정
+            specialCustomer.favorability = GetFavorability(specialNum);
 
-            // �ܰ�մ��� ����Ʈ�� �߰�
+            // 생성된 고객을 specialCustomerList에 추가
             specialCustomerList.Add(specialCustomer);
         }
     }
@@ -1231,9 +1294,9 @@ public class GameManager : MonoBehaviour
 
     // ȣ���� ������Ʈ �Լ�
     public void UpdateFavorability(int index, int favorability)
-    {
-
+    {    
         specialCustomerFavorability[index] = favorability;
+        
 
     }
 
@@ -1289,4 +1352,7 @@ public class GameManager : MonoBehaviour
             SoundManager.instance.sfx_slider.value = playerDataModel.sfxVolume;
         }
     }
+
+    
+
 }
