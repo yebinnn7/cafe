@@ -7,8 +7,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
-using UnityEngine.Experimental.Rendering; // ��ȣ�� ���� ������
+using Random = UnityEngine.Random; // ��ȣ�� ���� ������
 
 public class GameManager : MonoBehaviour
 {
@@ -172,11 +171,6 @@ public class GameManager : MonoBehaviour
 
     int machinePage;
 
-    public int goldReward = 1;
-    public int goldTime = 0;
-    public int specialCount;
-    public int machineCount;
-
 
     // �� ����� ������ �ݾ�
     public int[] machine_goldlist1 = new int[5];  // ��� 1�� �ݾ� (���� 1~5)
@@ -210,8 +204,8 @@ public class GameManager : MonoBehaviour
 
 
     int specialNum = 0;
+    
 
-    private float timer = 0f;
 
 
     void Awake()
@@ -289,13 +283,6 @@ public class GameManager : MonoBehaviour
             else if (isCollectedClick) ClickCollectedBtn(); // ���� �޴��� ���� ������ ����
             else if (isInformationClick) collectedManager.ExitButton(); // ���� �޴��� ���� ������ ����
             else Option(); // �ɼ� �޴��� ���ų� ����
-        }
-
-        timer += Time.deltaTime;
-        if (timer >= 1f) // 1초 경과 시
-        {
-            gold += goldTime;
-            timer = 0f; // 타이머 초기화
         }
 
     }
@@ -969,9 +956,6 @@ public class GameManager : MonoBehaviour
 
         // �Ҹ� ���
         SoundManager.instance.PlaySound("Unlock");
-
-        machineCount++;
-        goldTime += machineCount;
     }
 
 
@@ -1130,9 +1114,6 @@ public class GameManager : MonoBehaviour
         collected_list[index] = true; // ���� ��� ���� ���·� ����
         collectedManager.UpdateCollectedList(index, true); // index 1�� collected_list�� true�� ����
         SoundManager.instance.PlaySound("Unlock");
-
-        specialCount++;
-        goldReward += specialCount;
 
     }
 
