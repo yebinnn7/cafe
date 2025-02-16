@@ -227,10 +227,12 @@ public class GameManager : MonoBehaviour
 
     public bool[] unlockMenu;
 
-    public Text InformationMenuName;
-    public Text InformationMenuDescription;
-    public Image InformationMenuImage;
+    public int goldReward = 1;
+    public int goldTime = 0;
+    public int specialCount;
+    public int machineCount;
 
+    private float timer = 0f;
 
 
     void Awake()
@@ -271,6 +273,9 @@ public class GameManager : MonoBehaviour
             new Vector3(Random.Range(78.75f, 81.25f), 1.3f, 0),
 
          };
+
+        
+
     }
 
     void Start()
@@ -310,6 +315,13 @@ public class GameManager : MonoBehaviour
             else if (isInformationClick) collectedManager.ExitButton(); // ���� �޴��� ���� ������ ����
             else if (isMenuClick) ClickMenuExitBtn();
             else Option(); // �ɼ� �޴��� ���ų� ����
+        }
+
+        timer += Time.deltaTime;
+        if (timer >= 1f) // 1초 경과 시
+        {
+            gold += goldTime;
+            timer = 0f; // 타이머 초기화
         }
 
     }
@@ -1010,6 +1022,9 @@ public class GameManager : MonoBehaviour
 
         // �Ҹ� ���
         SoundManager.instance.PlaySound("Unlock");
+
+        machineCount++;
+        goldTime += machineCount;
     }
 
 
@@ -1173,6 +1188,9 @@ public class GameManager : MonoBehaviour
         // 선택된 고객은 더 이상 선택할 수 없도록 처리
         collected_list[index] = true;
         collectedManager.UpdateCollectedList(index, true); // Update collected_list
+
+        specialCount++;
+        goldReward += specialCount;
 
         SoundManager.instance.PlaySound("Unlock"); // 성공 사운드
     }

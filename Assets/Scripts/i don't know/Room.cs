@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-    public int goldReward = 1;
+    
     public GameObject game_manager_obj; // GameManager 오브젝트 참조
     public GameManager game_manager; // GameManager 스크립트 참조
 
@@ -24,7 +24,7 @@ public class Room : MonoBehaviour
 
     private void OnMouseDown()
     {
-        game_manager.ClickGetGold(goldReward);
+        game_manager.ClickGetGold(game_manager.goldReward);
 
     }
 }
