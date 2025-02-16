@@ -19,7 +19,7 @@ public class CollectedManager : MonoBehaviour
     public Image lockGroupImage0;
     public Image lockGroupImage1;
     public Image lockGroupImage2;
-    
+
 
     public Text pageText;
     int page;
@@ -27,28 +27,30 @@ public class CollectedManager : MonoBehaviour
     public Image SpecialSprite0;
     public Image SpecialSprite1;
     public Image SpecialSprite2;
-    
+
 
     public Text SpecialName0;
     public Text SpecialName1;
     public Text SpecialName2;
-    
+
 
     public Button SpecialButton0;
     public Button SpecialButton1;
     public Button SpecialButton2;
-    
+
 
     public Image InformationImage;
     public Text InformationText;
     public Text InformationFavorability;
 
-    public Image information_panel; 
+    public Image information_panel;
     Animator information_anim;
 
     public Text InformationMenuName;
     public Text InformationMenuDescription;
     public Image InformationMenuImage;
+
+    public Image UnlockPanel;
 
 
     // Start is called before the first frame update
@@ -74,7 +76,7 @@ public class CollectedManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     /*
@@ -129,7 +131,7 @@ public class CollectedManager : MonoBehaviour
                     case 2:
                         lockGroupImage2.gameObject.SetActive(!isUnlocked);
                         break;
-                    
+
                 }
             }
         }
@@ -137,11 +139,11 @@ public class CollectedManager : MonoBehaviour
 
 
     public void UpdateCollectedList(int index, bool value)
-    { 
-       
-            collected_list[index] = value; // collected_list 값 업데이트
-            UpdateLockGroupImages(); // UI 갱신 호출
-        
+    {
+
+        collected_list[index] = value; // collected_list 값 업데이트
+        UpdateLockGroupImages(); // UI 갱신 호출
+
     }
 
     // 페이지를 다음으로 이동
@@ -149,7 +151,7 @@ public class CollectedManager : MonoBehaviour
     {
         if (page >= 4) // 최대 페이지를 넘지 않도록 제한
         {
-           SoundManager.instance.PlaySound("Fail");
+            SoundManager.instance.PlaySound("Fail");
             return;
         }
 
@@ -210,9 +212,16 @@ public class CollectedManager : MonoBehaviour
 
         game_manager.isInformationClick = true;
 
-        
+        if (game_manager.unlockMenu[index] == true)
+        {
+            UnlockPanel.gameObject.SetActive(false);
+        }
+        else
+        {
+            UnlockPanel.gameObject.SetActive(true);
+        }
 
-}
+    }
 
     public void ClickSpecialBitton1()
     {
@@ -229,6 +238,15 @@ public class CollectedManager : MonoBehaviour
         InformationMenuImage.sprite = game_manager.collected_menu_image[index];
 
         game_manager.isInformationClick = true;
+
+        if (game_manager.unlockMenu[index] == true)
+        {
+            UnlockPanel.gameObject.SetActive(false);
+        }
+        else
+        {
+            UnlockPanel.gameObject.SetActive(true);
+        }
     }
 
     public void ClickSpecialBitton2()
@@ -246,6 +264,15 @@ public class CollectedManager : MonoBehaviour
         InformationMenuImage.sprite = game_manager.collected_menu_image[index];
 
         game_manager.isInformationClick = true;
+
+        if (game_manager.unlockMenu[index] == true)
+        {
+            UnlockPanel.gameObject.SetActive(false);
+        }
+        else
+        {
+            UnlockPanel.gameObject.SetActive(true);
+        }
     }
 
 
@@ -254,7 +281,10 @@ public class CollectedManager : MonoBehaviour
         information_anim.SetTrigger("doHide");
 
         game_manager.isInformationClick = false;
-        
+
     }
 }
+
+
+
 
