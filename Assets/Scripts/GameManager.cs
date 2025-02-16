@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;// // �̱��� �������� GameManager �ν��Ͻ��� �������� ������ �� �ְ� ����
 
     [Header("Money")]
-    public int jelatin; // ����ƾ �ڿ�
+    public int jelatin = 0;
     public int gold; // ��� �ڿ�
 
     [Space(10f)]
@@ -251,7 +251,6 @@ public class GameManager : MonoBehaviour
         isLive = true; // ���� Ȱ��ȭ ���·� ����
 
         // UI �ʱ�ȭ
-        jelatin_text.text = jelatin.ToString(); // int���� string������ ��ȯ
         gold_text.text = gold.ToString();
         unlock_group_gold_text.text = jelly_goldlist[0].ToString();
         lock_group_jelatin_text.text = jelly_jelatinlist[0].ToString();
@@ -307,9 +306,7 @@ public class GameManager : MonoBehaviour
         // '���' ��ư�� ������ �� ó��
         if (Input.GetButtonDown("Cancel"))
         {
-            if (isJellyClick) ClickJellyBtn(); // ���� �޴��� ���� ������ ����
-            else if (isPlantClick) ClickPlantBtn(); // �÷�Ʈ �޴��� ���� ������ ����
-            else if (isMapClick) ClickMapBtn(); // �÷�Ʈ �޴��� ���� ������ ����
+            if (isMapClick) ClickMapBtn(); // �÷�Ʈ �޴��� ���� ������ ����
             else if (isRandomClick) ClickRandomBtn(); // ���� �޴��� ���� ������ ����
             else if (isCollectedClick) ClickCollectedBtn(); // ���� �޴��� ���� ������ ����
             else if (isInformationClick) collectedManager.ExitButton(); // ���� �޴��� ���� ������ ����
@@ -329,7 +326,6 @@ public class GameManager : MonoBehaviour
     void LateUpdate()
     {
         // �ε巴�� �ؽ�Ʈ ���� ������Ʈ�ϸ� �ε��Ҽ��� ��� ������ �ּ�ȭ�ϱ� ���� �ݿø� ����
-        jelatin_text.text = string.Format("{0:n0}", (int)Mathf.SmoothStep(float.Parse(jelatin_text.text), jelatin, 0.5f));
         gold_text.text = string.Format("{0:n0}", (int)Mathf.SmoothStep(float.Parse(gold_text.text), gold, 0.5f));
     }
 
@@ -339,132 +335,8 @@ public class GameManager : MonoBehaviour
         anim.runtimeAnimatorController = level_ac[level - 1];
     }
 
-    // ����ƾ ȹ��
-    public void GetJelatin(int id, int level)
-    {
-        jelatin += (id + 1) * level * click_level; // id�� ������ ���� ����ƾ ����
-
-        if (jelatin > max_jelatin) // ����ƾ�� �ִ�ġ�� ���� �ʵ��� ����
-            jelatin = max_jelatin;
-    }
-
-    // ��� ȹ�� �� ���� ����
-    public void GetGold(int id, int level, Jelly jelly)
-    {
-        gold += jelly_goldlist[id] * level; // ��� �߰�
-
-        if (gold > max_gold) // ��尡 �ִ�ġ�� ���� �ʵ��� ����
-            gold = max_gold;
-
-        jelly_list.Remove(jelly); // ���� ����Ʈ���� ����
-
-        SoundManager.instance.PlaySound("Sell");
-    }
-
-    // �Ǹ� ���� üũ
-    public void CheckSell()
-    {
-        isSell = !isSell; // �Ǹ� ���¸� ���
-    }
-
-    // ���� �޴� ��ư Ŭ�� ó��
-    public void ClickJellyBtn()
-    {
-        SoundManager.instance.PlaySound("Button");
-
-        if (isPlantClick) // �÷�Ʈ �޴��� ���� ������ ����
-        {
-            plant_anim.SetTrigger("doHide");
-            isPlantClick = false;
-            isLive = true;
-        }
-
-        if (isMapClick) // �� �޴��� ���� ������ ����
-        {
-            map_anim.SetTrigger("doHide");
-            isMapClick = false;
-            isLive = true;
-        }
-
-        if (isRandomClick) // ���� �޴��� ���� ������ ����
-        {
-            random_anim.SetTrigger("doHide");
-            isRandomClick = false;
-            isLive = true;
-        }
-
-        if (isCollectedClick) // ���� �޴��� ���� ������ ����
-        {
-            collected_anim.SetTrigger("doHide");
-            isCollectedClick = false;
-            isLive = true;
-        }
-
-        if (isInformationClick) // ���� �޴��� ���� ������ ����
-        {
-            information_anim.SetTrigger("doHide");
-            isInformationClick = false;
-            // isLive = true;
-        }
 
 
-        if (isJellyClick) // ���� �޴��� ���� ������ ����
-            jelly_anim.SetTrigger("doHide");
-        else // ���� �޴��� ���� ������ ����
-            jelly_anim.SetTrigger("doShow");
-
-        isJellyClick = !isJellyClick; // ���� Ŭ�� ���¸� ���
-        isLive = !isLive; // ���� Ȱ��ȭ ���¸� ���
-    }
-
-    // �÷�Ʈ �޴� ��ư Ŭ�� ó��
-    public void ClickPlantBtn()
-    {
-        SoundManager.instance.PlaySound("Button");
-
-        if (isJellyClick) // ���� �޴��� ���� ������ ����
-        {
-            jelly_anim.SetTrigger("doHide");
-            isJellyClick = false;
-            isLive = true;
-        }
-
-        if (isMapClick) // �� �޴��� ���� ������ ����
-        {
-            map_anim.SetTrigger("doHide");
-            isMapClick = false;
-            isLive = true;
-        }
-
-        if (isRandomClick) // ���� �޴��� ���� ������ ����
-        {
-            random_anim.SetTrigger("doHide");
-            isRandomClick = false;
-            isLive = true;
-        }
-
-        if (isCollectedClick) // ���� �޴��� ���� ������ ����
-        {
-            collected_anim.SetTrigger("doHide");
-            isCollectedClick = false;
-            isLive = true;
-        }
-
-        if (isInformationClick) // ���� �޴��� ���� ������ ����
-        {
-            information_anim.SetTrigger("doHide");
-            isInformationClick = false;
-            // isLive = true;
-        }
-
-        if (isPlantClick) // �÷�Ʈ �޴��� ���� ������ ����
-            plant_anim.SetTrigger("doHide");
-        else // �÷�Ʈ �޴��� ���� ������ ����
-            plant_anim.SetTrigger("doShow");
-
-        isPlantClick = !isPlantClick; // �÷�Ʈ Ŭ�� ���¸� ���
-        isLive = !isLive; // ���� Ȱ��ȭ ���¸� ���
-    }
 
     public void ClickMapBtn()
     {
@@ -736,23 +608,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // ���� ��� ���� �Լ�
-    public void Unlock()
-    {
-        // ���� ����ƾ�� ��� ������ �ʿ��� ����ƾ ������ ������ �Լ� ����
-        if (jelatin < jelly_jelatinlist[page])
-        {
-            SoundManager.instance.PlaySound("Fail");
-            return;
-        }
-
-        jelly_unlock_list[page] = true; // ���� ��� ���� ���·� ����
-        ChangePage(); // ������ UI ������Ʈ
-
-        jelatin -= jelly_jelatinlist[page]; // ����ƾ ���� ����
-
-        SoundManager.instance.PlaySound("Unlock");
-    }
 
     public void MapChange()
     {
@@ -845,46 +700,6 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    // ���� ���뷮 ���׷��̵� �Լ�
-    public void NumUpgrade()
-    {
-        if (gold < num_goldlist[num_level])
-        {
-            SoundManager.instance.PlaySound("Fail");
-            return;
-        }
-
-        gold -= num_goldlist[num_level++];
-
-        num_sub_text.text = "���� ���뷮 " + num_level * 2;
-
-        if (num_level >= 5) num_btn.gameObject.SetActive(false);
-        else num_btn_text.text = string.Format("{0:n0}", num_goldlist[num_level]);
-
-        SoundManager.instance.PlaySound("Unlock");
-        // SoundManager.instance.PlaySound("Buy");
-
-    }
-
-    // Ŭ�� ���귮 ���׷��̵� �Լ�
-    public void ClickUpgrade()
-    {
-        if (gold < click_goldlist[click_level])
-        {
-            SoundManager.instance.PlaySound("Fail");
-            return;
-        }
-
-        gold -= click_goldlist[click_level++];
-
-        click_sub_text.text = "Ŭ�� ���귮 X " + click_level * 2;
-
-        if (click_level >= 5) click_btn.gameObject.SetActive(false);
-        else click_btn_text.text = string.Format("{0:n0}", click_goldlist[click_level]);
-
-        SoundManager.instance.PlaySound("Unlock");
-        // SoundManager.instance.PlaySound("Buy");
-    }
 
     public void MachinePageUp()
     {
@@ -1028,46 +843,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-
-
-    /*
-    IEnumerator SpawnJellyRandomly()
-    {
-        while (true) // ���� �ݺ�
-        {
-            float waitTime = Random.Range(minSpawnTime, maxSpawnTime); // ���� �ð� ����
-            yield return new WaitForSeconds(waitTime); // ���� �ð���ŭ ���
-            spawnJelly(); // ���� ����
-        }
-    }
-
-    
-    void spawnJelly()
-    {
-        page = Random.Range(0, 6);
-        Vector3[] spawnPos = new Vector3[]
-        {
-            new Vector3(Random.Range(-4.5f, 4.5f), 1.3f, 0),            
-            new Vector3(Random.Range(15.5f, 24.5f), 1.3f, 0),
-            new Vector3(Random.Range(35.5f, 44.5f), 1.3f, 0),           
-            new Vector3(Random.Range(55.5f, 64.5f), 1.3f, 0),         
-            new Vector3(Random.Range(75.5f, 84.5f), 1.3f, 0),
-
-        };
-
-        int RandomSpawnPos = Random.Range(0, 5);
-        
-
-        GameObject obj = Instantiate(prefab, spawnPos[RandomSpawnPos], Quaternion.identity); // ���� ������ ����
-        Jelly jelly = obj.GetComponent<Jelly>(); // ������ ���� ������Ʈ�� Jelly ��ũ��Ʈ�� ������
-        obj.name = "Jelly " + page; // ���� ������Ʈ�� �̸��� ���� ������ ��ȣ�� ����
-        jelly.id = page; // ������ ID�� ���� �������� ����
-        jelly.sprite_renderer.sprite = jelly_spritelist[page]; // ������ ��������Ʈ �̹����� ���� �������� �ش��ϴ� �̹����� ����
-
-        jelly_list.Add(jelly); // ������ ���� ����Ʈ�� �߰�
-    }
-    */
-
     // Ư�� Map�� ���� ����
     void SpawnJellyOnMap(Vector3 spawnCenter, float spawnRangeX, List<Jelly> jellyList)
     {
@@ -1208,12 +983,6 @@ public class GameManager : MonoBehaviour
         return true; // ��� �����Ǿ����� true ��ȯ
     }
 
-
-    /* �ܰ�մ� ���� �Լ�
-    spawnJellyó�� �������� �̵�, collected_list[page] = false�̸� �ٸ� �� ã��
-    true�̸� spawnJellyó�� ����
-    ����Ʈ �߰�?
-    */
     // Ư�� Map�� �ܰ�մ� ����
     void SpawnSpecialOnMap(Vector3 spawnPos, int specialNum, List<SpecialCustomer> specialCustomerList)
     {

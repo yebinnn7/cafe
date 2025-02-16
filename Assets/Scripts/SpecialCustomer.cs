@@ -39,9 +39,7 @@ public class SpecialCustomer : MonoBehaviour
     GameObject shadow; // 그림자 오브젝트
     float shadow_pos_y; // 그림자의 y좌표
 
-    // 젤라틴을 획득하는 처리와 관련 변수
-    int jelatin_delay; // 젤라틴 획득 지연 시간
-    bool isGetting; // 젤라틴을 획득 중인지 여부
+   
 
     // 젤리 이동
     public float moveSpeed = 1f; // 오브젝트가 이동하는 속도
@@ -83,10 +81,7 @@ public class SpecialCustomer : MonoBehaviour
         sprite_renderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
 
-        // 초기 값 설정
-        // isWandering = false; // 처음에는 젤리가 움직이지 않음
-        // isWalking = false;
-        isGetting = false; // 처음에는 젤라틴을 획득하지 않음
+        
 
         // 그림자 오브젝트를 찾고 그림자 위치를 설정
         shadow = transform.Find("Shadow").gameObject;
@@ -133,10 +128,6 @@ public class SpecialCustomer : MonoBehaviour
             SoundManager.instance.PlaySound("Grow");
         }
 
-        // 젤라틴을 아직 획득하지 않았다면 젤라틴 획득 코루틴 실행
-        if (!isGetting)
-            StartCoroutine(GetJelatin());
-
 
         if (!isWaiting) // 대기 중이 아니면 이동
         {
@@ -178,23 +169,6 @@ public class SpecialCustomer : MonoBehaviour
     }
 
 
-    // 젤라틴을 주기적으로 획득하는 코루틴 함수
-    IEnumerator GetJelatin()
-    {
-        jelatin_delay = 3; // 젤라틴을 획득하는 데 걸리는 시간 설정
-
-        // 젤라틴 획득 중임을 표시하는 플래그를 true로 설정
-        isGetting = true;
-
-        // GameManager에서 젤라틴 획득 함수 호출 (젤리 ID와 레벨 전달)
-        game_manager.GetJelatin(id, level);
-
-        // 젤라틴 획득 지연 시간(3초) 동안 대기
-        yield return new WaitForSeconds(jelatin_delay);
-
-        // 젤라틴 획득이 끝나면 플래그를 false로 설정
-        isGetting = false;
-    }
 
     // 오브젝트의 이동을 처리하는 함수
     void MoveObject()
