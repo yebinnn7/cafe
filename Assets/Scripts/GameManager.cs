@@ -168,13 +168,18 @@ public class GameManager : MonoBehaviour
 
     // ��� ����
     public int[] machine_level;
-    public Text machine_sub_text;
-    public Text machine_btn_text;
-    public Button machine_btn;
+    public Text[] machine_sub_text;
+    public Text[] machine_btn_text;
+    public Button[] machine_btn;
     public Text map_text;
+    public Image machineImage;
+
+    public Button pickButton;
+    public Button machineButton;
+    private Color defaultColor = Color.white;
+    private Color selectedColor = new Color32(255, 255, 179, 255);
 
 
-    int machinePage;
 
 
     // �� ����� ������ �ݾ�
@@ -297,8 +302,13 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SpawnSpecialOnMap4()); // 4�� ��
         StartCoroutine(SpawnSpecialOnMap5()); // 5�� ��
 
-        //
+
+        
+    
+
         LoadAndPullPlayerData();
+
+       
     }
 
     void Update()
@@ -699,116 +709,37 @@ public class GameManager : MonoBehaviour
 
         Application.Quit();
     }
-
-
-    public void MachinePageUp()
+    
+    public void BuyMachine(int machineIndex)
     {
-        UnityEngine.Debug.Log("������ up");
-
-        if (machinePage >= 4) // �ִ� �������� ���� �ʵ��� ����
-        {
-            SoundManager.instance.PlaySound("Fail");
-            return;
-        }
-
-        ++machinePage;
-        ChangeMachinePage(); // ������ ����
-        SoundManager.instance.PlaySound("Button");
-
-    }
-
-    public void MachinePageDown()
-    {
-        if (machinePage <= 0) // �ּ� �������� ���� �ʵ��� ����
-        {
-            SoundManager.instance.PlaySound("Fail");
-            return;
-        }
-
-        --machinePage;
-        ChangeMachinePage(); // ������ ����
-        SoundManager.instance.PlaySound("Button");
-    }
-
-    public void ChangeMachinePage()
-    {
-        MachineUIUpdate();
-        
-    }
-
-    public void MachineUIUpdate()
-    {
-        int mapIndex = machinePage; // ���� �������� �� �ε����� ���
-        int currentMachineGold = 0;
-
-        // mapIndex�� �ش��ϴ� ��� ���� ��������
-        switch (mapIndex)
-        {
-            case 0:
-                currentMachineGold = machine_goldlist1[machine_level[mapIndex]];
-                break;
-            case 1:
-                currentMachineGold = machine_goldlist2[machine_level[mapIndex]];
-                break;
-            case 2:
-                currentMachineGold = machine_goldlist3[machine_level[mapIndex]];
-                break;
-            case 3:
-                currentMachineGold = machine_goldlist4[machine_level[mapIndex]];
-                break;
-            case 4:
-                currentMachineGold = machine_goldlist5[machine_level[mapIndex]];
-                break;
-        }
-
-        // ��� ���� ������Ʈ
-        machine_sub_text.text = "보유 기계: " + machine_level[mapIndex] + "개";
-        if (machine_level[mapIndex] >= 5)
-        {
-            machine_btn_text.text = "최대 보유";
-            machine_btn.interactable = false;
-        }
-        else
-        {
-            machine_btn_text.text = string.Format("{0:n0}", currentMachineGold);
-            machine_btn.interactable = true;
-        }
-
-        // �� �ε����� UI�� �ݿ�
-        map_text.text = "지점: " + (mapIndex + 1);
-    }
-
-    public void BuyMachine()
-    {
-        // ��� �ݾ��� ����� ������ �°� ������
+        UnityEngine.Debug.Log("함수 실행");
         int currentMachineGold = 0;
         GameObject[] currentMachineList = null;
 
         // �� ��迡 ���� ������ �´� �ݾװ� �̹����� ������
-        switch (machinePage)
+        switch (machineIndex)
         {
             case 0:
-                currentMachineGold = machine_goldlist1[machine_level[machinePage]];
+                currentMachineGold = machine_goldlist1[machine_level[machineIndex]];
                 currentMachineList = machine_list1;
                 break;
             case 1:
-                currentMachineGold = machine_goldlist2[machine_level[machinePage]];
+                currentMachineGold = machine_goldlist2[machine_level[machineIndex]];
                 currentMachineList = machine_list2;
                 break;
             case 2:
-                currentMachineGold = machine_goldlist3[machine_level[machinePage]];
+                currentMachineGold = machine_goldlist3[machine_level[machineIndex]];
                 currentMachineList = machine_list3;
                 break;
             case 3:
-                currentMachineGold = machine_goldlist4[machine_level[machinePage]];
+                currentMachineGold = machine_goldlist4[machine_level[machineIndex]];
                 currentMachineList = machine_list4;
                 break;
             case 4:
-                currentMachineGold = machine_goldlist5[machine_level[machinePage]];
+                currentMachineGold = machine_goldlist5[machine_level[machineIndex]];
                 currentMachineList = machine_list5;
                 break;
         }
-
 
         // �ݾ� ��
         if (gold < currentMachineGold)
@@ -817,31 +748,92 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // ��� Ȱ��ȭ
-        currentMachineList[machine_level[machinePage]].SetActive(true);
-        // 5번째 원소도 활성화
-        if (machine_level[machinePage] == 4)
-        {
-            currentMachineList[machine_level[machinePage] + 1].SetActive(true);
-            
-        }
+        currentMachineList[machine_level[machineIndex]].SetActive(true);
 
+        
+        // 5번째 원소도 활성화
+        if (machine_level[machineIndex] == 4)
+        {
+            currentMachineList[machine_level[machineIndex] + 1].SetActive(true);
+
+        }
+        
 
         // �ݾ� ����
         gold -= currentMachineGold;
 
         // ��� ���� ��
-        machine_level[machinePage]++;
+        machine_level[machineIndex]++;
 
-        MachineUIUpdate();
+        machine_sub_text[machineIndex].text = "보유 기계: " + machine_level[machineIndex] + "개";
 
         // �Ҹ� ���
         SoundManager.instance.PlaySound("Unlock");
+
+        if (machine_level[machineIndex] >= 5)
+        {
+            machine_btn_text[machineIndex].text = "최대 보유";
+            machine_btn[machineIndex].interactable = false;  
+        }
+        else
+        {
+            // ���� ���� �ݾ��� ��ư�� ǥ��
+            switch (machineIndex)
+            {
+                case 0:
+                    currentMachineGold = machine_goldlist1[machine_level[machineIndex]];
+                    break;
+                case 1:
+                    currentMachineGold = machine_goldlist2[machine_level[machineIndex]];
+                    break;
+                case 2:
+                    currentMachineGold = machine_goldlist3[machine_level[machineIndex]];
+                    break;
+                case 3:
+                    currentMachineGold = machine_goldlist4[machine_level[machineIndex]];
+                    break;
+                case 4:
+                    currentMachineGold = machine_goldlist5[machine_level[machineIndex]];
+                    break;
+            }
+
+            machine_btn_text[machineIndex].text = string.Format("{0:n0}", currentMachineGold);
+        }
+
+        
 
         machineCount++;
         goldTime += machineCount;
     }
 
+    public void PickBtn()
+    {
+        machineImage.gameObject.SetActive(false);
+        ChangeButtonColor(pickButton, selectedColor);
+        ChangeButtonColor(machineButton, defaultColor);
+
+        SoundManager.instance.PlaySound("Button");
+    }
+
+    public void MachineBtn()
+    {
+        machineImage.gameObject.SetActive(true);
+        ChangeButtonColor(machineButton, selectedColor);
+        ChangeButtonColor(pickButton, defaultColor);
+
+        SoundManager.instance.PlaySound("Button");
+    }
+
+    private void ChangeButtonColor(Button button, Color color)
+    {
+        ColorBlock cb = button.colors;
+        cb.normalColor = color;
+        cb.highlightedColor = color * 1.2f; // 강조 색상
+        cb.pressedColor = color * 0.8f; // 눌렀을 때 색상
+        button.colors = cb;
+
+        button.Select();
+    }
 
     // Ư�� Map�� ���� ����
     void SpawnJellyOnMap(Vector3 spawnCenter, float spawnRangeX, List<Jelly> jellyList)
