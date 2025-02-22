@@ -68,8 +68,8 @@ public class SpecialCustomer : MonoBehaviour
     // 게임 시작 시 필요한 변수와 오브젝트를 설정하는 초기화 함수
     void Awake()
     {
-        
-
+        UnityEngine.Debug.Log(gameObject.transform.localScale);
+        gameObject.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
         // 왼쪽 위와 오른쪽 아래의 경계 오브젝트를 찾음
         left_top = GameObject.Find("LeftTop").gameObject;
         right_bottom = GameObject.Find("RightBottom").gameObject;
@@ -117,6 +117,8 @@ public class SpecialCustomer : MonoBehaviour
     // 매 프레임마다 호출되는 함수로, 주로 상태 업데이트를 담당
     void Update()
     {
+        gameObject.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+
         // 젤리의 경험치가 최대 경험치보다 적을 때, 시간이 지남에 따라 경험치를 증가시킴
         if (exp < max_exp)
             exp += Time.deltaTime;

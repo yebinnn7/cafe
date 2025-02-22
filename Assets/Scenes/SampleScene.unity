@@ -1315,35 +1315,35 @@ MonoBehaviour:
   maxSpawnTime: 7
   special_customer_gold: 100
   special_customer_spritelist:
+  - {fileID: 21300000, guid: 75485db7ab2c58a4b9f5888d84451dc0, type: 3}
+  - {fileID: 21300000, guid: 0479857f00039ca48bd2a120ddd0a761, type: 3}
   - {fileID: 21300000, guid: 2d5d6782fc427ad498ff00ded71060f4, type: 3}
-  - {fileID: 21300000, guid: 6de610ccbbc0a094b804153e2dea43a6, type: 3}
-  - {fileID: 21300000, guid: 96481b76a6fa9c6428e4e4b1522e9378, type: 3}
-  - {fileID: 21300000, guid: d78e009f5bb799b42bbf3c801af824ac, type: 3}
-  - {fileID: 21300000, guid: 7fd151f4d9de8de47a1d5abe6e506e83, type: 3}
-  - {fileID: 21300000, guid: 764f930ba03e6324d805335eb66b8c98, type: 3}
-  - {fileID: 21300000, guid: 764f930ba03e6324d805335eb66b8c98, type: 3}
-  - {fileID: 21300000, guid: 764f930ba03e6324d805335eb66b8c98, type: 3}
-  - {fileID: 21300000, guid: 764f930ba03e6324d805335eb66b8c98, type: 3}
-  - {fileID: 21300000, guid: 764f930ba03e6324d805335eb66b8c98, type: 3}
-  - {fileID: 21300000, guid: 764f930ba03e6324d805335eb66b8c98, type: 3}
-  - {fileID: 21300000, guid: 764f930ba03e6324d805335eb66b8c98, type: 3}
-  - {fileID: 21300000, guid: 764f930ba03e6324d805335eb66b8c98, type: 3}
-  - {fileID: 21300000, guid: 764f930ba03e6324d805335eb66b8c98, type: 3}
-  - {fileID: 21300000, guid: 764f930ba03e6324d805335eb66b8c98, type: 3}
+  - {fileID: 21300000, guid: 2d5d6782fc427ad498ff00ded71060f4, type: 3}
+  - {fileID: 21300000, guid: 1f50d62b7b5542d4c801ba149107526e, type: 3}
+  - {fileID: 21300000, guid: 2318ba1699980454bb640cd364232429, type: 3}
+  - {fileID: 21300000, guid: f1e9ded0a1137894e9f9ecf1f707bd87, type: 3}
+  - {fileID: 21300000, guid: 2d5d6782fc427ad498ff00ded71060f4, type: 3}
+  - {fileID: 21300000, guid: ac278fb3c4671fd4087208663dca6b60, type: 3}
+  - {fileID: 21300000, guid: 68369f28e505018478cb9e4b7bf26624, type: 3}
+  - {fileID: 21300000, guid: fa1afc8e178bc1840aa2be251fdf76a0, type: 3}
+  - {fileID: 21300000, guid: 68369f28e505018478cb9e4b7bf26624, type: 3}
+  - {fileID: 21300000, guid: 68369f28e505018478cb9e4b7bf26624, type: 3}
+  - {fileID: 21300000, guid: 68369f28e505018478cb9e4b7bf26624, type: 3}
+  - {fileID: 21300000, guid: 68369f28e505018478cb9e4b7bf26624, type: 3}
   special_customer_namelist:
-  - "\uB0E5\uBC1C\uBC14\uB2E5"
-  - "\uAFC8\uD2C0\uC774"
+  - "\uCD1D\uC7A5"
+  - "\uBC84\uC2A4\uAE30\uC0AC\uAC00 \uB41C \uD300\uD50C\uC870\uC7A5"
   - "\uC0C1\uC5B4"
   - "\uCD08\uBC25"
-  - "\uB85C\uC584"
+  - "\uD63C\uBC25\uD558\uB294 \uBCF5\uD559\uC0DD"
+  - "\uAE38\uC744 \uD5E4\uBA54\uB294 \uC2E0\uC785\uC0DD"
+  - "\uBE44\uC5D0 \uB9DE\uC740 \uD559\uC0DD"
   - "\uC9C0\uAD6C"
+  - "\uB0B4\uC77C\uBD80\uD130 \uC2DC\uD5D8 \uC2DC\uC791\uC778 \uD559\uC0DD"
   - "\uC9C0\uAD6C"
+  - "\uC218\uAC15\uC2E0\uCCAD \uC2E4\uD328\uD55C \uD559\uC0DD"
   - "\uC9C0\uAD6C"
-  - "\uC9C0\uAD6C"
-  - "\uC9C0\uAD6C"
-  - "\uC9C0\uAD6C"
-  - "\uC9C0\uAD6C"
-  - "\uC9C0\uAD6C"
+  - "\uBD09\uD50C\uD558\uB294 \uD559\uC0DD"
   - "\uC9C0\uAD6C"
   - "\uC9C0\uAD6C"
   collected_list: 000000000000000000000000000000
@@ -1469,11 +1469,11 @@ MonoBehaviour:
   - "\uB538\uAE30\uCF00\uC774\uD06C"
   - "\uC0CC\uB4DC\uC704\uCE58"
   - "\uC544\uC774\uC2A4 \uC544\uBA54\uB9AC\uCE74\uB178"
-  - "\uB808\uBAAC\uD2F0"
+  - "\uC720\uC790\uCC28"
   - "\uD751\uC784\uC790\uB77C\uB5BC"
   - "\uC5D0\uC2A4\uD504\uB808\uC18C"
   - "\uBCA0\uC774\uAE00"
-  - "\uCD08\uCF54\uCF00\uC774\uD06C"
+  - "\uCD08\uCF54 \uB864\uCF00\uC774\uD06C"
   - "\uBE14\uB8E8\uBCA0\uB9AC \uC2A4\uBB34\uB514"
   - "\uCEF5\uCF00\uC774\uD06C"
   - "\uCEE4\uC2A4\uD130\uB4DC \uD478\uB529"
@@ -1485,11 +1485,11 @@ MonoBehaviour:
   - "\uB538\uAE30\uCF00\uC774\uD06C \uC124\uBA85"
   - "\uC0CC\uB4DC\uC704\uCE58 \uC124\uBA85"
   - "\uC544\uC774\uC2A4 \uC544\uBA54\uB9AC\uCE74\uB178 \uC124\uBA85"
-  - "\uB808\uBAAC\uD2F0 \uC124\uBA85"
+  - "\uC720\uC790\uCC28 \uC124\uBA85"
   - "\uD751\uC784\uC790\uB77C\uB5BC \uC124\uBA85"
   - "\uC5D0\uC2A4\uD504\uB808\uC18C \uC124\uBA85"
   - "\uBCA0\uC774\uAE00 \uC124\uBA85"
-  - "\uCD08\uCF54\uCF00\uC774\uD06C \uC124\uBA85"
+  - "\uCD08\uCF54 \uB864\uCF00\uC774\uD06C \uC124\uBA85"
   - "\uBE14\uB8E8\uBCA0\uB9AC \uC2A4\uBB34\uB514 \uC124\uBA85"
   - "\uCEF5\uCF00\uC774\uD06C \uC124\uBA85"
   - "\uCEE4\uC2A4\uD130\uB4DC \uD478\uB529 \uC124\uBA85"
@@ -3917,7 +3917,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 90}
+  m_AnchoredPosition: {x: 0, y: -100}
   m_SizeDelta: {x: 119.7, y: 90}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!95 &373186550
