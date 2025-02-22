@@ -993,8 +993,7 @@ public class GameManager : MonoBehaviour
         {
             // 특수 고객 객체 생성
             GameObject obj = Instantiate(prefab_special_customer, spawnPos, Quaternion.identity);
-            // 크기 0.15로 변경
-            obj.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+            
 
             SpecialCustomer specialCustomer = obj.GetComponent<SpecialCustomer>();
             obj.name = "Special Customer " + specialNum;
