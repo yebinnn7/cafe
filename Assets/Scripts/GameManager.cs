@@ -234,8 +234,11 @@ public class GameManager : MonoBehaviour
 
     public int goldReward = 1;
     public int goldTime = 0;
-    public int specialCount;
+    public int[] specialCount;
+    public int specialIndex = 0;
     public int machineCount;
+    public Text presentCoin;
+    public Text pickCoin;
 
     private float timer = 0f;
 
@@ -772,6 +775,7 @@ public class GameManager : MonoBehaviour
 
         if (machine_level[machineIndex] >= 5)
         {
+        
             machine_btn_text[machineIndex].text = "최대 보유";
             machine_btn[machineIndex].interactable = false;  
         }
@@ -956,8 +960,12 @@ public class GameManager : MonoBehaviour
         collected_list[index] = true;
         collectedManager.UpdateCollectedList(index, true); // Update collected_list
 
-        specialCount++;
-        goldReward += specialCount;
+        goldReward += specialCount[specialIndex];
+        specialIndex++;
+
+        presentCoin.text = goldReward.ToString();
+        pickCoin.text = (goldReward + specialCount[specialIndex]).ToString();
+
 
         SoundManager.instance.PlaySound("Unlock"); // 성공 사운드
     }
