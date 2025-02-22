@@ -173,6 +173,11 @@ public class GameManager : MonoBehaviour
     public Button[] machine_btn;
     public Text map_text;
     public Image machineImage;
+    public int[] machineCoin1;
+    public int[] machineCoin2;
+    public int[] machineCoin3;
+    public int[] machineCoin4;
+    public int[] machineCoin5;
 
     public Button pickButton;
     public Button machineButton;
@@ -712,14 +717,25 @@ public class GameManager : MonoBehaviour
 
         Application.Quit();
     }
-    
+
     public void BuyMachine(int machineIndex)
     {
         UnityEngine.Debug.Log("함수 실행");
         int currentMachineGold = 0;
         GameObject[] currentMachineList = null;
+        int[] currentMachineCoin = null; // 해당 기계의 machineCoin 배열
 
-        // �� ��迡 ���� ������ �´� �ݾװ� �̹����� ������
+        // 각 기계에 맞는 machineCoin 배열 선택
+        switch (machineIndex)
+        {
+            case 0: currentMachineCoin = machineCoin1; break;
+            case 1: currentMachineCoin = machineCoin2; break;
+            case 2: currentMachineCoin = machineCoin3; break;
+            case 3: currentMachineCoin = machineCoin4; break;
+            case 4: currentMachineCoin = machineCoin5; break;
+        }
+
+        // 현재 기계의 가격 및 리스트 선택
         switch (machineIndex)
         {
             case 0:
@@ -744,70 +760,56 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        // �ݾ� ��
+        // 골드 부족 시 구매 불가
         if (gold < currentMachineGold)
         {
             SoundManager.instance.PlaySound("Fail");
             return;
         }
 
+        // 기계 활성화
         currentMachineList[machine_level[machineIndex]].SetActive(true);
 
-        
         // 5번째 원소도 활성화
         if (machine_level[machineIndex] == 4)
         {
             currentMachineList[machine_level[machineIndex] + 1].SetActive(true);
-
         }
-        
 
-        // �ݾ� ����
+        // 골드 차감
         gold -= currentMachineGold;
 
-        // ��� ���� ��
+        // 기계 레벨 증가
         machine_level[machineIndex]++;
 
         machine_sub_text[machineIndex].text = "보유 기계: " + machine_level[machineIndex] + "개";
 
-        // �Ҹ� ���
+        // 해제 사운드
         SoundManager.instance.PlaySound("Unlock");
 
+        // 최대 보유 확인
         if (machine_level[machineIndex] >= 5)
         {
-        
             machine_btn_text[machineIndex].text = "최대 보유";
-            machine_btn[machineIndex].interactable = false;  
+            machine_btn[machineIndex].interactable = false;
         }
         else
         {
-            // ���� ���� �ݾ��� ��ư�� ǥ��
+            // 다음 레벨의 가격 표시
             switch (machineIndex)
             {
-                case 0:
-                    currentMachineGold = machine_goldlist1[machine_level[machineIndex]];
-                    break;
-                case 1:
-                    currentMachineGold = machine_goldlist2[machine_level[machineIndex]];
-                    break;
-                case 2:
-                    currentMachineGold = machine_goldlist3[machine_level[machineIndex]];
-                    break;
-                case 3:
-                    currentMachineGold = machine_goldlist4[machine_level[machineIndex]];
-                    break;
-                case 4:
-                    currentMachineGold = machine_goldlist5[machine_level[machineIndex]];
-                    break;
+                case 0: currentMachineGold = machine_goldlist1[machine_level[machineIndex]]; break;
+                case 1: currentMachineGold = machine_goldlist2[machine_level[machineIndex]]; break;
+                case 2: currentMachineGold = machine_goldlist3[machine_level[machineIndex]]; break;
+                case 3: currentMachineGold = machine_goldlist4[machine_level[machineIndex]]; break;
+                case 4: currentMachineGold = machine_goldlist5[machine_level[machineIndex]]; break;
             }
-
             machine_btn_text[machineIndex].text = string.Format("{0:n0}", currentMachineGold);
         }
 
+        // goldTime에 해당 기계의 수익 추가
+        goldTime += currentMachineCoin[machine_level[machineIndex] - 1];
         
-
-        machineCount++;
-        goldTime += machineCount;
     }
 
     public void PickBtn()
