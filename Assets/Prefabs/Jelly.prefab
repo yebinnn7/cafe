@@ -132,6 +132,11 @@ MonoBehaviour:
   left_top: {fileID: 0}
   right_bottom: {fileID: 0}
   sprite_renderer: {fileID: 0}
+  backSprite:
+  - {fileID: 21300000, guid: 19270440e3725f1429ef1a2c60545444, type: 3}
+  - {fileID: 21300000, guid: 952ed59ae820f5847a81c3f3d80ccf9d, type: 3}
+  - {fileID: 21300000, guid: 5db059813c0f4cf41aba87127707caa7, type: 3}
+  - {fileID: 21300000, guid: fb431c2455055394b978d818c5e11e90, type: 3}
   anim: {fileID: 0}
   moveSpeed: 1
   minWaitTime: 4

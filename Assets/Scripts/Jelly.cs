@@ -22,6 +22,7 @@ public class Jelly : MonoBehaviour
 
     // 젤리의 시각적 표현을 위한 컴포넌트들
     public SpriteRenderer sprite_renderer; // 스프라이트 렌더러 컴포넌트
+    public Sprite[] backSprite; // 스프라이트의 반대 모습
     public Animator anim; // 애니메이터 컴포넌트
 
     float pick_time; // 마우스 클릭 시간 측정 변수
@@ -84,7 +85,6 @@ public class Jelly : MonoBehaviour
         // 그림자 위치 설정
         shadow.transform.localPosition = new Vector3(0, shadow_pos_y, 0);
 
-        
     }
 
     // 매 프레임마다 호출되는 함수로, 주로 상태 업데이트를 담당
@@ -149,9 +149,9 @@ public class Jelly : MonoBehaviour
         anim.SetTrigger("doTouch");
 
         
-
         Debug.Log("젤리 클릭됨");
         SoundManager.instance.PlaySound("Touch");
+
     }
 
 
@@ -174,6 +174,12 @@ public class Jelly : MonoBehaviour
         {
             // 위쪽으로 이동
             transform.Translate(Vector3.up * moveSpeed * Time.deltaTime);
+
+            if(id < 4)
+            {
+                sprite_renderer.sprite = backSprite[id]; // 반대 스프라이트로 변환(test)
+            }
+            
 
             // y좌표가 1.5에 도달하면 오브젝트 삭제
             if (transform.position.y >= 1.5f)

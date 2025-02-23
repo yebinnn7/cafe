@@ -1245,10 +1245,10 @@ MonoBehaviour:
   isSell: 0
   isLive: 0
   jelly_spritelist:
-  - {fileID: 21300000, guid: f4ba7a5e8b25ae241a6c94d4d6df858d, type: 3}
-  - {fileID: 21300000, guid: 932ce8ce7b8fd8e4d9fb9bce6a7e0b7d, type: 3}
-  - {fileID: 21300000, guid: 590b73e132435194da7d40dc8a3816f0, type: 3}
-  - {fileID: 21300000, guid: ce60f325abe16e1408f2d226e825c21a, type: 3}
+  - {fileID: 21300000, guid: bd7c8a4349e316f40b802bac03dcca24, type: 3}
+  - {fileID: 21300000, guid: 5ba394e9fc8a47a4dba7877e54fccd27, type: 3}
+  - {fileID: 21300000, guid: 86decfec3590d2f48b03ca361cdaad95, type: 3}
+  - {fileID: 21300000, guid: 7692562bdc04dda468a97cce7244d810, type: 3}
   - {fileID: 21300000, guid: 230db3240b492574094d76e3dbd404a1, type: 3}
   - {fileID: 21300000, guid: b8fd21ad16123364aaee0da8f1b3746b, type: 3}
   - {fileID: 21300000, guid: 2d5d6782fc427ad498ff00ded71060f4, type: 3}
@@ -3917,7 +3917,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -100}
+  m_AnchoredPosition: {x: 0, y: -99.99997}
   m_SizeDelta: {x: 119.7, y: 90}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!95 &373186550

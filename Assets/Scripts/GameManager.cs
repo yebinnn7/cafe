@@ -851,8 +851,10 @@ public class GameManager : MonoBehaviour
         Jelly jelly = obj.GetComponent<Jelly>();
 
         page = Random.Range(0, 6); // ���� ������ ����
+
         obj.name = "Jelly " + page;
         jelly.id = page;
+
         jelly.sprite_renderer.sprite = jelly_spritelist[page];
 
         jellyList.Add(jelly); // �ش� Map�� Jelly ����Ʈ�� �߰�
