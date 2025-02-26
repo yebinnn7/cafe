@@ -1249,29 +1249,13 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 5ba394e9fc8a47a4dba7877e54fccd27, type: 3}
   - {fileID: 21300000, guid: 86decfec3590d2f48b03ca361cdaad95, type: 3}
   - {fileID: 21300000, guid: 7692562bdc04dda468a97cce7244d810, type: 3}
-  - {fileID: 21300000, guid: 230db3240b492574094d76e3dbd404a1, type: 3}
-  - {fileID: 21300000, guid: b8fd21ad16123364aaee0da8f1b3746b, type: 3}
-  - {fileID: 21300000, guid: 2d5d6782fc427ad498ff00ded71060f4, type: 3}
-  - {fileID: 21300000, guid: 6de610ccbbc0a094b804153e2dea43a6, type: 3}
-  - {fileID: 21300000, guid: 96481b76a6fa9c6428e4e4b1522e9378, type: 3}
-  - {fileID: 21300000, guid: d78e009f5bb799b42bbf3c801af824ac, type: 3}
-  - {fileID: 21300000, guid: 7fd151f4d9de8de47a1d5abe6e506e83, type: 3}
-  - {fileID: 21300000, guid: 764f930ba03e6324d805335eb66b8c98, type: 3}
   jelly_namelist:
   - "\uC2AC\uB77C\uC784"
   - "\uC824\uB9AC\uBE48"
   - "\uD3EC\uB3C4"
   - "\uACF0\uB3CC\uC774"
-  - "\uD478\uB529"
-  - "\uC591\uAC31"
-  - "\uB0E5\uBC1C\uBC14\uB2E5"
-  - "\uAFC8\uD2C0\uC774"
-  - "\uC0C1\uC5B4"
-  - "\uCD08\uBC25"
-  - "\uB85C\uC584"
-  - "\uC9C0\uAD6C"
-  jelly_jelatinlist: 64000000f4010000d00700008813000010270000a861000050c30000a0860100f0490200e093040020a1070040420f00
-  jelly_goldlist: 64000000c8000000f4010000e8030000dc050000d0070000b80b0000881300004c1d000010270000a861000050c30000
+  jelly_jelatinlist: 64000000f4010000d007000088130000
+  jelly_goldlist: 64000000c8000000f4010000e8030000
   map_goldlist: e8030000204e0000e093040000093d0080f0fa02
   lock_cafe_list: 0
   page_text: {fileID: 1787017695}
@@ -1317,35 +1301,35 @@ MonoBehaviour:
   special_customer_spritelist:
   - {fileID: 21300000, guid: 75485db7ab2c58a4b9f5888d84451dc0, type: 3}
   - {fileID: 21300000, guid: 0479857f00039ca48bd2a120ddd0a761, type: 3}
-  - {fileID: 21300000, guid: 2d5d6782fc427ad498ff00ded71060f4, type: 3}
-  - {fileID: 21300000, guid: 2d5d6782fc427ad498ff00ded71060f4, type: 3}
+  - {fileID: 21300000, guid: 66c859d4cde884f40b43a3fc94f1ce09, type: 3}
+  - {fileID: 21300000, guid: 56b9dd0e0bef7c64e98ade8a61631862, type: 3}
   - {fileID: 21300000, guid: 1f50d62b7b5542d4c801ba149107526e, type: 3}
   - {fileID: 21300000, guid: 2318ba1699980454bb640cd364232429, type: 3}
   - {fileID: 21300000, guid: f1e9ded0a1137894e9f9ecf1f707bd87, type: 3}
-  - {fileID: 21300000, guid: 2d5d6782fc427ad498ff00ded71060f4, type: 3}
+  - {fileID: 21300000, guid: 5b4dcddf56ec5844cae76b7d5d2614a1, type: 3}
   - {fileID: 21300000, guid: ac278fb3c4671fd4087208663dca6b60, type: 3}
-  - {fileID: 21300000, guid: 68369f28e505018478cb9e4b7bf26624, type: 3}
+  - {fileID: 21300000, guid: 2fc0d0bda86ba6245b8e616e7600a75d, type: 3}
   - {fileID: 21300000, guid: fa1afc8e178bc1840aa2be251fdf76a0, type: 3}
+  - {fileID: 21300000, guid: beaf5508994b34243a42ba3e9759f6a0, type: 3}
   - {fileID: 21300000, guid: 68369f28e505018478cb9e4b7bf26624, type: 3}
-  - {fileID: 21300000, guid: 68369f28e505018478cb9e4b7bf26624, type: 3}
-  - {fileID: 21300000, guid: 68369f28e505018478cb9e4b7bf26624, type: 3}
-  - {fileID: 21300000, guid: 68369f28e505018478cb9e4b7bf26624, type: 3}
+  - {fileID: 21300000, guid: f38e087d7dd9f764ba40f4a9d7b80f3b, type: 3}
+  - {fileID: 21300000, guid: 5c3a1c2d839db4b4ab5628d536636a6f, type: 3}
   special_customer_namelist:
   - "\uCD1D\uC7A5"
-  - "\uBC84\uC2A4\uAE30\uC0AC\uAC00 \uB41C \uD300\uD50C\uC870\uC7A5"
-  - "\uC0C1\uC5B4"
-  - "\uCD08\uBC25"
+  - "\uD300\uD50C \uBC84\uC2A4\uAE30\uC0AC"
+  - "\uB0A8\uCE5C\uACFC \uD5E4\uC5B4\uC9C4 \uC5EC\uD559\uC0DD"
+  - "\uCEE4\uD50C"
   - "\uD63C\uBC25\uD558\uB294 \uBCF5\uD559\uC0DD"
-  - "\uAE38\uC744 \uD5E4\uBA54\uB294 \uC2E0\uC785\uC0DD"
+  - "\uC0C8\uB0B4\uAE30"
   - "\uBE44\uC5D0 \uB9DE\uC740 \uD559\uC0DD"
-  - "\uC9C0\uAD6C"
-  - "\uB0B4\uC77C\uBD80\uD130 \uC2DC\uD5D8 \uC2DC\uC791\uC778 \uD559\uC0DD"
-  - "\uC9C0\uAD6C"
-  - "\uC218\uAC15\uC2E0\uCCAD \uC2E4\uD328\uD55C \uD559\uC0DD"
-  - "\uC9C0\uAD6C"
+  - "F\uD3ED\uACA9\uAE30 \uAD50\uC218"
+  - "\uC2DC\uD5D8\uAE30\uAC04\uC778 \uD559\uC0DD"
+  - "1\uAD50\uC2DC\uC778 \uD559\uC0DD"
+  - "\uC218\uAC15\uC2E0\uCCAD \uB9DD\uD55C \uD559\uC0DD"
+  - "\uC120\uBC30\uC640 \uD6C4\uBC30"
   - "\uBD09\uD50C\uD558\uB294 \uD559\uC0DD"
-  - "\uC9C0\uAD6C"
-  - "\uC9C0\uAD6C"
+  - "\uACFC\uD0D1"
+  - "\uC544\uB9DD\uCD94 \uAC8C\uC784 \uAC1C\uBC1C\uC790"
   collected_list: 000000000000000000000000000000
   collected_name:
   - 
