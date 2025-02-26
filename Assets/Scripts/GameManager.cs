@@ -7,7 +7,8 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random; // ��ȣ�� ���� ������
+using Random = UnityEngine.Random;
+using System.Data; // ��ȣ�� ���� ������
 
 public class GameManager : MonoBehaviour
 {
@@ -184,6 +185,10 @@ public class GameManager : MonoBehaviour
     private Color defaultColor = Color.white;
     private Color selectedColor = new Color32(255, 255, 179, 255);
 
+    // 시간 체크
+    private DateTime startTime;
+    private DateTime endTime;
+
 
 
 
@@ -245,7 +250,7 @@ public class GameManager : MonoBehaviour
     public Text presentCoin;
     public Text pickCoin;
 
-    private float timer = 0f;
+    
 
 
     void Awake()
@@ -286,7 +291,8 @@ public class GameManager : MonoBehaviour
 
          };
 
-        
+        // 방치 보상
+        LoadOfflineEarnings();
 
     }
 
@@ -311,12 +317,48 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SpawnSpecialOnMap5()); // 5�� ��
 
 
-        
-    
+        StartCoroutine(AddGoldPerMinute());
+        StartCoroutine(AddGoldPerMachine());
+
 
         LoadAndPullPlayerData();
 
        
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveGameTime();  // 종료 시간 저장
+    }
+
+    // 게임 종료 시간 저장
+    void SaveGameTime()
+    {
+        endTime = DateTime.Now;
+        PlayerPrefs.SetString("LastPlayTime", endTime.ToString());
+        PlayerPrefs.Save();
+        UnityEngine.Debug.Log($"[게임 종료] 저장된 종료 시간: {endTime}");
+    }
+
+    // 게임 시작 시 오프라인 보상 계산
+    void LoadOfflineEarnings()
+    {
+        string lastPlayTimeStr = PlayerPrefs.GetString("LastPlayTime", "");
+        if (!string.IsNullOrEmpty(lastPlayTimeStr))
+        {
+            DateTime lastPlayTime = DateTime.Parse(lastPlayTimeStr);
+            startTime = DateTime.Now;
+            TimeSpan offlineTime = startTime - lastPlayTime;
+
+            int offlineMinutes = (int)offlineTime.TotalMinutes; // 방치된 시간(분)
+            int offlineEarnings = (offlineMinutes * machineCount * 3); // 1분마다 machineCount * 3 보상
+
+            if (offlineEarnings > 0)
+            {
+                gold += offlineEarnings;
+                UnityEngine.Debug.Log($"[오프라인 보상] 방치 시간: {offlineMinutes}분, 획득 골드: {offlineEarnings}, 현재 골드: {gold}");
+            }
+        }
     }
 
     void Update()
@@ -332,12 +374,6 @@ public class GameManager : MonoBehaviour
             else Option(); // �ɼ� �޴��� ���ų� ����
         }
 
-        timer += Time.deltaTime;
-        if (timer >= 1f) // 1초 경과 시
-        {
-            gold += goldTime;
-            timer = 0f; // 타이머 초기화
-        }
 
     }
 
@@ -353,7 +389,29 @@ public class GameManager : MonoBehaviour
         anim.runtimeAnimatorController = level_ac[level - 1];
     }
 
+    // 1분마다 machineCount만큼 골드 증가
+    IEnumerator AddGoldPerMinute()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(60f);
+            gold += machineCount;
 
+            UnityEngine.Debug.Log($"[1분 보상] 현재 골드: {gold} (+{machineCount})");
+        }
+    }
+
+    // 기계 1개당 30초마다 1골드 증가
+    IEnumerator AddGoldPerMachine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(30f);
+            gold += machineCount;
+            
+            UnityEngine.Debug.Log($"[기계 보상] 현재 골드: {gold} (+{machineCount})");
+        }
+    }
 
 
     public void ClickMapBtn()
@@ -808,7 +866,8 @@ public class GameManager : MonoBehaviour
         }
 
         // goldTime에 해당 기계의 수익 추가
-        goldTime += currentMachineCoin[machine_level[machineIndex] - 1];
+        // goldTime += currentMachineCoin[machine_level[machineIndex] - 1];
+        machineCount++;
         
     }
 
