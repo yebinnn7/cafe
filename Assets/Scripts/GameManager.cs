@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
     public Text gold_text; // ��� �ڿ� ������ ǥ���� �ؽ�Ʈ UI
 
 
-    public Image jelly_panel; // ���� �޴� �г�
+    public Image reward_panel; // ���� �޴� �г�
     public Image plant_panel; // �÷�Ʈ �޴� �г�
     public Image option_panel; // �ɼ� �޴� �г�
     public Image map_panel; // �� �޴� �г�
@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
     public Image collected_panel; // ���� �޴� �г�
     public Image information_panel; // ���� �޴� �г�
     public Image menu_panel;
-
+    
 
     [Space(10f)]
     [Header("Prefabs")]
@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
 
     [Space(10f)]
     [Header("Animation")]
-    Animator jelly_anim; // ���� �г� �ִϸ��̼� ����
+    Animator reward_anim; // ���� �г� �ִϸ��̼� ����
     Animator plant_anim; // �÷�Ʈ �г� �ִϸ��̼� ����
     Animator map_anim; // �� �г� �ִϸ��̼� ����
     Animator random_anim; // ���� �г� �ִϸ��̼� ����
@@ -188,6 +188,7 @@ public class GameManager : MonoBehaviour
     // 시간 체크
     private DateTime startTime;
     private DateTime endTime;
+    public Text rewardCoinText;
 
 
 
@@ -258,7 +259,7 @@ public class GameManager : MonoBehaviour
         instance = this; // �̱��� ���� ����
 
         // �г� �ִϸ����� �ʱ�ȭ
-        jelly_anim = jelly_panel.GetComponent<Animator>();
+        reward_anim = reward_panel.GetComponent<Animator>();
         plant_anim = plant_panel.GetComponent<Animator>();
         map_anim = map_panel.GetComponent<Animator>();
         random_anim = random_panel.GetComponent<Animator>();
@@ -270,8 +271,8 @@ public class GameManager : MonoBehaviour
 
         // UI �ʱ�ȭ
         gold_text.text = gold.ToString();
-        unlock_group_gold_text.text = jelly_goldlist[0].ToString();
-        lock_group_jelatin_text.text = jelly_jelatinlist[0].ToString();
+        // unlock_group_gold_text.text = jelly_goldlist[0].ToString();
+        // lock_group_jelatin_text.text = jelly_jelatinlist[0].ToString();
 
         // DataManager �ʱ�ȭ
         data_manager = data_manager_obj.GetComponent<DataManager>();
@@ -358,6 +359,9 @@ public class GameManager : MonoBehaviour
                 gold += offlineEarnings;
                 UnityEngine.Debug.Log($"[오프라인 보상] 방치 시간: {offlineMinutes}분, 획득 골드: {offlineEarnings}, 현재 골드: {gold}");
             }
+
+            ClickRewardBtn();
+            rewardCoinText.text = offlineEarnings.ToString();
         }
     }
 
@@ -413,6 +417,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ClickRewardBtn()
+    {
+        reward_anim.SetTrigger("doShow");
+        isLive = false;
+        
+    }
+
+    public void ClickRewardExitBtn()
+    {
+        reward_anim.SetTrigger("doHide");
+        isLive = false;
+    }
 
     public void ClickMapBtn()
     {
@@ -420,7 +436,7 @@ public class GameManager : MonoBehaviour
 
         if (isJellyClick) // ���� �޴��� ���� ������ ����
         {
-            jelly_anim.SetTrigger("doHide");
+            reward_anim.SetTrigger("doHide");
             isJellyClick = false;
             isLive = true;
         }
@@ -476,7 +492,7 @@ public class GameManager : MonoBehaviour
 
         if (isJellyClick) // ���� �޴��� ���� ������ ����
         {
-            jelly_anim.SetTrigger("doHide");
+            reward_anim.SetTrigger("doHide");
             isJellyClick = false;
             isLive = true;
         }
@@ -563,7 +579,7 @@ public class GameManager : MonoBehaviour
 
         if (isJellyClick) // ���� �޴��� ���� ������ ����
         {
-            jelly_anim.SetTrigger("doHide");
+            reward_anim.SetTrigger("doHide");
             isJellyClick = false;
             isLive = true;
             
