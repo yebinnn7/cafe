@@ -251,7 +251,7 @@ public class GameManager : MonoBehaviour
     public Text presentCoin;
     public Text pickCoin;
 
-    
+    public GoldPopup goldPopup; // GoldPopup 스크립트 참조
 
 
     void Awake()
@@ -402,6 +402,7 @@ public class GameManager : MonoBehaviour
             gold += machineCount;
 
             UnityEngine.Debug.Log($"[1분 보상] 현재 골드: {gold} (+{machineCount})");
+            goldPopup.ShowGoldPopup(goldReward); // 골드 증가 애니메이션
         }
     }
 
@@ -414,6 +415,7 @@ public class GameManager : MonoBehaviour
             gold += machineCount;
             
             UnityEngine.Debug.Log($"[기계 보상] 현재 골드: {gold} (+{machineCount})");
+            goldPopup.ShowGoldPopup(goldReward);// 골드 증가 애니메이션
         }
     }
 
