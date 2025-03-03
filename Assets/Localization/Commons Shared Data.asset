@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Commons Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Commons
+  m_TableCollectionNameGuidString: 6e711a802339ee148b69f0757f74b21b
+  m_Entries:
+  - m_Id: 101111881728
+    m_Key: io.github.pimm-dev.i18n-tables.commons.Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 101174796288
+    m_Key: io.github.pimm-dev.i18n-tables.commons.No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 101178990592
+    m_Key: io.github.pimm-dev.i18n-tables.commons.Confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373376737280
+    m_Key: io.github.pimm-dev.i18n-tables.commons.Cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931584
+    m_Key: io.github.pimm-dev.i18n-tables.commons.GameStart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931585
+    m_Key: io.github.pimm-dev.i18n-tables.commons.Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931586
+    m_Key: io.github.pimm-dev.i18n-tables.commons.QuitGame
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931587
+    m_Key: io.github.pimm-dev.i18n-tables.commons.QuitGameCheckDialogue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931588
+    m_Key: io.github.pimm-dev.i18n-tables.commons.QuitToTitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931589
+    m_Key: io.github.pimm-dev.i18n-tables.commons.QuitToTitleCheckDialogue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931590
+    m_Key: io.github.pimm-dev.i18n-tables.commons.MasterVolume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931591
+    m_Key: io.github.pimm-dev.i18n-tables.commons.BGMVolume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931592
+    m_Key: io.github.pimm-dev.i18n-tables.commons.SFXVolume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931593
+    m_Key: io.github.pimm-dev.i18n-tables.commons.Stage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931594
+    m_Key: io.github.pimm-dev.i18n-tables.commons.Clear
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931595
+    m_Key: io.github.pimm-dev.i18n-tables.commons.Failed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931596
+    m_Key: io.github.pimm-dev.i18n-tables.commons.Win
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931597
+    m_Key: io.github.pimm-dev.i18n-tables.commons.Lose
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12163913408512
+    m_Key: io.github.pimm-dev.i18n-tables.commons.now
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12163976323072
+    m_Key: io.github.pimm-dev.i18n-tables.commons.current
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 2463062249683025944
+  references:
+    version: 2
+    RefIds:
+    - rid: 2463062249683025944
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1740978606179

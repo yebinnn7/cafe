@@ -1,0 +1,22 @@
+Key,English(en),Korean(ko)
+io.github.pimm-dev.i18n-tables.commons.Yes,Yes,예
+io.github.pimm-dev.i18n-tables.commons.No,No,아니오
+io.github.pimm-dev.i18n-tables.commons.Confirm,Confirm,확인
+io.github.pimm-dev.i18n-tables.commons.Cancel,Cancel,취소
+io.github.pimm-dev.i18n-tables.commons.GameStart,Game Start,게임 시작
+io.github.pimm-dev.i18n-tables.commons.Settings,Settings,환경 설정
+io.github.pimm-dev.i18n-tables.commons.QuitGame,Quit Game,게임 종료
+io.github.pimm-dev.i18n-tables.commons.BackToGame,Back to Game,게임으로 돌아가기
+io.github.pimm-dev.i18n-tables.commons.QuitGameCheckDialogue,Quit the game?,게임을 종료할까요?
+io.github.pimm-dev.i18n-tables.commons.QuitToTitle,Quit to Title,타이틀로 나가기
+io.github.pimm-dev.i18n-tables.commons.QuitToTitleCheckDialogue,Quit to title?,게임을 종료하고 타이틀로 나갑니다.
+io.github.pimm-dev.i18n-tables.commons.MasterVolume,Master Volume,전체 볼륨
+io.github.pimm-dev.i18n-tables.commons.BGMVolume,BGM Volume,배경 음악 볼륨
+io.github.pimm-dev.i18n-tables.commons.SFXVolume,SFX Volume,효과음 볼륨
+io.github.pimm-dev.i18n-tables.commons.Stage,Stage,스테이지
+io.github.pimm-dev.i18n-tables.commons.Clear,Clear,클리어
+io.github.pimm-dev.i18n-tables.commons.Failed,Failed,실패
+io.github.pimm-dev.i18n-tables.commons.Win,Win,우승
+io.github.pimm-dev.i18n-tables.commons.Lose,Lose,패배
+io.github.pimm-dev.i18n-tables.commons.now,Now,현재
+io.github.pimm-dev.i18n-tables.commons.current,Current,현재

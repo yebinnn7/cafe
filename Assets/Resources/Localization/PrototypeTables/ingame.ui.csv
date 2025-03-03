@@ -1,0 +1,25 @@
+Key,English(en),Korean(ko)
+cafe.ingame.ui.shop,Shop,상점
+cafe.ingame.ui.loyal-consumer,Loyal Consumer,단골손님
+cafe.ingame.ui.loyal-consumers,Loyal Consumers,단골손님
+cafe.ingame.ui.machines,Machines,기계
+cafe.ingame.ui.pickup-loyal-consumer,Pick up a Loyal Consumer,단골손님 뽑기
+cafe.ingame.ui.per-touch,/touch,/터치
+cafe.ingame.ui.after-pickup-loyal-consumer,After picking up a Loyal Consumer,단골손님을 모으면
+cafe.ingame.ui.branch,Branch {n},지점 {n}
+cafe.ingame.ui.has-machines,has {n : plural : 1 machine. | {s} machines. }, 보유 기계 {n}개
+cafe.ingame.ui.friendship,Friendship,호감도
+cafe.ingame.ui.unlock-requirements,{n} required to unlock,{n} 달성 시 해금
+cafe.ingame.ui.unlock-special-menu,Unlock Special Menu,특별 메뉴 해금
+cafe.ingame.ui.jelly-limit,Jelly limit {n},젤리 수용량 {n}
+cafe.ingame.ui.jelly-production,Jelly production per click x {n},클릭 생산량 x {n}
+cafe.ingame.ui.collections,Collections,도감
+cafe.ingame.ui.apk-rewards,APK Rewards,방치 보상
+cafe.ingame.ui.coin,Coin,코인
+cafe.ingame.ui.coins,Coins,코인
+cafe.ingame.ui.n-coins,{n : plural : 1 coin | {s} coins },{n} 코인
+cafe.ingame.ui.you-got-it,You got it!,획득했습니다!
+cafe.ingame.ui.back-to-game,Back to Game,계속하기
+cafe.ingame.ui.quit-game,Quit Game,나가기
+cafe.options.ui.sfx-volume,SFX,효과음
+cafe.options.ui.bgm-volume,BGM,배경음
