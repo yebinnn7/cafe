@@ -737,7 +737,10 @@ MonoBehaviour:
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
-    m_LocalVariables: []
+    m_LocalVariables:
+    - name: n
+      variable:
+        rid: 2463062340598497304
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
@@ -756,7 +759,11 @@ MonoBehaviour:
         m_CallState: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2463062340598497304
+      type: {class: IntVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: 2
 --- !u!1 &34737278
 GameObject:
   m_ObjectHideFlags: 0
@@ -2095,7 +2102,10 @@ MonoBehaviour:
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
-    m_LocalVariables: []
+    m_LocalVariables:
+    - name: n
+      variable:
+        rid: 2463062340598497298
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
@@ -2114,7 +2124,11 @@ MonoBehaviour:
         m_CallState: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2463062340598497298
+      type: {class: IntVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: 0
 --- !u!1 &129727699
 GameObject:
   m_ObjectHideFlags: 0
@@ -3404,8 +3418,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 525211503}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.3, y: 0}
+  m_AnchorMax: {x: 0.3, y: 1}
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: 10, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5304,7 +5318,10 @@ MonoBehaviour:
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
-    m_LocalVariables: []
+    m_LocalVariables:
+    - name: n
+      variable:
+        rid: 2463062340598497302
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
@@ -5323,7 +5340,11 @@ MonoBehaviour:
         m_CallState: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2463062340598497302
+      type: {class: IntVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: 0
 --- !u!1 &406892342
 GameObject:
   m_ObjectHideFlags: 0
@@ -7680,7 +7701,10 @@ MonoBehaviour:
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
-    m_LocalVariables: []
+    m_LocalVariables:
+    - name: n
+      variable:
+        rid: 2463062340598497303
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
@@ -7699,7 +7723,11 @@ MonoBehaviour:
         m_CallState: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2463062340598497303
+      type: {class: IntVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: 1
 --- !u!1 &589066844
 GameObject:
   m_ObjectHideFlags: 0
@@ -9140,7 +9168,10 @@ MonoBehaviour:
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
-    m_LocalVariables: []
+    m_LocalVariables:
+    - name: n
+      variable:
+        rid: 2463062340598497300
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
@@ -9159,7 +9190,11 @@ MonoBehaviour:
         m_CallState: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2463062340598497300
+      type: {class: IntVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: 0
 --- !u!1 &728069132
 GameObject:
   m_ObjectHideFlags: 0
@@ -11805,7 +11840,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &954132611
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12428,7 +12463,10 @@ MonoBehaviour:
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
-    m_LocalVariables: []
+    m_LocalVariables:
+    - name: n
+      variable:
+        rid: 2463062340598497301
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
@@ -12447,7 +12485,11 @@ MonoBehaviour:
         m_CallState: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2463062340598497301
+      type: {class: IntVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: 0
 --- !u!1 &993622330
 GameObject:
   m_ObjectHideFlags: 0
@@ -15136,6 +15178,7 @@ GameObject:
   - component: {fileID: 1298100786}
   - component: {fileID: 1298100788}
   - component: {fileID: 1298100787}
+  - component: {fileID: 1298100789}
   m_Layer: 5
   m_Name: Text (Legacy)
   m_TagString: Untagged
@@ -15204,6 +15247,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298100785}
   m_CullTransparentMesh: 1
+--- !u!114 &1298100789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298100785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:74b2797832ec2a84db4e63a965bea4c0
+    m_TableEntryReference:
+      m_KeyId: 40164450312
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1298100787}
+        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1299539229
 GameObject:
   m_ObjectHideFlags: 0
@@ -18476,8 +18559,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1299539230}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.3, y: 0}
+  m_AnchorMax: {x: 0.3, y: 1}
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: 10, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -18686,7 +18769,7 @@ RectTransform:
   m_Father: {fileID: 1101442771}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.3, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -19008,7 +19091,10 @@ MonoBehaviour:
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
-    m_LocalVariables: []
+    m_LocalVariables:
+    - name: n
+      variable:
+        rid: 2463062340598497299
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
@@ -19027,7 +19113,11 @@ MonoBehaviour:
         m_CallState: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2463062340598497299
+      type: {class: IntVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: 0
 --- !u!1 &1611555201
 GameObject:
   m_ObjectHideFlags: 0
@@ -20213,7 +20303,7 @@ RectTransform:
   m_Father: {fileID: 916346145}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.3, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

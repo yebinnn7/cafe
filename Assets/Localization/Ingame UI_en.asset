@@ -56,7 +56,8 @@ MonoBehaviour:
   - m_Id: 40164450311
     m_Localized: 'has {n : plural : 1 machine. | {s} machines. }'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2463062249683025951
   - m_Id: 40164450312
     m_Localized: Friendship
     m_Metadata:
@@ -79,7 +80,8 @@ MonoBehaviour:
   - m_Id: 40164450316
     m_Localized: Jelly production per click x {n}
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2463062249683025951
   - m_Id: 40164450317
     m_Localized: Collections
     m_Metadata:
@@ -139,3 +141,5 @@ MonoBehaviour:
         - id: 40164450312
         - id: 40164450314
         - id: 40164450315
+        - id: 40164450316
+        - id: 40164450311
