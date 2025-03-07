@@ -3185,7 +3185,10 @@ MonoBehaviour:
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
-    m_LocalVariables: []
+    m_LocalVariables:
+    - name: n
+      variable:
+        rid: 2463062356269727745
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
@@ -3204,7 +3207,11 @@ MonoBehaviour:
         m_CallState: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2463062356269727745
+      type: {class: IntVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: 2
 --- !u!1 &213423287
 GameObject:
   m_ObjectHideFlags: 0
@@ -11376,7 +11383,10 @@ MonoBehaviour:
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
-    m_LocalVariables: []
+    m_LocalVariables:
+    - name: n
+      variable:
+        rid: 2463062356269727748
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
@@ -11395,7 +11405,11 @@ MonoBehaviour:
         m_CallState: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2463062356269727748
+      type: {class: IntVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: 5
 --- !u!1 &916346144
 GameObject:
   m_ObjectHideFlags: 0
@@ -14391,7 +14405,10 @@ MonoBehaviour:
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
-    m_LocalVariables: []
+    m_LocalVariables:
+    - name: n
+      variable:
+        rid: 2463062356269727746
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
@@ -14410,7 +14427,11 @@ MonoBehaviour:
         m_CallState: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2463062356269727746
+      type: {class: IntVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: 3
 --- !u!1 &1127031505
 GameObject:
   m_ObjectHideFlags: 0
@@ -17650,7 +17671,10 @@ MonoBehaviour:
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
-    m_LocalVariables: []
+    m_LocalVariables:
+    - name: n
+      variable:
+        rid: 2463062356269727744
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
@@ -17669,7 +17693,11 @@ MonoBehaviour:
         m_CallState: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2463062356269727744
+      type: {class: IntVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: 1
 --- !u!1 &1503465375
 GameObject:
   m_ObjectHideFlags: 0
@@ -22426,7 +22454,10 @@ MonoBehaviour:
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
-    m_LocalVariables: []
+    m_LocalVariables:
+    - name: n
+      variable:
+        rid: 2463062356269727747
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
@@ -22445,7 +22476,11 @@ MonoBehaviour:
         m_CallState: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2463062356269727747
+      type: {class: IntVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: 4
 --- !u!1 &1803799789
 GameObject:
   m_ObjectHideFlags: 0
