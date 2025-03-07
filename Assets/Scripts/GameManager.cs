@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour
     public Image collected_panel; // ���� �޴� �г�
     public Image information_panel; // ���� �޴� �г�
     public Image menu_panel;
+    public Image pick_panel;
     
 
     [Space(10f)]
@@ -189,6 +190,10 @@ public class GameManager : MonoBehaviour
     private DateTime startTime;
     private DateTime endTime;
     public Text rewardCoinText;
+
+    // 뽑기 창
+    public Text pickPanelText;
+    public Image pickPanelImage;
 
 
 
@@ -1049,6 +1054,16 @@ public class GameManager : MonoBehaviour
 
 
         SoundManager.instance.PlaySound("Unlock"); // 성공 사운드
+
+        pickPanelImage.sprite = special_customer_spritelist[index];
+        pickPanelText.text = special_customer_namelist[index];
+
+        pick_panel.gameObject.SetActive(true);
+    }
+
+    public void PickPanelExitBtn()
+    {
+        pick_panel.gameObject.SetActive(false);
     }
 
     // ��� ������ �����Ǿ����� üũ�ϴ� �޼ҵ�

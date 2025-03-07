@@ -164,7 +164,7 @@ public class Jelly : MonoBehaviour
             transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
 
             // y좌표가 -1.5에 도달하면 5초 대기
-            if (transform.position.y <= -1.0f)
+            if (transform.position.y <= -0.9f)
             {
                 movingDown = false; // 이동 방향을 위로 바꿈
                 StartCoroutine(WaitAtPosition()); // 5초 대기 시작

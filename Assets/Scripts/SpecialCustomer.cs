@@ -62,8 +62,9 @@ public class SpecialCustomer : MonoBehaviour
     public Sprite specialMenuImage;
 
     bool isUnlock = false;
+    bool isFavorabilityUp = false;
 
-    
+
 
     // 게임 시작 시 필요한 변수와 오브젝트를 설정하는 초기화 함수
     void Awake()
@@ -148,25 +149,32 @@ public class SpecialCustomer : MonoBehaviour
         anim.SetTrigger("doTouch");
 
         SoundManager.instance.PlaySound("Touch");
-
-        // 호감도가 20 이상일 때
-        if (favorability >= 20 && isUnlock == false && game_manager.unlockMenu[id] == false)
+        
+        if (!isFavorabilityUp)
         {
-            game_manager.ClickMenuBtn(id);
-            isUnlock = true;
-            return; // 호감도가 20 이상일 때는 더 이상 진행되지 않음
-        }
 
-        if (favorability < 20)
-        {
-            // 호감도가 20 미만일 경우에만 증가하고 이펙트 생성
-            favorability += 2;
-            game_manager.UpdateFavorability(id, favorability);
+            // 호감도가 20 이상일 때
+            if (favorability >= 20 && isUnlock == false && game_manager.unlockMenu[id] == false)
+            {
+                game_manager.ClickMenuBtn(id);
+                isUnlock = true;
+                return; // 호감도가 20 이상일 때는 더 이상 진행되지 않음
+            }
 
-            // 이펙트 생성
-            FavEffectPlay();
+            if (favorability < 20)
+            {
+                // 호감도가 20 미만일 경우에만 증가하고 이펙트 생성
+                favorability += 2;
+                game_manager.UpdateFavorability(id, favorability);
+
+                // 이펙트 생성
+                FavEffectPlay();
+            }
+
+            isFavorabilityUp = true;
         }
         
+
     }
 
 
@@ -180,7 +188,7 @@ public class SpecialCustomer : MonoBehaviour
             transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
 
             // y좌표가 -1.5에 도달하면 5초 대기
-            if (transform.position.y <= -1.0f)
+            if (transform.position.y <= -0.9f)
             {
                 movingDown = false; // 이동 방향을 위로 바꿈
                 StartCoroutine(WaitAtPosition()); // 5초 대기 시작
