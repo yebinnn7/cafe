@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HexagonTile.Localization.Definitions
+namespace Cafe.Localization.Definitions
 {
     public class LocalizationDefaults
     {

@@ -111,6 +111,10 @@ MonoBehaviour:
     m_Key: cafe.options.ui.bgm-volume
     m_Metadata:
       m_Items: []
+  - m_Id: 1462243736477696
+    m_Key: cafe.options.ui.language
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

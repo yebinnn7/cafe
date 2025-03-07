@@ -20,7 +20,7 @@ In summary, the localization data is managed and edited in the `Prototype Table`
 
 **2. Read system's locale and apply to the game.**
 
-The `LocalizationManager` class is a singleton that manages the localization of the game. It sets game's locale based on the operating system's locale configuration. (When system's locale is not supported, it defaults to English. Refer to the `HexagonTile.Localization.Definitions.AvailableLocales` enum for supported locales.)
+The `LocalizationManager` class is a singleton that manages the localization of the game. It sets game's locale based on the operating system's locale configuration. (When system's locale is not supported, it defaults to English. Refer to the `Cafe.Localization.Definitions.AvailableLocales` enum for supported locales.)
 
 ## When building the game
 

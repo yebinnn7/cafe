@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 
-namespace HexagonTile.Localization.Definitions
+namespace Cafe.Localization.Definitions
 {
     public class AvailableLocaleBindings
     {
@@ -26,5 +26,17 @@ namespace HexagonTile.Localization.Definitions
         
         public static Dictionary<Locale, SystemLanguage> L18nLocaleToSysLang =>
             UnityLocalizationLocaleEnumToSystemLanguage;
+    }
+
+    public static class LocaleClassesExtensions
+    {
+        public static SystemLanguage ToSystemLanguage(this Locale locale)
+        {
+            return AvailableLocaleBindings.UnityLocalizationLocaleEnumToSystemLanguage[locale];
+        }
+        public static Locale ToLocale(this SystemLanguage systemLanguage)
+        {
+            return AvailableLocaleBindings.SystemLanguageToUnityLocalizationLocaleEnum[systemLanguage];
+        }
     }
 }

@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
-using HexagonTile.Localization.Definitions;
+using Cafe.Localization.Definitions;
 
-namespace HexagonTile.Localization.Controllers
+namespace Cafe.Localization.Controllers
 {
     public class LocalizationController : MonoBehaviour
     {
@@ -31,15 +31,20 @@ namespace HexagonTile.Localization.Controllers
         private void InitWithSystemLanguage()
         {
             SystemLanguage systemLanguage = Application.systemLanguage;
+            SetLocale(systemLanguage);
+        }
+
+        public void SetLocale(SystemLanguage systemLanguage)
+        {
             Locale locale;
             try
             {
-                locale = AvailableLocaleBindings.SystemLanguageToUnityLocalizationLocaleEnum[systemLanguage];
+                locale = systemLanguage.ToLocale();
             }
             catch (KeyNotFoundException _e)
             {
                 Debug.LogWarning($"SystemLanguage {systemLanguage} is not supported. Defaulting to English.");
-                locale = AvailableLocaleBindings.SystemLanguageToUnityLocalizationLocaleEnum[LocalizationDefaults.DefaultLanguage];
+                locale = LocalizationDefaults.DefaultLanguage.ToLocale();
             }
             CurrentLocale = locale;
         }
