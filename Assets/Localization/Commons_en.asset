@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Commons_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 6e711a802339ee148b69f0757f74b21b, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 101111881728
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 101174796288
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 101178990592
+    m_Localized: Confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373376737280
+    m_Localized: Cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931584
+    m_Localized: Game Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931585
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931586
+    m_Localized: Quit Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931587
+    m_Localized: Quit the game?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931588
+    m_Localized: Quit to Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931589
+    m_Localized: Quit to title?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931590
+    m_Localized: Master Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931591
+    m_Localized: BGM Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931592
+    m_Localized: SFX Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931593
+    m_Localized: Stage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931594
+    m_Localized: Clear
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931595
+    m_Localized: Failed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931596
+    m_Localized: Win
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373380931597
+    m_Localized: Lose
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12163913408512
+    m_Localized: Now
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12163976323072
+    m_Localized: Current
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
