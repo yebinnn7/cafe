@@ -11,6 +11,7 @@ public class RandomAxisMoveCharacter : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private Vector2 targetPosition;
+    private bool isStopped = false;
 
     private void Start()
     {
@@ -21,11 +22,16 @@ public class RandomAxisMoveCharacter : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveDistance * Time.deltaTime);
+        if (!isStopped)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveDistance * Time.deltaTime);
+        }
     }
 
     private void SetRandomTargetPosition()
     {
+        if (isStopped) return;
+
         Vector2 currentPosition = transform.position;
         Vector2 newPosition = currentPosition;
         Vector2 moveDirection;
@@ -45,7 +51,6 @@ public class RandomAxisMoveCharacter : MonoBehaviour
 
         targetPosition = newPosition;
 
-        // 방향에 따라 스프라이트 변경
         if (moveDirection.y > 0)
         {
             spriteRenderer.sprite = backSprite;
@@ -59,7 +64,20 @@ public class RandomAxisMoveCharacter : MonoBehaviour
         else if (moveDirection.x != 0)
         {
             spriteRenderer.sprite = sideSprite;
-            spriteRenderer.flipX = moveDirection.x > 0; // 오른쪽 true, 왼쪽 false
+            spriteRenderer.flipX = moveDirection.x > 0;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        isStopped = true;
+        CancelInvoke(nameof(SetRandomTargetPosition));
+        Invoke(nameof(ResumeMovement), 1f);
+    }
+
+    private void ResumeMovement()
+    {
+        isStopped = false;
+        InvokeRepeating(nameof(SetRandomTargetPosition), 0f, moveInterval);
     }
 }

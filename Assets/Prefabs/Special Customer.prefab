@@ -279,6 +279,24 @@ MonoBehaviour:
   left_top: {fileID: 0}
   right_bottom: {fileID: 0}
   sprite_renderer: {fileID: 0}
+  backSprite:
+  - {fileID: 21300000, guid: 5ac46ef951207ff4ea85a199738cd354, type: 3}
+  - {fileID: 21300000, guid: dd065b394790e124681e81088a8f6252, type: 3}
+  - {fileID: 21300000, guid: 11eefbab9bbfec44b838c96bed071280, type: 3}
+  - {fileID: 21300000, guid: 53892603e8f70b843912396ee41032b7, type: 3}
+  - {fileID: 21300000, guid: 0a3af8f4d99268a4ca4aa668215afa15, type: 3}
+  - {fileID: 21300000, guid: 113b95845b967a241a5ef064b54889e7, type: 3}
+  - {fileID: 21300000, guid: 407301375979ebd4f8fe4ed8f751c8d3, type: 3}
+  - {fileID: 21300000, guid: beb8f6fb8090aee41963b579c5b4c443, type: 3}
+  - {fileID: 21300000, guid: fd541d1beb980e54ca877be9b99ebc32, type: 3}
+  - {fileID: 21300000, guid: 4931dea087c74f64d98bd00dd20587fe, type: 3}
+  - {fileID: 21300000, guid: 50f71d8c88930154b8cfff15171f3d81, type: 3}
+  - {fileID: 21300000, guid: 54af5d2e9dac9244ea8347b1c0cc635c, type: 3}
+  - {fileID: 21300000, guid: c351ef28b06dd5b4f95848cb55e86cd9, type: 3}
+  - {fileID: 21300000, guid: 235315bb7194e7e40880df529db2658e, type: 3}
+  - {fileID: 21300000, guid: 1dbc9d71f0285844f8a88236df05cde7, type: 3}
+  - {fileID: 21300000, guid: 47ed78cbd5055944b865b3bb2c314cd8, type: 3}
+  - {fileID: 21300000, guid: 4dde2a487f234804fa34799770c68904, type: 3}
   anim: {fileID: 0}
   moveSpeed: 1
   minWaitTime: 4

@@ -18,8 +18,8 @@ public class ObjectSpawner : MonoBehaviour
 
     public void SpawnRandomObject()
     {
-        // 랜덤 위치 설정
-        float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
+        // 현재 위치 기준으로 랜덤 위치 설정
+        float randomX = transform.position.x + Random.Range(spawnRangeX.x, spawnRangeX.y);
         float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);
         Vector3 spawnPosition = new Vector3(randomX, randomY, 0f);
 
