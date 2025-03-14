@@ -148,10 +148,12 @@ public class GameManager : MonoBehaviour
 
     // �ܰ�մ� ����Ʈ
     public Sprite[] special_customer_spritelist; // ������ ��������Ʈ ����Ʈ
+    public Sprite[] special_customer_backspritelist;
     public string[] special_customer_namelist; // ���� �̸� ����Ʈ
     public bool[] collected_list;
     public string[] collected_name;
     public Sprite[] collected_sprites;
+    public Sprite[] collected_backsprites;
 
     // �ܰ�մ� �����ð�
     public float minSpecialSpawnTime = 5f;
@@ -257,7 +259,7 @@ public class GameManager : MonoBehaviour
     public Text pickCoin;
 
     public GoldPopup goldPopup; // GoldPopup 스크립트 참조
-
+    public SpecialCustomer specialCustomer; // SpecialCustomer 참조
 
     void Awake()
     {
@@ -1031,9 +1033,12 @@ public class GameManager : MonoBehaviour
             index = Random.Range(0, special_customer_namelist.Length); // special_customer_namelist에서 랜덤 인덱스 선택
         } while (collected_list[index]); // 이미 선택된 단골손님은 다시 선택하지 않음
 
+
         // 선택된 단골손님의 정보 저장
         collected_name[specialNum] = special_customer_namelist[index];
         collected_sprites[specialNum] = special_customer_spritelist[index];
+        collected_backsprites[specialNum] = special_customer_backspritelist[index];
+
 
         // 메뉴 정보도 함께 저장
         collected_menu_name[specialNum] = menu_name[index];
@@ -1093,6 +1098,7 @@ public class GameManager : MonoBehaviour
             obj.name = "Special Customer " + specialNum;
             specialCustomer.id = specialNum; // id는 specialNum으로 설정
             specialCustomer.sprite_renderer.sprite = collected_sprites[specialNum]; // 고객 스프라이트 설정
+            specialCustomer.backSprite = collected_backsprites[specialNum]; // 고객 스프라이트 설정
 
             // 선호도 효과 추가
             GameObject instantFavEffectObj = Instantiate(favorability_effect_prefab);

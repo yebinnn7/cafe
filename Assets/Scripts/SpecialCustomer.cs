@@ -21,7 +21,7 @@ public class SpecialCustomer : MonoBehaviour
 
     // 젤리의 시각적 표현을 위한 컴포넌트들
     public SpriteRenderer sprite_renderer; // 스프라이트 렌더러 컴포넌트
-    public Sprite[] backSprite; // 스프라이트의 반대 모습
+    public Sprite backSprite; // 스프라이트의 반대 모습
     public Animator anim; // 애니메이터 컴포넌트
 
     float pick_time; // 마우스 클릭 시간 측정 변수
@@ -202,7 +202,7 @@ public class SpecialCustomer : MonoBehaviour
 
             if (id < 17)
             {
-                sprite_renderer.sprite = backSprite[id]; // 반대 스프라이트로 변환(test)
+                sprite_renderer.sprite = backSprite; // 반대 스프라이트로 변환(test)
             }
 
             // y좌표가 1.5에 도달하면 오브젝트 삭제
