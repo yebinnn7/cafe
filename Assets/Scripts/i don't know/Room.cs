@@ -17,7 +17,6 @@ public class Room : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("Å¬¸¯");
         game_manager.ClickGetGold(game_manager.goldReward);
         goldPopup.ShowGoldPopup(game_manager.goldReward);
     }
