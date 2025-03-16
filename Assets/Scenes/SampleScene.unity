@@ -1995,7 +1995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 803516031}
 --- !u!1 &100942686
 GameObject:
   m_ObjectHideFlags: 0
@@ -2205,7 +2205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 1104356955}
 --- !u!1 &110729616
 GameObject:
   m_ObjectHideFlags: 0
@@ -2967,7 +2967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 1052222885}
 --- !u!1 &121184990
 GameObject:
   m_ObjectHideFlags: 0
@@ -3946,7 +3946,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 126886239}
 --- !u!61 &152362213
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4262,7 +4262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 1052222885}
 --- !u!1 &171888958
 GameObject:
   m_ObjectHideFlags: 0
@@ -7471,7 +7471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 1052222885}
 --- !u!1 &406892342
 GameObject:
   m_ObjectHideFlags: 0
@@ -12117,7 +12117,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: f7086653d0a8b654fbef11d415a74513, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -12143,7 +12143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 121184991}
 --- !u!61 &753183966
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12541,7 +12541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 121184991}
 --- !u!61 &772539231
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12811,7 +12811,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 44c9bce47b71f5c4784887ad215a718c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -12882,7 +12882,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 803516031}
 --- !u!1 &791685933
 GameObject:
   m_ObjectHideFlags: 0
@@ -13148,7 +13148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 803516031}
 --- !u!1 &797085237
 GameObject:
   m_ObjectHideFlags: 0
@@ -14132,7 +14132,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: f7086653d0a8b654fbef11d415a74513, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -14203,7 +14203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 803516031}
 --- !u!1 &894711199
 GameObject:
   m_ObjectHideFlags: 0
@@ -14638,7 +14638,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: f7086653d0a8b654fbef11d415a74513, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -14664,7 +14664,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 126886239}
 --- !u!61 &937242572
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -19136,7 +19136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 121184991}
 --- !u!61 &1300850391
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -20210,7 +20210,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: f7086653d0a8b654fbef11d415a74513, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -20281,7 +20281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 1052222885}
 --- !u!1 &1373884566
 GameObject:
   m_ObjectHideFlags: 0
@@ -21426,7 +21426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 1104356955}
 --- !u!61 &1452459842
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -22623,7 +22623,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 44c9bce47b71f5c4784887ad215a718c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -22694,7 +22694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 1052222885}
 --- !u!1 &1547826281
 GameObject:
   m_ObjectHideFlags: 0
@@ -23030,7 +23030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 126886239}
 --- !u!61 &1568753563
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -23176,7 +23176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 1104356955}
 --- !u!61 &1572942764
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -25042,7 +25042,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 803516031}
 --- !u!1 &1647260225
 GameObject:
   m_ObjectHideFlags: 0
@@ -26940,7 +26940,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 44c9bce47b71f5c4784887ad215a718c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -26966,7 +26966,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 121184991}
 --- !u!61 &1746777187
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -27252,7 +27252,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: f7086653d0a8b654fbef11d415a74513, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -27278,7 +27278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 1104356955}
 --- !u!61 &1764688989
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -27398,7 +27398,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 44c9bce47b71f5c4784887ad215a718c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -27424,7 +27424,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 126886239}
 --- !u!61 &1765618612
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -29434,7 +29434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 121184991}
 --- !u!61 &1922196426
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -29811,7 +29811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 126886239}
 --- !u!61 &1933946740
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -31097,7 +31097,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 44c9bce47b71f5c4784887ad215a718c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -31123,7 +31123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  goldPopup: {fileID: 0}
+  goldPopup: {fileID: 1104356955}
 --- !u!61 &2041057674
 BoxCollider2D:
   m_ObjectHideFlags: 0
