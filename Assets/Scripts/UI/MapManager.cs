@@ -32,9 +32,15 @@ public class MapManager : MonoBehaviour
     [Header("Camera")]
     public Vector3 targetPosition;
 
+    public GameObject game_manager_obj; // GameManager 오브젝트 참조
+    public GameManager game_manager; // GameManager 스크립트 참조
+
     private void Awake()
     {
         instance = this;
+
+        game_manager_obj = GameObject.Find("GameManager").gameObject;
+        game_manager = game_manager_obj.GetComponent<GameManager>();
     }
 
     public void Clickcafe1() { Checkcafe(0); }
@@ -51,13 +57,13 @@ public class MapManager : MonoBehaviour
         lock_map_gold_text.text = cafe.ToString();
     }
 
-    public void Movecafe1() { MoveToCafe(new Vector3(0, 0, -10), cafe1); }
-    public void Movecafe2() { MoveToCafe(new Vector3(20, 0, -10), cafe2); }
-    public void Movecafe3() { MoveToCafe(new Vector3(40, 0, -10), cafe3); }
-    public void Movecafe4() { MoveToCafe(new Vector3(60, 0, -10), cafe4); }
-    public void Movecafe5() { MoveToCafe(new Vector3(80, 0, -10), cafe5); }
+    public void Movecafe1() { MoveToCafe(new Vector3(0, 0, -10), cafe1, 1); }
+    public void Movecafe2() { MoveToCafe(new Vector3(20, 0, -10), cafe2, 2); }
+    public void Movecafe3() { MoveToCafe(new Vector3(40, 0, -10), cafe3, 3); }
+    public void Movecafe4() { MoveToCafe(new Vector3(60, 0, -10), cafe4, 4); }
+    public void Movecafe5() { MoveToCafe(new Vector3(80, 0, -10), cafe5, 5); }
 
-    private void MoveToCafe(Vector3 position, GameObject activeCafe)
+    private void MoveToCafe(Vector3 position, GameObject activeCafe, int cafeNum)
     {
         targetPosition = position;
         Camera.main.transform.position = targetPosition;
@@ -68,5 +74,7 @@ public class MapManager : MonoBehaviour
         cafe3.SetActive(activeCafe == cafe3);
         cafe4.SetActive(activeCafe == cafe4);
         cafe5.SetActive(activeCafe == cafe5);
+
+        game_manager.cafeNum = cafeNum;
     }
 }

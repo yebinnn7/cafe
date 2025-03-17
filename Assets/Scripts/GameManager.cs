@@ -154,6 +154,7 @@ public class GameManager : MonoBehaviour
     public string[] collected_name;
     public Sprite[] collected_sprites;
     public Sprite[] collected_backsprites;
+    public Image PickWarningPanelImage;
 
     // �ܰ�մ� �����ð�
     public float minSpecialSpawnTime = 5f;
@@ -196,6 +197,9 @@ public class GameManager : MonoBehaviour
     // 뽑기 창
     public Text pickPanelText;
     public Image pickPanelImage;
+
+    public int[] cafeGold = new int[5];
+
 
 
 
@@ -260,6 +264,8 @@ public class GameManager : MonoBehaviour
 
     public GoldPopup goldPopup; // GoldPopup 스크립트 참조
     public SpecialCustomer specialCustomer; // SpecialCustomer 참조
+
+    public int cafeNum = 1;
 
     void Awake()
     {
@@ -1025,6 +1031,24 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        if ((cafeNum == 1 && specialNum >= 3) ||
+        (cafeNum == 2 && specialNum >= 6) ||
+        (cafeNum == 3 && specialNum >= 9) ||
+        (cafeNum == 4 && specialNum >= 12) ||
+        (cafeNum == 5 && specialNum >= 14))
+        {
+            SoundManager.instance.PlaySound("Fail");
+
+            PickWarningPanelImage.gameObject.SetActive(true);
+
+            StartCoroutine(HideWarningPanel()); // 2초 후 비활성화
+
+            return;
+        }
+
+        
+
+
         int index;
 
         // 단골손님 목록에서 아직 선택되지 않은 단골손님을 선택
@@ -1051,7 +1075,8 @@ public class GameManager : MonoBehaviour
         collected_list[index] = true;
         collectedManager.UpdateCollectedList(index, true); // Update collected_list
 
-        goldReward += specialCount[specialIndex];
+        if (cafeNum >= 1 && cafeNum <= 5) { cafeGold[cafeNum - 1] += specialCount[specialIndex]; }
+
         specialIndex++;
 
         presentCoin.text = goldReward.ToString();
@@ -1064,6 +1089,12 @@ public class GameManager : MonoBehaviour
         pickPanelText.text = special_customer_namelist[index];
 
         pick_panel.gameObject.SetActive(true);
+    }
+
+    private IEnumerator HideWarningPanel()
+    {
+        yield return new WaitForSeconds(2f); // 2초 대기
+        PickWarningPanelImage.gameObject.SetActive(false);
     }
 
     public void PickPanelExitBtn()

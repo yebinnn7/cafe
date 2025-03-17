@@ -17,7 +17,8 @@ public class Room : MonoBehaviour
 
     private void OnMouseDown()
     {
-        game_manager.ClickGetGold(game_manager.goldReward);
+        game_manager.ClickGetGold(game_manager.cafeGold[game_manager.cafeNum - 1]);
+        UnityEngine.Debug.Log(game_manager.cafeGold[game_manager.cafeNum - 1]);
         goldPopup.ShowGoldPopup(game_manager.goldReward);
     }
 }
