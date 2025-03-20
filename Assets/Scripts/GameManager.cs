@@ -15,14 +15,45 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;// // �̱��� �������� GameManager �ν��Ͻ��� �������� ������ �� �ְ� ����
 
     [Header("Money")]
-    public int jelatin = 0;
-    public int gold; // ��� �ڿ�
+    private int _jelatin = 0;
+    public int jelatin {
+        get { return _jelatin; }
+        set {
+            _jelatin = value;
+            onStateChange();
+        }
+    }
+    private int _gold = 0; // ��� �ڿ�
+    public int gold {
+        get { return _gold; }
+        set {
+            _gold = value;
+            onStateChange();
+        }
+    }
 
     [Space(10f)]
     [Header("List")]
     public List<Jelly> jelly_list = new List<Jelly>(); // ������ �������� ������ ����Ʈ
-    public List<Data> jelly_data_list = new List<Data>(); // ����� ������ �����͸� ������ ����Ʈ
-    public bool[] jelly_unlock_list; // ���� ��� ���� ���¸� ������ �迭
+    private List<Data> _jelly_data_list = new List<Data>(); // ����� ������ �����͸� ������ ����Ʈ
+    public List<Data> jelly_data_list
+    {
+        get { return _jelly_data_list; }
+        set {
+            _jelly_data_list = value;
+            onStateChange();
+        }
+    }
+
+    private bool[] _jelly_unlock_list = (bool[])PlayerDataModelDefaults.JELLY_UNLOCKS.Clone(); // ���� ��� ���� ���¸� ������ �迭
+    public bool[] jelly_unlock_list 
+    {
+        get { return _jelly_unlock_list; }
+        set {
+            _jelly_unlock_list = value;
+            onStateChange();
+        }
+    }
     public List<SpecialCustomer> special_customer_list = new List<SpecialCustomer>();
     public List<Data> special_customer_data_list = new List<Data>();
 
@@ -119,7 +150,15 @@ public class GameManager : MonoBehaviour
     [Space(10f)]
     [Header("Upgrade")]
     // ���׷��̵� �ý��� ����
-    public int num_level;
+    private int _num_level = 0;
+    public int num_level
+    {
+        get { return _num_level; }
+        set {
+            _num_level = value;
+            onStateChange();
+        }
+    }
     public Text num_sub_text;
     public Text num_btn_text;
     public Button num_btn;
@@ -129,7 +168,15 @@ public class GameManager : MonoBehaviour
 
     [Space(10f)]
     [Header("Click List")]
-    public int click_level;
+    private int _click_level = 0;
+    public int click_level
+    {
+        get { return _click_level; }
+        set {
+            _click_level = value;
+            onStateChange();
+        }
+    }
     public Text click_sub_text;
     public Text click_btn_text;
     public Button click_btn;
@@ -291,7 +338,6 @@ public class GameManager : MonoBehaviour
         data_manager = data_manager_obj.GetComponent<DataManager>();
 
         page = 0; // ù �������� �ʱ�ȭ
-        jelly_unlock_list = new bool[12]; // ���� ��� ���� �迭 �ʱ�ȭ (12���� ����)
 
         collectedManager = FindObjectOfType<CollectedManager>();
 
@@ -1262,12 +1308,12 @@ public class GameManager : MonoBehaviour
     public void LoadAndPullPlayerData()
     {
         playerDataModel = PlayerDataContainer.I.PlayerData;
-        jelatin = playerDataModel.jelatin;
-        gold = playerDataModel.gold;
-        jelly_unlock_list = playerDataModel.jellyUnlocks;
-        jelly_data_list = playerDataModel.jelly.Select(each => (Data)each).ToList();
-        num_level = playerDataModel.numLevel;
-        click_level = playerDataModel.clickLevel;
+        _jelatin = playerDataModel.jelatin;
+        _gold = playerDataModel.gold;
+        _jelly_unlock_list = playerDataModel.jellyUnlocks;
+        _jelly_data_list = playerDataModel.jelly.Select(each => (Data)each).ToList();
+        _num_level = playerDataModel.numLevel;
+        _click_level = playerDataModel.clickLevel;
         if (SoundManager.instance)
         {
             SoundManager.instance.bgm_slider.value = playerDataModel.bgmVolume;
@@ -1275,6 +1321,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+    void onStateChange()
+    {
+        PushAndSavePlayerData();
+        UnityEngine.Debug.Log("PlayerDataModel has been saved.");
+    }
 
 }
