@@ -202,6 +202,9 @@ public class GameManager : MonoBehaviour
     public Sprite[] collected_sprites;
     public Sprite[] collected_backsprites;
     public Image PickWarningPanelImage;
+    public Image CustomerMaxImage;
+    int[] cafeCustomerCount = new int[5]; // 각 카페별 뽑은 손님 수 (0~4)
+    bool[] cafeMaxReached = new bool[5]; // 각 카페별 손님 전원 수집 여부
 
     // �ܰ�մ� �����ð�
     public float minSpecialSpawnTime = 5f;
@@ -379,7 +382,6 @@ public class GameManager : MonoBehaviour
 
 
         StartCoroutine(AddGoldPerMinute());
-        StartCoroutine(AddGoldPerMachine());
 
 
         LoadAndPullPlayerData();
@@ -411,17 +413,37 @@ public class GameManager : MonoBehaviour
             startTime = DateTime.Now;
             TimeSpan offlineTime = startTime - lastPlayTime;
 
-            int offlineMinutes = (int)offlineTime.TotalMinutes; // 방치된 시간(분)
-            int offlineEarnings = (offlineMinutes * machineCount * 3); // 1분마다 machineCount * 3 보상
+            int offlineMinutes = (int)offlineTime.TotalMinutes;
 
-            if (offlineEarnings > 0)
+            // 에피소드 별 기계당 최대 코인
+            int[] episodeMachineMaxCoins = { 5, 10, 15, 20, 25 };
+
+            int totalEarnings = 0;
+
+            // 각 에피소드에 대해 보상 계산
+            for (int i = 0; i < machine_level.Length; i++)
             {
-                gold += offlineEarnings;
-                UnityEngine.Debug.Log($"[오프라인 보상] 방치 시간: {offlineMinutes}분, 획득 골드: {offlineEarnings}, 현재 골드: {gold}");
+                int machineCount = machine_level[i];
+                int maxPerMachine = episodeMachineMaxCoins[i];
+
+                int baseEarnings = offlineMinutes * machineCount; // 기본: 1분 1코인
+                int maxEarnings = machineCount * maxPerMachine;
+
+                int episodeEarnings = Mathf.Min(baseEarnings, maxEarnings); // 제한 적용
+
+                totalEarnings += episodeEarnings;
+
+                UnityEngine.Debug.Log($"[에피소드 {i + 1}] 기계 {machineCount}대, 방치 시간 {offlineMinutes}분 → 보상: {episodeEarnings}/{maxEarnings}");
+            }
+
+            if (totalEarnings > 0)
+            {
+                gold += totalEarnings;
+                UnityEngine.Debug.Log($"[오프라인 보상] 총 획득 골드: {totalEarnings}, 현재 골드: {gold}");
             }
 
             ClickRewardBtn();
-            rewardCoinText.text = offlineEarnings.ToString();
+            rewardCoinText.text = totalEarnings.ToString();
         }
     }
 
@@ -463,19 +485,6 @@ public class GameManager : MonoBehaviour
 
             UnityEngine.Debug.Log($"[1분 보상] 현재 골드: {gold} (+{machineCount})");
             goldPopup.ShowGoldPopup(goldReward); // 골드 증가 애니메이션
-        }
-    }
-
-    // 기계 1개당 30초마다 1골드 증가
-    IEnumerator AddGoldPerMachine()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(30f);
-            gold += machineCount;
-            
-            UnityEngine.Debug.Log($"[기계 보상] 현재 골드: {gold} (+{machineCount})");
-            goldPopup.ShowGoldPopup(goldReward);// 골드 증가 애니메이션
         }
     }
 
@@ -592,6 +601,7 @@ public class GameManager : MonoBehaviour
         else // ���� �޴��� ���� ������ ����
             random_anim.SetTrigger("doShow");
 
+        CustomerMaxImage.gameObject.SetActive(cafeMaxReached[cafeNum - 1]);
 
         isRandomClick = !isRandomClick; // �� Ŭ�� ���¸� ���
         isLive = !isLive; // ���� Ȱ��ȭ ���¸� ���
@@ -1070,73 +1080,78 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        gold -= special_customer_gold[specialNum];
-
         // 이미 모든 단골손님을 모았다면 종료
         if (AllSpecialColleted())
         {
             return;
         }
-        
 
-        if ((cafeNum == 1 && specialNum >= 3) ||
-        (cafeNum == 2 && specialNum >= 6) ||
-        (cafeNum == 3 && specialNum >= 9) ||
-        (cafeNum == 4 && specialNum >= 12) ||
-        (cafeNum == 5 && specialNum >= 14))
+        // 현재 카페에서 손님 3명 다 뽑았으면 뽑기 막고 경고 표시
+        if (cafeCustomerCount[cafeNum - 1] >= 3)
         {
             SoundManager.instance.PlaySound("Fail");
 
             PickWarningPanelImage.gameObject.SetActive(true);
-
             StartCoroutine(HideWarningPanel()); // 2초 후 비활성화
 
             return;
         }
 
-
+        // 골드 차감
+        gold -= special_customer_gold[specialNum];
         pickGoldText.text = special_customer_gold[specialNum + 1].ToString();
 
         int index;
 
-        // 단골손님 목록에서 아직 선택되지 않은 단골손님을 선택
+        // 단골손님 목록에서 아직 선택되지 않은 단골손님을 랜덤으로 선택
         do
         {
-            index = Random.Range(0, special_customer_namelist.Length); // special_customer_namelist에서 랜덤 인덱스 선택
-        } while (collected_list[index]); // 이미 선택된 단골손님은 다시 선택하지 않음
+            index = Random.Range(0, special_customer_namelist.Length);
+        } while (collected_list[index]); // 이미 선택된 사람은 제외
 
-
-        // 선택된 단골손님의 정보 저장
+        // 선택된 단골손님 정보 저장
         collected_name[specialNum] = special_customer_namelist[index];
         collected_sprites[specialNum] = special_customer_spritelist[index];
         collected_backsprites[specialNum] = special_customer_backspritelist[index];
 
-
-        // 메뉴 정보도 함께 저장
         collected_menu_name[specialNum] = menu_name[index];
         collected_menu_description[specialNum] = menu_description[index];
         collected_menu_image[specialNum] = menu_image[index];
 
-        specialNum++; // 특수 고객 수 증가
+        // 카운트 증가
+        specialNum++;
+        cafeCustomerCount[cafeNum - 1]++;
 
-        // 선택된 고객은 더 이상 선택할 수 없도록 처리
+        // 이번에 3번째 손님을 뽑은 경우라면 완료 이미지 표시
+        if (cafeCustomerCount[cafeNum - 1] == 3 && !cafeMaxReached[cafeNum - 1])
+        {
+            cafeMaxReached[cafeNum - 1] = true;
+            CustomerMaxImage.gameObject.SetActive(true);
+        }
+
         collected_list[index] = true;
-        collectedManager.UpdateCollectedList(index, true); // Update collected_list
+        collectedManager.UpdateCollectedList(index, true); // 리스트 갱신
 
-        if (cafeNum >= 1 && cafeNum <= 5) { cafeGold[cafeNum - 1] += specialCount[specialIndex]; }
+        if (cafeNum >= 1 && cafeNum <= 5)
+        {
+            cafeGold[cafeNum - 1] += specialCount[specialIndex];
+        }
 
         specialIndex++;
 
         presentCoin.text = cafeGold[cafeNum - 1].ToString();
         pickCoin.text = (cafeGold[cafeNum - 1] + specialCount[specialIndex]).ToString();
 
-
-        SoundManager.instance.PlaySound("Unlock"); // 성공 사운드
-
+        SoundManager.instance.PlaySound("Unlock");
         pickPanelImage.sprite = special_customer_spritelist[index];
         pickPanelText.text = special_customer_namelist[index];
-
         pick_panel.gameObject.SetActive(true);
+    }
+
+    public void UpdateGoldUI()
+    {
+        presentCoin.text = cafeGold[cafeNum - 1].ToString();
+        pickCoin.text = (cafeGold[cafeNum - 1] + specialCount[specialIndex]).ToString();
     }
 
     private IEnumerator HideWarningPanel()

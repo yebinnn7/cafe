@@ -76,5 +76,9 @@ public class MapManager : MonoBehaviour
         cafe5.SetActive(activeCafe == cafe5);
 
         game_manager.cafeNum = cafeNum;
+
+        game_manager.UpdateGoldUI();
     }
+
+    
 }
