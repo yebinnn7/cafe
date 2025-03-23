@@ -19,6 +19,6 @@ public class Room : MonoBehaviour
     {
         game_manager.ClickGetGold(game_manager.cafeGold[game_manager.cafeNum - 1]);
         UnityEngine.Debug.Log(game_manager.cafeGold[game_manager.cafeNum - 1]);
-        goldPopup.ShowGoldPopup(game_manager.goldReward);
+        goldPopup.ShowGoldPopup(game_manager.cafeGold[game_manager.cafeNum - 1]);
     }
 }

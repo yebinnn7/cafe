@@ -32,7 +32,7 @@ public class GoldPopup : MonoBehaviour
 
         if (gameManager != null)
         {
-            goldPopupText.text = $"+{gameManager.goldReward}"; // 골드 값 적용
+            goldPopupText.text = $"+{gameManager.cafeGold[gameManager.cafeNum - 1]}"; // 골드 값 적용
         }
 
         popupCoroutine = StartCoroutine(AnimateGoldPopup());
