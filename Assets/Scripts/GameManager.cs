@@ -191,7 +191,7 @@ public class GameManager : MonoBehaviour
     [Space(10f)]
     [Header("Regular customer")]
     // �ܰ�մ� �̱� ����
-    public int special_customer_gold;
+    public int[] special_customer_gold;
 
     // �ܰ�մ� ����Ʈ
     public Sprite[] special_customer_spritelist; // ������ ��������Ʈ ����Ʈ
@@ -235,6 +235,7 @@ public class GameManager : MonoBehaviour
     public Button machineButton;
     private Color defaultColor = Color.white;
     private Color selectedColor = new Color32(255, 255, 179, 255);
+    public Text pickGoldText;
 
     // 시간 체크
     private DateTime startTime;
@@ -1063,19 +1064,20 @@ public class GameManager : MonoBehaviour
     public void RandomPick()
     {
         // 금액이 부족하면 선택하지 않음
-        if (gold < special_customer_gold)
+        if (gold < special_customer_gold[specialNum])
         {
             SoundManager.instance.PlaySound("Fail");
             return;
         }
 
-        gold -= special_customer_gold;
+        gold -= special_customer_gold[specialNum];
 
         // 이미 모든 단골손님을 모았다면 종료
         if (AllSpecialColleted())
         {
             return;
         }
+        
 
         if ((cafeNum == 1 && specialNum >= 3) ||
         (cafeNum == 2 && specialNum >= 6) ||
@@ -1092,8 +1094,8 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        
 
+        pickGoldText.text = special_customer_gold[specialNum + 1].ToString();
 
         int index;
 
@@ -1125,8 +1127,8 @@ public class GameManager : MonoBehaviour
 
         specialIndex++;
 
-        presentCoin.text = goldReward.ToString();
-        pickCoin.text = (goldReward + specialCount[specialIndex]).ToString();
+        presentCoin.text = cafeGold[cafeNum - 1].ToString();
+        pickCoin.text = (cafeGold[cafeNum - 1] + specialCount[specialIndex]).ToString();
 
 
         SoundManager.instance.PlaySound("Unlock"); // 성공 사운드

@@ -2189,11 +2189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee73afa838c7e8045ba93fecac3986e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jelatin: 10000
-  gold: 100000
   jelly_list: []
-  jelly_data_list: []
-  jelly_unlock_list: 
   special_customer_list: []
   special_customer_data_list: []
   max_jelatin: 999999999
@@ -2241,20 +2237,18 @@ MonoBehaviour:
   favorability_effect_prefab: {fileID: 6088610753425305511, guid: 2e70210be1ef57543bf03a21c5ed4e3b, type: 3}
   data_manager_obj: {fileID: 1961117827}
   isInformationClick: 0
-  num_level: 1
   num_sub_text: {fileID: 34572890}
   num_btn_text: {fileID: 1845101763}
   num_btn: {fileID: 192589122}
   num_goldlist: 00000000e8030000d00700008813000010270000
   mapunlock_Button: {fileID: 752324209}
-  click_level: 1
   click_sub_text: {fileID: 588232735}
   click_btn_text: {fileID: 1879075182}
   click_btn: {fileID: 444740279}
   click_goldlist: 00000000c40900008813000010270000204e0000
   minSpawnTime: 3
   maxSpawnTime: 7
-  special_customer_gold: 100
+  special_customer_gold: 140000003c0000006400000028000000960000002c010000500000009001000020030000a0000000e80300000807000040010000c409000094110000
   special_customer_spritelist:
   - {fileID: 21300000, guid: 75485db7ab2c58a4b9f5888d84451dc0, type: 3}
   - {fileID: 21300000, guid: 0479857f00039ca48bd2a120ddd0a761, type: 3}
@@ -2386,15 +2380,16 @@ MonoBehaviour:
   machineCoin5: 64000000c80000002c01000090010000f4010000
   pickButton: {fileID: 2099412306}
   machineButton: {fileID: 1045678162}
+  pickGoldText: {fileID: 2083852389}
   rewardCoinText: {fileID: 439914078}
   pickPanelText: {fileID: 399758478}
   pickPanelImage: {fileID: 1273292434}
   cafeGold: 0100000001000000010000000100000001000000
-  machine_goldlist1: e8030000b80b0000102700003075000050c3000050c30000
-  machine_goldlist2: b80b0000401f0000204e000060ea0000a0860100a0860100
-  machine_goldlist3: 1027000050c3000080380100d0fb0100f0490200f0490200
-  machine_goldlist4: 3075000070110100f049020090d00300801a0600801a0600
-  machine_goldlist5: a0860100e093040020a1070060ae0a0040420f0040420f00
+  machine_goldlist1: 640000006400000064000000640000006400000064000000
+  machine_goldlist2: c8000000c8000000c8000000c8000000c8000000c8000000
+  machine_goldlist3: 2c0100002c0100002c0100002c0100002c0100002c010000
+  machine_goldlist4: 900100009001000090010000900100009001000090010000
+  machine_goldlist5: f4010000f4010000f4010000f4010000f4010000f4010000
   machine_list1:
   - {fileID: 461762943}
   - {fileID: 2025143230}
@@ -16030,7 +16025,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 1000
+  m_Text: 300
 --- !u!222 &1035702533
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16295,7 +16290,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 1000
+  m_Text: 200
 --- !u!222 &1045794739
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16823,7 +16818,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 1000
+  m_Text: 100
 --- !u!222 &1074057838
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22402,7 +22397,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 1000
+  m_Text: 500
 --- !u!222 &1560216805
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -31070,7 +31065,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 100
+  m_Text: 20
 --- !u!222 &2083852390
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -31672,7 +31667,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 1000
+  m_Text: 400
 --- !u!222 &2132273237
 CanvasRenderer:
   m_ObjectHideFlags: 0
