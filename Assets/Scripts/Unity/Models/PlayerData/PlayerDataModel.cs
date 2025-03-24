@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ProtoBuf;
+using Unity.VisualScripting;
 
 /**
  * ACTION REQUIRED: Remodeling below data model is required.
@@ -28,6 +29,8 @@ public class PlayerDataModel
     [UnityEngine.Range(PlayerDataModelDefaults.VOLUME_MIN, PlayerDataModelDefaults.VOLUME_MAX)]
     [ProtoMember(8)]
     public float sfxVolume;
+    [ProtoMember(9)]
+    public int[] machine_level;
 
     public PlayerDataModel
     (
@@ -38,7 +41,8 @@ public class PlayerDataModel
         int numLevel,
         int clickLevel,
         float bgmVolume,
-        float sfxVolume
+        float sfxVolume,
+        int[] machine_level
     )
     {
         this.jelatin = jelatin;
@@ -49,6 +53,7 @@ public class PlayerDataModel
         this.clickLevel = clickLevel;
         this.bgmVolume = bgmVolume;
         this.sfxVolume = sfxVolume;
+        this.machine_level = machine_level;
     }
 
     public PlayerDataModel
@@ -58,9 +63,10 @@ public class PlayerDataModel
         bool[] jellyUnlocks,
         IEnumerable<DataMigrated> jelly,
         int numLevel,
-        int clickLevel,
+        int clickLevel,    
         float bgmVolume,
-        float sfxVolume
+        float sfxVolume,
+        int[] machine_level
     )
     {
         this.jelatin = jelatin;
@@ -71,6 +77,7 @@ public class PlayerDataModel
         this.clickLevel = clickLevel;
         this.bgmVolume = bgmVolume;
         this.sfxVolume = sfxVolume;
+        this.machine_level = machine_level;
     }
 
     public PlayerDataModel()
@@ -83,5 +90,6 @@ public class PlayerDataModel
         this.clickLevel = PlayerDataModelDefaults.CLICK_LEVEL;
         this.bgmVolume = PlayerDataModelDefaults.BGM_VOLUME;
         this.sfxVolume = PlayerDataModelDefaults.SFX_VOLUME;
+        this.machine_level = PlayerDataModelDefaults.MACHINE_LEVEL;
     }
 }

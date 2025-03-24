@@ -18,4 +18,5 @@ public class PlayerDataModelDefaults
     public const float VOLUME_MAX = 1.0f;
     public const float BGM_VOLUME = 0.5f;
     public const float SFX_VOLUME = 0.5f;
+    public static readonly int[] MACHINE_LEVEL = { };
 }

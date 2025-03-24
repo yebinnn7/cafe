@@ -228,6 +228,7 @@ public class GameManager : MonoBehaviour
     Vector3[] spawnPos;
 
     // ��� ����
+    private int[] _machine_level;
     public int[] machine_level;
     public Text[] machine_sub_text;
     public Text[] machine_btn_text;
@@ -394,7 +395,7 @@ public class GameManager : MonoBehaviour
 
         LoadAndPullPlayerData();
 
-       
+        UnityEngine.Debug.Log(machine_level[0]);
     }
 
     void OnApplicationQuit()
@@ -1344,7 +1345,8 @@ public class GameManager : MonoBehaviour
             num_level,
             click_level,
             SoundManager.instance != null ? SoundManager.instance.bgm_slider.value : PlayerDataModelDefaults.BGM_VOLUME,
-            SoundManager.instance != null ? SoundManager.instance.sfx_slider.value : PlayerDataModelDefaults.SFX_VOLUME
+            SoundManager.instance != null ? SoundManager.instance.sfx_slider.value : PlayerDataModelDefaults.SFX_VOLUME,
+            machine_level
         );
         PlayerDataContainer.I.PushDataToLocal();
     }
@@ -1358,6 +1360,7 @@ public class GameManager : MonoBehaviour
         _jelly_data_list = playerDataModel.jelly.Select(each => (Data)each).ToList();
         _num_level = playerDataModel.numLevel;
         _click_level = playerDataModel.clickLevel;
+        _machine_level = playerDataModel.machine_level;
         if (SoundManager.instance)
         {
             SoundManager.instance.bgm_slider.value = playerDataModel.bgmVolume;
