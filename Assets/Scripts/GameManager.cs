@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
             onStateChange();
         }
     }
-    private int _gold = 0; // ��� �ڿ�
+    public int _gold = 0; // ��� �ڿ�
     public int gold {
         get { return _gold; }
         set {
@@ -250,6 +250,8 @@ public class GameManager : MonoBehaviour
     public Image pickPanelImage;
 
     public int[] cafeGold = new int[5];
+
+    bool isMachineActive;
 
 
 
@@ -603,6 +605,16 @@ public class GameManager : MonoBehaviour
 
         CustomerMaxImage.gameObject.SetActive(cafeMaxReached[cafeNum - 1]);
 
+        if (isMachineActive)
+        {
+            CustomerMaxImage.gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            machine_sub_text[i].text = "보유 기계: " + machine_level[i] + "개";
+        }
+
         isRandomClick = !isRandomClick; // �� Ŭ�� ���¸� ���
         isLive = !isLive; // ���� Ȱ��ȭ ���¸� ���
     }
@@ -928,6 +940,7 @@ public class GameManager : MonoBehaviour
         // 기계 레벨 증가
         machine_level[machineIndex]++;
 
+
         machine_sub_text[machineIndex].text = "보유 기계: " + machine_level[machineIndex] + "개";
 
         // 해제 사운드
@@ -961,18 +974,26 @@ public class GameManager : MonoBehaviour
 
     public void PickBtn()
     {
+        
+
+        isMachineActive = false;
         machineImage.gameObject.SetActive(false);
         ChangeButtonColor(pickButton, selectedColor);
         ChangeButtonColor(machineButton, defaultColor);
+
+        CustomerMaxImage.gameObject.SetActive(cafeMaxReached[cafeNum - 1]);
 
         SoundManager.instance.PlaySound("Button");
     }
 
     public void MachineBtn()
     {
+        isMachineActive = true;
         machineImage.gameObject.SetActive(true);
         ChangeButtonColor(machineButton, selectedColor);
         ChangeButtonColor(pickButton, defaultColor);
+
+        CustomerMaxImage.gameObject.SetActive(false);
 
         SoundManager.instance.PlaySound("Button");
     }
