@@ -17,6 +17,12 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: db1e2cb7cc365154ca821da011e67581
   m_SerializeEntries:
+  - m_GUID: 7536c26e2f5ab412dbcdb6e21fb37197
+    m_Address: AppInfo_ko
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c821865fe9b7bfd4389875d877366d0d
     m_Address: Ingame UI_ko
     m_ReadOnly: 1
