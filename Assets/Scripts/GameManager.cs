@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;// // �̱��� �������� GameManager �ν��Ͻ��� �������� ������ �� �ְ� ����
 
     [Header("Money")]
+    [SerializeField]
     private int _jelatin = 0;
     public int jelatin {
         get { return _jelatin; }
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
             onStateChange();
         }
     }
+    [SerializeField]
     private int _gold = 0; // ��� �ڿ�
     public int gold {
         get { return _gold; }
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
     [Space(10f)]
     [Header("List")]
     public List<Jelly> jelly_list = new List<Jelly>(); // ������ �������� ������ ����Ʈ
+    [SerializeField]
     private List<Data> _jelly_data_list = new List<Data>(); // ����� ������ �����͸� ������ ����Ʈ
     public List<Data> jelly_data_list
     {
@@ -45,6 +48,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [SerializeField]
     private bool[] _jelly_unlock_list = (bool[])PlayerDataModelDefaults.JELLY_UNLOCKS.Clone(); // ���� ��� ���� ���¸� ������ �迭
     public bool[] jelly_unlock_list 
     {
@@ -149,6 +153,7 @@ public class GameManager : MonoBehaviour
 
     [Space(10f)]
     [Header("Upgrade")]
+    [SerializeField]
     // ���׷��̵� �ý��� ����
     private int _num_level = 0;
     public int num_level
@@ -168,6 +173,7 @@ public class GameManager : MonoBehaviour
 
     [Space(10f)]
     [Header("Click List")]
+    [SerializeField]
     private int _click_level = 0;
     public int click_level
     {
