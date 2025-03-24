@@ -7,7 +7,7 @@ public class ObjectSpawner : MonoBehaviour
     public Vector2 spawnRangeX = new Vector2(-1.25f, 1.25f);
     public Vector2 spawnRangeY = new Vector2(-1f, 1.4f);
     public float objectLifetime = 5f;
-    public float spawnInterval = 20f;
+    public float spawnInterval = 5f;
 
     private int likeabilityScore = 100;
 

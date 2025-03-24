@@ -5,34 +5,36 @@ using UnityEngine.UI;
 
 public class GoldPopup : MonoBehaviour
 {
-    private Vector3 initialPopupPosition; // 팝업의 초기 위치 저장
-    private Coroutine popupCoroutine; // 현재 실행 중인 팝업 코루틴 참조
+    private Vector2 initialPopupPosition; // UI 좌표를 저장하는 변수
+    private Coroutine popupCoroutine;
     private Image goldPopupImage;
-    public Text goldPopupText; // 추가된 텍스트 UI
-    private GameManager gameManager; // GameManager 참조
+    public Text goldPopupText;
+    private GameManager gameManager;
+    private RectTransform rectTransform; // RectTransform 참조
 
     void Start()
     {
         goldPopupImage = GetComponent<Image>();
         goldPopupImage.gameObject.SetActive(false);
-        initialPopupPosition = transform.position; // 초기 위치 저장
+        rectTransform = GetComponent<RectTransform>(); // RectTransform 가져오기
+        initialPopupPosition = rectTransform.anchoredPosition; // 초기 UI 위치 저장
 
-        gameManager = FindObjectOfType<GameManager>(); // GameManager 찾기
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     public void ShowGoldPopup(int amount)
     {
         if (popupCoroutine != null)
         {
-            StopCoroutine(popupCoroutine); // 이전 애니메이션 중지
+            StopCoroutine(popupCoroutine);
         }
 
-        transform.position = initialPopupPosition; // 초기 위치 리셋
+        rectTransform.anchoredPosition = initialPopupPosition; // UI 위치 리셋
         goldPopupImage.gameObject.SetActive(true);
 
         if (gameManager != null)
         {
-            goldPopupText.text = $"+{gameManager.cafeGold[gameManager.cafeNum - 1]}"; // 골드 값 적용
+            goldPopupText.text = $" +{gameManager.cafeGold[gameManager.cafeNum - 1]}";
         }
 
         popupCoroutine = StartCoroutine(AnimateGoldPopup());
@@ -40,23 +42,23 @@ public class GoldPopup : MonoBehaviour
 
     IEnumerator AnimateGoldPopup()
     {
-        Vector3 endPos = initialPopupPosition + new Vector3(0, 1, 0); // 위로 50만큼 이동
+        Vector2 endPos = initialPopupPosition + new Vector2(0, 20); // UI 기준 위로 50 이동
         Color startColor = goldPopupImage.color;
-        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 0); // 점점 투명해짐
+        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 0);
 
-        float duration = 1f;
+        float duration = 0.5f;
         float elapsed = 0f;
 
         while (elapsed < duration)
         {
             float t = elapsed / duration;
-            transform.position = Vector3.Lerp(initialPopupPosition, endPos, t);
+            rectTransform.anchoredPosition = Vector2.Lerp(initialPopupPosition, endPos, t);
             goldPopupImage.color = Color.Lerp(startColor, endColor, t);
             elapsed += Time.deltaTime;
             yield return null;
         }
 
         goldPopupImage.gameObject.SetActive(false);
-        popupCoroutine = null; // 코루틴 종료 후 참조 해제
+        popupCoroutine = null;
     }
 }
