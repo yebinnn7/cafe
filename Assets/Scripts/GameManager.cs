@@ -997,7 +997,7 @@ public class GameManager : MonoBehaviour
         GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity);
         Jelly jelly = obj.GetComponent<Jelly>();
 
-        page = Random.Range(0, 4); // ���� ������ ����
+        page = Random.Range(0, 2); // ���� ������ ����
 
         obj.name = "Jelly " + page;
         jelly.id = page;
