@@ -21,8 +21,6 @@ public class DataMigrated
     public float exp;
     [ProtoMember(4)]
     public Vector3Model pos;
-    [ProtoMember(5)]
-    public int[] machine_level;
 
     public DataMigrated(Vector3 pos, int id, int level, float exp)
     {
@@ -30,9 +28,9 @@ public class DataMigrated
         this.id = id;
         this.level = level;
         this.exp = exp;
-        this.machine_level = machine_level != null ? (int[])machine_level.Clone() : new int[5];
     }
 
+    // Legacy Support
     public static implicit operator DataMigrated(Data data)
     {
         return new DataMigrated(data.pos, data.id, data.level, data.exp);

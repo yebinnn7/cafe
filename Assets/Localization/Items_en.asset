@@ -34,6 +34,66 @@ MonoBehaviour:
     m_Localized: Jelly kneader
     m_Metadata:
       m_Items: []
+  - m_Id: 7992888192393216
+    m_Localized: Dean
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364736
+    m_Localized: Group Project Faker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364737
+    m_Localized: Heartbroken Girl
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364738
+    m_Localized: Couple
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364739
+    m_Localized: Eating Alone Student
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364740
+    m_Localized: Freshman
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364741
+    m_Localized: Rain-wetted Student
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364742
+    m_Localized: F Bomber Professor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364743
+    m_Localized: Student Preparing for Test
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364744
+    m_Localized: Early Bird
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364745
+    m_Localized: Apply Failer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364746
+    m_Localized: Senior and Junior
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364747
+    m_Localized: Grass picnicker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364748
+    m_Localized: Top Achiever
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364749
+    m_Localized: Developer
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

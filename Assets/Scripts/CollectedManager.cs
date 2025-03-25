@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,15 +7,41 @@ using UnityEngine.UI;
 
 public class CollectedManager : MonoBehaviour
 {
-    public GameObject game_manager_obj; // GameManager ¿ÀºêÁ§Æ® ÂüÁ¶
-    public GameManager game_manager; // GameManager ½ºÅ©¸³Æ® ÂüÁ¶
+    public GameObject game_manager_obj; // GameManager ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+    public GameManager game_manager; // GameManager ï¿½ï¿½Å©ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 
-    public bool[] collected_list;
-    public Sprite[] customer_spritelist;
-    public string[] customer_namelist;
-    public int[] customer_favorability;
-    public string[] collected_name;
-    public Sprite[] collected_sprites;
+    public bool[] collected_list
+    {
+        get { return game_manager.collected_list; }
+        set { game_manager.collected_list = value; }
+    }
+    public Sprite[] customer_spritelist
+    {
+        get { return game_manager.special_customer_spritelist; }
+        set { game_manager.special_customer_spritelist = value; }
+    }
+    public string[] customer_namelist
+    {
+        get { return game_manager.special_customer_namelist; }
+        set { game_manager.special_customer_namelist = value; }
+    }
+    public string[] customer_identifier;
+    public int[] customer_favorability
+    {
+        get { return game_manager.specialCustomerFavorability; }
+        set { game_manager.specialCustomerFavorability = value; }
+    }
+    public string[] collected_name
+    {
+        get { return game_manager.collected_name; }
+        set { game_manager.collected_name = value; }
+    }
+    public List<string> collected_identifier = new List<string>();
+    public Sprite[] collected_sprites
+    {
+        get { return game_manager.collected_sprites; }
+        set { game_manager.collected_sprites = value; }
+    }
 
     public Image lockGroupImage0;
     public Image lockGroupImage1;
@@ -56,21 +83,38 @@ public class CollectedManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        // GameManager ¿ÀºêÁ§Æ®¸¦ Ã£°í, ÇØ´ç ½ºÅ©¸³Æ®¸¦ ÂüÁ¶
+        // GameManager ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ã£ï¿½ï¿½, ï¿½Ø´ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         game_manager_obj = GameObject.Find("GameManager").gameObject;
         game_manager = game_manager_obj.GetComponent<GameManager>();
 
-        collected_list = game_manager.collected_list;
-        customer_spritelist = game_manager.special_customer_spritelist;
-        customer_namelist = game_manager.special_customer_namelist;
-        customer_favorability = game_manager.specialCustomerFavorability;
-        collected_name = game_manager.collected_name;
-        collected_sprites = game_manager.collected_sprites;
+        customer_identifier = new string[]
+        {
+            SpecialCustomerRegistry.DEAN_IDENTIFIER,
+            SpecialCustomerRegistry.TEAMPLAY_MVP_IDENTIFIER,
+            SpecialCustomerRegistry.BROKEN_GIRL_IDENTIFIER,
+            SpecialCustomerRegistry.COUPLE_IDENTIFIER,
+            SpecialCustomerRegistry.SOLO_EATER_IDENTIFIER,
+            SpecialCustomerRegistry.FRESHMAN_IDENTIFIER,
+            SpecialCustomerRegistry.RAIN_WETTED_IDENTIFIER,
+            SpecialCustomerRegistry.F_GIVER_PROF_IDENTIFIER,
+            SpecialCustomerRegistry.TEST_PREPARER_IDENTIFIER,
+            SpecialCustomerRegistry.EARLY_BIRD_IDENTIFIER,
+            SpecialCustomerRegistry.APPLY_FAILER_IDENTIFIER,
+            SpecialCustomerRegistry.SENIOR_AND_JUNIOR_IDENTIFIER,
+            SpecialCustomerRegistry.GRASS_ENJOYER_IDENTIFIER,
+            SpecialCustomerRegistry.TOP_STUDENT_IDENTIFIER,
+            SpecialCustomerRegistry.DEVELOPER_IDENTIFIER
+        };  // Migrated from customer_namelist
 
-        // Ã¹ ÆäÀÌÁö·Î ÃÊ±âÈ­
+        // Ã¹ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         page = 0;
 
         information_anim = information_panel.GetComponent<Animator>();
+    }
+
+    void Start()
+    {
+        PullAndApplyPlayerDataModel();
     }
 
     // Update is called once per frame
@@ -82,13 +126,13 @@ public class CollectedManager : MonoBehaviour
     /*
     public void UpdateLockGroupImages()
     {
-        // °¢ ÆäÀÌÁö¿¡ ¸Â´Â ÀÎµ¦½º¸¦ ±â¹ÝÀ¸·Î Àá±Ý »óÅÂ¸¦ ¾÷µ¥ÀÌÆ®
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         for (int i = 0; i < 5; i++)
         {
-            int index = page * 5 + i; // ÇöÀç ÆäÀÌÁö¿¡ ¸Â´Â ÀÎµ¦½º °è»ê
-            if (index < collected_list.Length) // ÀÎµ¦½º°¡ collected_listÀÇ ¹üÀ§¸¦ ÃÊ°úÇÏÁö ¾Êµµ·Ï È®ÀÎ
+            int index = page * 5 + i; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+            if (index < collected_list.Length) // ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ collected_listï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ È®ï¿½ï¿½
             {
-                // Àá±Ý »óÅÂ ¾÷µ¥ÀÌÆ®
+                // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
                 switch (i)
                 {
                     case 0:
@@ -117,9 +161,9 @@ public class CollectedManager : MonoBehaviour
         {
             int index = page * 3 + i;
 
-            if (index < collected_name.Length) // collected_name ¹è¿­ ¹üÀ§ ³»ÀÎÁö È®ÀÎ
+            if (index < collected_name.Length) // collected_name ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
             {
-                bool isUnlocked = !string.IsNullOrEmpty(collected_name[index]); // ÀÌ¸§ÀÌ ÀÖ´ÂÁö È®ÀÎ
+                bool isUnlocked = !string.IsNullOrEmpty(collected_name[index]); // ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
                 switch (i)
                 {
                     case 0:
@@ -141,36 +185,36 @@ public class CollectedManager : MonoBehaviour
     public void UpdateCollectedList(int index, bool value)
     {
 
-        collected_list[index] = value; // collected_list °ª ¾÷µ¥ÀÌÆ®
-        UpdateLockGroupImages(); // UI °»½Å È£Ãâ
+        collected_list[index] = value; // collected_list ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+        UpdateLockGroupImages(); // UI ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
 
     }
 
-    // ÆäÀÌÁö¸¦ ´ÙÀ½À¸·Î ÀÌµ¿
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
     public void PageUp()
     {
-        if (page >= 4) // ÃÖ´ë ÆäÀÌÁö¸¦ ³ÑÁö ¾Êµµ·Ï Á¦ÇÑ
+        if (page >= 4) // ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             SoundManager.instance.PlaySound("Fail");
             return;
         }
 
         ++page;
-        ChangePage(); // ÆäÀÌÁö º¯°æ
+        ChangePage(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         SoundManager.instance.PlaySound("Button");
     }
 
-    // ÆäÀÌÁö¸¦ ÀÌÀüÀ¸·Î ÀÌµ¿
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
     public void PageDown()
     {
-        if (page <= 0) // ÃÖ¼Ò ÆäÀÌÁö¸¦ ³ÑÁö ¾Êµµ·Ï Á¦ÇÑ
+        if (page <= 0) // ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             SoundManager.instance.PlaySound("Fail");
             return;
         }
 
         --page;
-        ChangePage(); // ÆäÀÌÁö º¯°æ
+        ChangePage(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         SoundManager.instance.PlaySound("Button");
     }
 
@@ -187,7 +231,7 @@ public class CollectedManager : MonoBehaviour
                 Image[] specialSprites = { SpecialSprite0, SpecialSprite1, SpecialSprite2 };
                 Text[] specialNames = { SpecialName0, SpecialName1, SpecialName2 };
 
-                // ÀÌ¸§°ú ½ºÇÁ¶óÀÌÆ® ¾÷µ¥ÀÌÆ®
+                // ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
                 specialSprites[i].sprite = collected_sprites[startIndex + i];
                 specialNames[i].text = collected_name[startIndex + i];
             }
@@ -204,7 +248,7 @@ public class CollectedManager : MonoBehaviour
 
         InformationImage.sprite = collected_sprites[index];
         InformationText.text = collected_name[index];
-        InformationFavorability.text = "È£°¨µµ " + customer_favorability[index];
+        InformationFavorability.text = "È£ï¿½ï¿½ï¿½ï¿½ " + customer_favorability[index];
 
         InformationMenuName.text = game_manager.collected_menu_name[index];
         InformationMenuDescription.text = game_manager.collected_menu_description[index];
@@ -231,7 +275,7 @@ public class CollectedManager : MonoBehaviour
 
         InformationImage.sprite = collected_sprites[index];
         InformationText.text = collected_name[index];
-        InformationFavorability.text = "È£°¨µµ " + customer_favorability[index];
+        InformationFavorability.text = "È£ï¿½ï¿½ï¿½ï¿½ " + customer_favorability[index];
 
         InformationMenuName.text = game_manager.collected_menu_name[index];
         InformationMenuDescription.text = game_manager.collected_menu_description[index];
@@ -257,7 +301,7 @@ public class CollectedManager : MonoBehaviour
 
         InformationImage.sprite = collected_sprites[index];
         InformationText.text = collected_name[index];
-        InformationFavorability.text = "È£°¨µµ " + customer_favorability[index];
+        InformationFavorability.text = "È£ï¿½ï¿½ï¿½ï¿½ " + customer_favorability[index];
 
         InformationMenuName.text = game_manager.collected_menu_name[index];
         InformationMenuDescription.text = game_manager.collected_menu_description[index];
@@ -283,8 +327,39 @@ public class CollectedManager : MonoBehaviour
         game_manager.isInformationClick = false;
 
     }
+
+    public void PullAndApplyPlayerDataModel()
+    {
+        SpecialCustomerModel curr;
+        int collected_index = 0;
+
+        foreach (string each in game_manager.customerUnlocked)
+        {
+            try
+            {
+                curr = SpecialCustomerRegistry.Get(each);
+            }
+            catch (KeyNotFoundException e)
+            {
+                if (string.IsNullOrEmpty(each))
+                {
+                    continue;
+                }
+                else
+                {
+                    throw e;
+                }
+            }
+            collected_identifier.Add(curr.identifier);
+            collected_sprites[collected_index] = Sprite.Create(
+                curr.Sprite.frontSprite,
+                new Rect(0, 0, curr.Sprite.frontSprite.width, curr.Sprite.frontSprite.height),
+                new Vector2(0.5f, 0.5f),
+                100f
+            );
+            collected_name[collected_index] = curr.DisplayName;
+            collected_index++;
+            Debug.Log(collected_index);
+        }
+    }
 }
-
-
-
-

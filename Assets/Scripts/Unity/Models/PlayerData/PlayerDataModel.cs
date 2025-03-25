@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,8 +30,12 @@ public class PlayerDataModel
     [UnityEngine.Range(PlayerDataModelDefaults.VOLUME_MIN, PlayerDataModelDefaults.VOLUME_MAX)]
     [ProtoMember(8)]
     public float sfxVolume;
-    [ProtoMember(9)]
-    public int[] machine_level;
+    [ProtoMember(9, OverwriteList=true)]
+    public int[] machine_level = PlayerDataModelDefaults.MACHINE_LEVEL;
+    [ProtoMember(10, OverwriteList=true)]
+    public string[] customerUnlocked = PlayerDataModelDefaults.CUSTOMER_UNLOCKED;
+    [ProtoMember(11)]
+    public int customerUnlockedCount;
 
     public PlayerDataModel
     (
@@ -42,7 +47,9 @@ public class PlayerDataModel
         int clickLevel,
         float bgmVolume,
         float sfxVolume,
-        int[] machine_level
+        int[] machine_level,
+        string[] customerUnlocked,
+        int customerUnlockedCount
     )
     {
         this.jelatin = jelatin;
@@ -54,30 +61,15 @@ public class PlayerDataModel
         this.bgmVolume = bgmVolume;
         this.sfxVolume = sfxVolume;
         this.machine_level = machine_level;
-    }
-
-    public PlayerDataModel
-    (
-        int jelatin,
-        int gold,
-        bool[] jellyUnlocks,
-        IEnumerable<DataMigrated> jelly,
-        int numLevel,
-        int clickLevel,    
-        float bgmVolume,
-        float sfxVolume,
-        int[] machine_level
-    )
-    {
-        this.jelatin = jelatin;
-        this.gold = gold;
-        this.jellyUnlocks = (bool[])jellyUnlocks.Clone();;
-        this.jelly = new List<DataMigrated>(jelly);
-        this.numLevel = numLevel;
-        this.clickLevel = clickLevel;
-        this.bgmVolume = bgmVolume;
-        this.sfxVolume = sfxVolume;
-        this.machine_level = (int[])machine_level.Clone();
+        for (int i = 0; i < Math.Min(PlayerDataModelDefaults.MACHINE_LENGTH, machine_level.Length); i++)
+        {
+            this.machine_level[i] = machine_level[i];
+        }
+        for (int i = 0; i < Math.Min(PlayerDataModelDefaults.CUSTOMER_LENGTH, customerUnlocked.Length); i++)
+        {
+            this.customerUnlocked[i] = customerUnlocked[i];
+        }
+        this.customerUnlockedCount = customerUnlocked.Length;
     }
 
     public PlayerDataModel()
@@ -91,5 +83,7 @@ public class PlayerDataModel
         this.bgmVolume = PlayerDataModelDefaults.BGM_VOLUME;
         this.sfxVolume = PlayerDataModelDefaults.SFX_VOLUME;
         this.machine_level = PlayerDataModelDefaults.MACHINE_LEVEL;
+        this.customerUnlocked = PlayerDataModelDefaults.CUSTOMER_UNLOCKED;
+        this.customerUnlockedCount = PlayerDataModelDefaults.CUSTOMER_UNLOCKED_COUNT;
     }
 }

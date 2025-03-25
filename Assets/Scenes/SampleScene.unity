@@ -2198,6 +2198,7 @@ MonoBehaviour:
   special_customer_data_list: []
   max_jelatin: 999999999
   max_gold: 999999999
+  _customerUnlocked: []
   isSell: 0
   isLive: 0
   jelly_spritelist:
@@ -2359,6 +2360,7 @@ MonoBehaviour:
   specialCustomerFavorability: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   maxFavorability: 20
   isUnlock: 
+  _machine_level: 0000000000000000000000000000000000000000
   machine_sub_text:
   - {fileID: 125380951}
   - {fileID: 1611213184}
@@ -6157,7 +6159,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -89.850006, y: -4.700012}
+  m_AnchoredPosition: {x: -89.850006, y: -4.699951}
   m_SizeDelta: {x: 35, y: 8}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &305241147
@@ -16161,7 +16163,8 @@ MonoBehaviour:
     clickLevel: 1
     bgmVolume: 0.5
     sfxVolume: 0.5
-    machine_level: 
+    machine_level: 0000000000000000000000000000000000000000
+    customerUnlocked:
 --- !u!4 &1040817445
 Transform:
   m_ObjectHideFlags: 0
@@ -27538,12 +27541,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  collected_list: 
-  customer_spritelist: []
-  customer_namelist: []
-  customer_favorability: 
-  collected_name: []
-  collected_sprites: []
+  customer_identifier: []
+  collected_identifier: []
   lockGroupImage0: {fileID: 2043055979}
   lockGroupImage1: {fileID: 1675440706}
   lockGroupImage2: {fileID: 1984277246}
