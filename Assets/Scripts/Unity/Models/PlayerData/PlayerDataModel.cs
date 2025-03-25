@@ -77,7 +77,7 @@ public class PlayerDataModel
         this.clickLevel = clickLevel;
         this.bgmVolume = bgmVolume;
         this.sfxVolume = sfxVolume;
-        this.machine_level = machine_level;
+        this.machine_level = (int[])machine_level.Clone();
     }
 
     public PlayerDataModel()

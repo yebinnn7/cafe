@@ -30,7 +30,7 @@ public class DataMigrated
         this.id = id;
         this.level = level;
         this.exp = exp;
-        this.machine_level = machine_level ?? new int[5];
+        this.machine_level = machine_level != null ? (int[])machine_level.Clone() : new int[5];
     }
 
     public static implicit operator DataMigrated(Data data)
