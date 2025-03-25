@@ -259,16 +259,7 @@ public class GameManager : MonoBehaviour
     Vector3[] spawnPos;
 
     // ��� ����
-    [SerializeField]
-    private int[] _machine_level = PlayerDataModelDefaults.MACHINE_LEVEL;
-    public int[] machine_level
-    {
-        get { return _machine_level; }
-        set {
-            _machine_level = value;
-            onStateChange();
-        }
-    }
+    
     public Text[] machine_sub_text;
     public Text[] machine_btn_text;
     public Button[] machine_btn;
@@ -281,7 +272,7 @@ public class GameManager : MonoBehaviour
     public int[] machineCoin5;
 
     [SerializeField]
-    private int[] _machine_level = new int[5];
+    private int[] _machine_level = PlayerDataModelDefaults.MACHINE_LEVEL;
 
     public int[] machine_level
     {

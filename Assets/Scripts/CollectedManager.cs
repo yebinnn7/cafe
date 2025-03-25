@@ -350,7 +350,7 @@ public class CollectedManager : MonoBehaviour
                     throw e;
                 }
             }
-            collected_identifier[collected_index] = curr.identifier;
+            collected_identifier.Add(curr.identifier);
             collected_sprites[collected_index] = Sprite.Create(
                 curr.Sprite.frontSprite,
                 new Rect(0, 0, curr.Sprite.frontSprite.width, curr.Sprite.frontSprite.height),
@@ -359,6 +359,7 @@ public class CollectedManager : MonoBehaviour
             );
             collected_name[collected_index] = curr.DisplayName;
             collected_index++;
+            Debug.Log(collected_index);
         }
     }
 }
