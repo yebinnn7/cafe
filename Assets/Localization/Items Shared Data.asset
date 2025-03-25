@@ -31,6 +31,66 @@ MonoBehaviour:
     m_Key: cafe.item.jelly-kneader
     m_Metadata:
       m_Items: []
+  - m_Id: 7992888192393216
+    m_Key: cafe.customer.dean.displayname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364736
+    m_Key: cafe.customer.teamplay_mvp.displayname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364737
+    m_Key: cafe.customer.broken_girl.displayname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364738
+    m_Key: cafe.customer.couple.displayname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364739
+    m_Key: cafe.customer.solo_eater.displayname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364740
+    m_Key: cafe.customer.freshman.displayname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364741
+    m_Key: cafe.customer.rain_wetted.displayname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364742
+    m_Key: cafe.customer.f_giver_prof.displayname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364743
+    m_Key: cafe.customer.test_preparer.displayname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364744
+    m_Key: cafe.customer.early_bird.displayname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364745
+    m_Key: cafe.customer.apply_failer.displayname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364746
+    m_Key: cafe.customer.senior_and_junior.displayname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364747
+    m_Key: cafe.customer.grass_enjoyer.displayname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364748
+    m_Key: cafe.customer.top_student.displayname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7992888213364749
+    m_Key: cafe.customer.developer.displayname
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

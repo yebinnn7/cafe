@@ -64,6 +64,36 @@ public class GameManager : MonoBehaviour
     public int max_jelatin; // ����ƾ�� �ִ�ġ
     public int max_gold; // ����� �ִ�ġ
 
+    [SerializeField]
+    private List<string> _customerUnlocked = new List<string>();
+    public List<string> customerUnlocked
+    {
+        get
+        {
+            // ACTION REQUIRED:
+            // In current codebase, There is no way to recognize
+            // List<T>.Add method is called.
+            // In this case, I have to add handler when content of list is changed
+            // But now I don't have time to do that.
+            // So I just call onStateChange() method when customerUnlocked property is accessed.
+            // onStateChange();
+
+            return _customerUnlocked;
+        }
+        set
+        {
+            _customerUnlocked = value;
+            onStateChange();
+        }
+    }
+    private void customerUnlockedAdd(string value)
+    {
+        UnityEngine.Debug.Log($"[GameManager] Unlocked customer: {value}");
+        _customerUnlocked.Add(value);
+        _ApplyCollectedCustomer(SpecialCustomerRegistry.Get(value));
+        onStateChange();
+    }
+
     [Space(10f)]
     [Header("Game On Off")]
     public bool isSell; // ������ �Ǹ��� �� �ִ� �������� ����
@@ -204,6 +234,7 @@ public class GameManager : MonoBehaviour
     public Sprite[] special_customer_backspritelist;
     public string[] special_customer_namelist; // ���� �̸� ����Ʈ
     public bool[] collected_list;
+    public Dictionary<string, bool> customerIsCollected;
     public string[] collected_name;
     public Sprite[] collected_sprites;
     public Sprite[] collected_backsprites;
@@ -228,8 +259,16 @@ public class GameManager : MonoBehaviour
     Vector3[] spawnPos;
 
     // ��� ����
-    private int[] _machine_level;
-    public int[] machine_level;
+    [SerializeField]
+    private int[] _machine_level = PlayerDataModelDefaults.MACHINE_LEVEL;
+    public int[] machine_level
+    {
+        get { return _machine_level; }
+        set {
+            _machine_level = value;
+            onStateChange();
+        }
+    }
     public Text[] machine_sub_text;
     public Text[] machine_btn_text;
     public Button[] machine_btn;
@@ -294,8 +333,16 @@ public class GameManager : MonoBehaviour
     public List<Jelly> map5JellyList = new List<Jelly>();
     public List<SpecialCustomer> map5specialCustomerList = new List<SpecialCustomer>(); // 5�� ��
 
-
-    int specialNum = 0;
+    private int _specialNum = 0;
+    int specialNum
+    {
+        get { return _specialNum; }
+        set
+        {
+            _specialNum = value;
+            onStateChange();
+        }
+    }
 
     public string[] menu_name;
     public string[] menu_description;
@@ -342,6 +389,8 @@ public class GameManager : MonoBehaviour
 
         isLive = true; // ���� Ȱ��ȭ ���·� ����
 
+        customerIsCollected = SpecialCustomerRegistry.RegisteredIdentifiers.ToDictionary(identifier => identifier, identifier => false);
+
         // UI �ʱ�ȭ
         gold_text.text = gold.ToString();
         // unlock_group_gold_text.text = jelly_goldlist[0].ToString();
@@ -367,6 +416,20 @@ public class GameManager : MonoBehaviour
         // 방치 보상
         LoadOfflineEarnings();
 
+    }
+
+    private void _ApplyCollectedCustomer(SpecialCustomerModel model)
+    {
+        // 선택된 단골손님 정보 저장
+        collected_name[specialNum] = model.DisplayName;
+        // collected_name[specialNum] = special_customer_namelist[index];
+        collected_sprites[specialNum] = model.Sprite.frontSprite.ToSprite();
+        // collected_sprites[specialNum] = special_customer_spritelist[index];
+        collected_backsprites[specialNum] = model.Sprite.backSprite.ToSprite();
+        // collected_backsprites[specialNum] = special_customer_backspritelist[index];
+
+        customerIsCollected[model.identifier] = true;
+        specialNum++;
     }
 
     void Start()
@@ -1132,22 +1195,24 @@ public class GameManager : MonoBehaviour
         int index;
 
         // 단골손님 목록에서 아직 선택되지 않은 단골손님을 랜덤으로 선택
+        string[] _registered = SpecialCustomerRegistry.RegisteredIdentifiers;
+        string selectedIdentifier;
+        SpecialCustomerModel selected;
         do
         {
-            index = Random.Range(0, special_customer_namelist.Length);
-        } while (collected_list[index]); // 이미 선택된 사람은 제외
-
-        // 선택된 단골손님 정보 저장
-        collected_name[specialNum] = special_customer_namelist[index];
-        collected_sprites[specialNum] = special_customer_spritelist[index];
-        collected_backsprites[specialNum] = special_customer_backspritelist[index];
+            index = Random.Range(0, _registered.Length);
+            // index = Random.Range(0, special_customer_namelist.Length);
+        } while (customerIsCollected[_registered[index]]);
+        // } while (collected_list[index]); // 이미 선택된 사람은 제외
+        selectedIdentifier = _registered[index];
 
         collected_menu_name[specialNum] = menu_name[index];
         collected_menu_description[specialNum] = menu_description[index];
         collected_menu_image[specialNum] = menu_image[index];
+        
+        customerUnlockedAdd(selectedIdentifier);
 
         // 카운트 증가
-        specialNum++;
         cafeCustomerCount[cafeNum - 1]++;
 
         // 이번에 3번째 손님을 뽑은 경우라면 완료 이미지 표시
@@ -1157,7 +1222,7 @@ public class GameManager : MonoBehaviour
             CustomerMaxImage.gameObject.SetActive(true);
         }
 
-        collected_list[index] = true;
+        collected_list[index] = true;  // Deprecated
         collectedManager.UpdateCollectedList(index, true); // 리스트 갱신
 
         if (cafeNum >= 1 && cafeNum <= 5)
@@ -1336,6 +1401,26 @@ public class GameManager : MonoBehaviour
     
     public void PushAndSavePlayerData()
     {
+        string[] _customerUnlockedArray = new string[SpecialCustomerRegistry.RegisteredIdentifiers.Length];
+        for (int i = 0; i < _customerUnlockedArray.Length; i++)
+        {
+            if (i < _customerUnlocked.Count)
+            {
+                _customerUnlockedArray[i] = _customerUnlocked[i];
+            }
+            else
+            {
+                _customerUnlockedArray[i] = "";
+            }
+        }
+
+        string _out = "";
+        foreach (var each in _customerUnlockedArray)
+        {
+            _out += each + ", ";
+        }
+        UnityEngine.Debug.Log("Customer Unlocked: " + _out);
+
         PlayerDataContainer.I.PlayerData = new PlayerDataModel
         (
             jelatin,
@@ -1346,7 +1431,9 @@ public class GameManager : MonoBehaviour
             click_level,
             SoundManager.instance != null ? SoundManager.instance.bgm_slider.value : PlayerDataModelDefaults.BGM_VOLUME,
             SoundManager.instance != null ? SoundManager.instance.sfx_slider.value : PlayerDataModelDefaults.SFX_VOLUME,
-            machine_level
+            machine_level,
+            _customerUnlockedArray,
+            specialNum
         );
         PlayerDataContainer.I.PushDataToLocal();
     }
@@ -1361,6 +1448,17 @@ public class GameManager : MonoBehaviour
         _num_level = playerDataModel.numLevel;
         _click_level = playerDataModel.clickLevel;
         _machine_level = playerDataModel.machine_level;
+        
+        specialNum = playerDataModel.customerUnlockedCount;
+        foreach (string each in playerDataModel.customerUnlocked)
+        {
+            if (string.IsNullOrEmpty(each))
+            {
+                continue;
+            }
+            customerUnlockedAdd(each);
+        }
+        
         if (SoundManager.instance)
         {
             SoundManager.instance.bgm_slider.value = playerDataModel.bgmVolume;
@@ -1373,5 +1471,4 @@ public class GameManager : MonoBehaviour
         PushAndSavePlayerData();
         UnityEngine.Debug.Log("PlayerDataModel has been saved.");
     }
-
 }

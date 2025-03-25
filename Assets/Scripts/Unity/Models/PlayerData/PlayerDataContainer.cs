@@ -85,5 +85,6 @@ public class PlayerDataContainer
         this.playerDataModel.bgmVolume = _new.bgmVolume;
         this.playerDataModel.sfxVolume = _new.sfxVolume;
         this.playerDataModel.machine_level = _new.machine_level;
+        this.playerDataModel.customerUnlocked = _new.customerUnlocked;
     }
 }

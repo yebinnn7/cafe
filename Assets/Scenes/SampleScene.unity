@@ -2189,12 +2189,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee73afa838c7e8045ba93fecac3986e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _jelatin: 0
   _gold: 0
   jelly_list: []
+  _jelly_data_list: []
+  _jelly_unlock_list: 010101000000000000000000
   special_customer_list: []
   special_customer_data_list: []
   max_jelatin: 999999999
   max_gold: 999999999
+  _customerUnlocked: []
   isSell: 0
   isLive: 0
   jelly_spritelist:
@@ -2238,11 +2242,13 @@ MonoBehaviour:
   favorability_effect_prefab: {fileID: 6088610753425305511, guid: 2e70210be1ef57543bf03a21c5ed4e3b, type: 3}
   data_manager_obj: {fileID: 1961117827}
   isInformationClick: 0
+  _num_level: 0
   num_sub_text: {fileID: 34572890}
   num_btn_text: {fileID: 1845101763}
   num_btn: {fileID: 192589122}
   num_goldlist: 00000000e8030000d00700008813000010270000
   mapunlock_Button: {fileID: 752324209}
+  _click_level: 0
   click_sub_text: {fileID: 588232735}
   click_btn_text: {fileID: 1879075182}
   click_btn: {fileID: 444740279}
@@ -2354,7 +2360,7 @@ MonoBehaviour:
   specialCustomerFavorability: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   maxFavorability: 20
   isUnlock: 
-  machine_level: 0000000000000000000000000000000000000000
+  _machine_level: 0000000000000000000000000000000000000000
   machine_sub_text:
   - {fileID: 125380951}
   - {fileID: 1611213184}
@@ -6152,7 +6158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -89.850006, y: -4.700012}
+  m_AnchoredPosition: {x: -89.850006, y: -4.699951}
   m_SizeDelta: {x: 35, y: 8}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &305241147
@@ -6715,7 +6721,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -100.00003}
+  m_AnchoredPosition: {x: 0, y: -100}
   m_SizeDelta: {x: 119.7, y: 90}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!95 &373186550
@@ -7383,7 +7389,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -80.00003}
+  m_AnchoredPosition: {x: 0, y: -80}
   m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!95 &406892344
@@ -8679,7 +8685,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -79.21976}
+  m_AnchoredPosition: {x: 0, y: -79.21973}
   m_SizeDelta: {x: 100, y: 70}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &493314204
@@ -12951,7 +12957,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -106.900055}
+  m_AnchoredPosition: {x: 0, y: -106.900024}
   m_SizeDelta: {x: 90, y: 50}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &797085239
@@ -16156,6 +16162,23 @@ MonoBehaviour:
     clickLevel: 1
     bgmVolume: 0.5
     sfxVolume: 0.5
+    machine_level: 0000000000000000000000000000000000000000
+    customerUnlocked:
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
 --- !u!4 &1040817445
 Transform:
   m_ObjectHideFlags: 0
@@ -21006,7 +21029,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -100.00003}
+  m_AnchoredPosition: {x: 0, y: -100}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &1452459838
@@ -23773,7 +23796,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -80.00003}
+  m_AnchoredPosition: {x: 0, y: -80}
   m_SizeDelta: {x: 113.8, y: 70}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!95 &1610895552
@@ -27532,12 +27555,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager_obj: {fileID: 0}
   game_manager: {fileID: 0}
-  collected_list: 
-  customer_spritelist: []
-  customer_namelist: []
-  customer_favorability: 
-  collected_name: []
-  collected_sprites: []
+  customer_identifier: []
+  collected_identifier: []
   lockGroupImage0: {fileID: 2043055979}
   lockGroupImage1: {fileID: 1675440706}
   lockGroupImage2: {fileID: 1984277246}
@@ -27803,7 +27822,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -80.00003}
+  m_AnchoredPosition: {x: 0, y: -80}
   m_SizeDelta: {x: 40, y: 50}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!95 &1813415291

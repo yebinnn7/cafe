@@ -18,5 +18,9 @@ public class PlayerDataModelDefaults
     public const float VOLUME_MAX = 1.0f;
     public const float BGM_VOLUME = 0.5f;
     public const float SFX_VOLUME = 0.5f;
-    public static readonly int[] MACHINE_LEVEL = { };
+    public const int MACHINE_LENGTH = 5;
+    public static readonly int[] MACHINE_LEVEL = new int[5] { 0, 0, 0, 0, 0 };
+    public const int CUSTOMER_LENGTH = 15;
+    public static readonly string[] CUSTOMER_UNLOCKED = new string[15] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+    public const int CUSTOMER_UNLOCKED_COUNT = 0;
 }
