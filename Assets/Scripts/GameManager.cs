@@ -280,6 +280,20 @@ public class GameManager : MonoBehaviour
     public int[] machineCoin4;
     public int[] machineCoin5;
 
+    [SerializeField]
+    private int[] _machine_level = new int[5];
+
+    public int[] machine_level
+    {
+        get { return _machine_level; }
+        set
+        {
+            _machine_level = value;
+            InitializeMachinesFromSave();
+            onStateChange();
+        }
+    }
+
     public Button pickButton;
     public Button machineButton;
     private Color defaultColor = Color.white;
@@ -457,8 +471,8 @@ public class GameManager : MonoBehaviour
 
 
         LoadAndPullPlayerData();
-
-        UnityEngine.Debug.Log(machine_level[0]);
+        LoadOfflineEarnings();
+        InitializeMachinesFromSave();
     }
 
     void OnApplicationQuit()
@@ -518,6 +532,66 @@ public class GameManager : MonoBehaviour
             rewardCoinText.text = totalEarnings.ToString();
         }
     }
+
+    public void InitializeMachinesFromSave()
+    {
+        for (int machineIndex = 0; machineIndex < machine_level.Length; machineIndex++)
+        {
+            GameObject[] currentMachineList = null;
+
+            switch (machineIndex)
+            {
+                case 0: currentMachineList = machine_list1; break;
+                case 1: currentMachineList = machine_list2; break;
+                case 2: currentMachineList = machine_list3; break;
+                case 3: currentMachineList = machine_list4; break;
+                case 4: currentMachineList = machine_list5; break;
+            }
+
+            int level = machine_level[machineIndex];
+
+            // 이미 보유 중인 기계 레벨만큼 활성화
+            for (int i = 0; i < level; i++)
+            {
+                if (i < currentMachineList.Length)
+                {
+                    currentMachineList[i].SetActive(true);
+                }
+            }
+
+            // 만약 마지막이 4레벨이면, 5번째도 미리 활성화
+            if (level == 5 && currentMachineList.Length > 5)
+            {
+                currentMachineList[5].SetActive(true);
+            }
+
+            // UI 텍스트 갱신
+            machine_sub_text[machineIndex].gameObject.SetActive(true);
+            machine_sub_text[machineIndex].text = ""; // 초기화
+            machine_sub_text[machineIndex].text = $"보유 기계: {level}개";
+
+
+            if (level >= 5)
+            {
+                machine_btn_text[machineIndex].text = "최대 보유";
+                machine_btn[machineIndex].interactable = false;
+            }
+            else
+            {
+                int nextGold = 0;
+                switch (machineIndex)
+                {
+                    case 0: nextGold = machine_goldlist1[level]; break;
+                    case 1: nextGold = machine_goldlist2[level]; break;
+                    case 2: nextGold = machine_goldlist3[level]; break;
+                    case 3: nextGold = machine_goldlist4[level]; break;
+                    case 4: nextGold = machine_goldlist5[level]; break;
+                }
+                machine_btn_text[machineIndex].text = string.Format("{0:n0}", nextGold);
+            }
+        }
+    }
+
 
     void Update()
     {
@@ -1436,6 +1510,9 @@ public class GameManager : MonoBehaviour
             specialNum
         );
         PlayerDataContainer.I.PushDataToLocal();
+
+        PlayerDataModel test = PlayerDataContainer.I.PlayerData;
+        UnityEngine.Debug.Log("디버깅: 저장된 machine_level: " + string.Join(",", test.machine_level));
     }
 
     public void LoadAndPullPlayerData()
@@ -1464,6 +1541,9 @@ public class GameManager : MonoBehaviour
             SoundManager.instance.bgm_slider.value = playerDataModel.bgmVolume;
             SoundManager.instance.sfx_slider.value = playerDataModel.sfxVolume;
         }
+
+        UnityEngine.Debug.Log("불러온 machine_level: " + string.Join(",", _machine_level));
+
     }
 
     void onStateChange()
